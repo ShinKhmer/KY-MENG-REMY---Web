@@ -1,0 +1,123 @@
+/* GOOGLE ICONS */
+.material-icons.md-18 { font-size: 18px; }
+.material-icons.md-24 { font-size: 24px; }
+.material-icons.md-36 { font-size: 36px; }
+.material-icons.md-48 { font-size: 48px; }
+
+.material-icons.md-dark { color: rgba(0, 0, 0, 0.54); }
+.material-icons.md-dark.md-inactive { color: rgba(0, 0, 0, 0.26); }
+
+.material-icons.md-light { color: rgba(255, 255, 255, 1); }
+.material-icons.md-light.md-inactive { color: rgba(255, 255, 255, 0.3); }
+
+/* TEST - FORMULAIRE MODAL POUR INSCRIPTION */
+@media (min-width: 768px) {
+  .modal-lg {
+      max-width: 60% !important;
+  }
+}
+.modal-content{
+  background-color: #145f87 !important;
+}
+
+body{
+  background-color: #eae9e8;
+}
+
+footer{
+  background-color: #C5d3e8;
+}
+
+a{
+  font-family: 'Cantarell', sans-serif;
+  text-decoration: none !important;
+  color: #145f87;
+}
+a:hover{
+  color: white;
+}
+
+ul{
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+h1, h2, h3, h4, h5, h6{
+  font-family: 'Abril Fatface', cursive;
+  color: #333240;
+}
+
+p{
+  font-family: 'Open Sans', sans-serif;
+  color: #19709e;
+}
+
+/* CORPS PRINCIPAL DE LA PAGE */
+.container-main-content{
+  margin-top: 50px;
+  padding-top: 10px;
+  background-color: #FFFAFA;
+}
+
+/* BARRE DE MENU */
+.navbar-brand{
+  color: white !important;
+}
+.nav-link{
+  font-family: 'Cantarell', sans-serif;
+  color: white !important;
+  font-size: 1.4rem;
+	padding: 1.4rem;
+}
+.nav-link:hover{
+  background-color: #19709e;
+}
+#icon-my-account{
+  color: white;
+}
+
+/* BOUTON PERSONNALISE */
+.btn-custom{
+  background-color: #31a2a6;
+}
+.btn-custom:hover{
+  background-color: #333240;
+}
+
+/* BLOC CONNEXION */
+#sign-in{
+  background-color: #8dbcdf;
+  color: white;
+  padding: 30px;
+}
+#sign-in:hover{
+  background-color: #333240;
+}
+#btn-sign-in{
+  margin-top: 20px;
+  background-color: #31a2a6;
+}
+#btn-sign-in:hover{
+  background-color: #333240;
+}
+
+/* BLOC INSCRIPTION */
+#sign-up{
+  background-color: #8dbcdf;
+  color: white;
+  padding: 30px;
+}
+#sign-up:hover{
+  background-color: #1D2031;
+}
+#btn-sign-up{
+  margin-top: 20px;
+  background-color: #31a2a6;
+}
+#btn-sign-up:hover{
+  background-color: #333240
+}
+#passwordHelpBlock{
+  color: white !important;
+}
