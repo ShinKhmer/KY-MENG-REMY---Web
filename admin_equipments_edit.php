@@ -16,9 +16,10 @@
     // UPDATE DATAS
     if( isset($_POST) && !empty($_POST) ){
 
-        $query = $db->prepare("UPDATE EQUIPMENT SET quantity=:quantity WHERE id_equipment=:id_equipment AND id_location=:id_location");
+        $query = $db->prepare("UPDATE EQUIPMENT SET name_equipment=:name_equipment, quantity=:quantity WHERE id_equipment=:id_equipment AND id_location=:id_location");
 
-        $query->execute([   "quantity" => $_POST["equipment_quantity"],
+        $query->execute([   "name_equipment" => $_POST["equipment_name"],
+                            "quantity" => $_POST["equipment_quantity"],
                             "id_equipment" => $_GET["id_equipment"],
                             "id_location" => $_GET["id_location"]
                         ]);
@@ -37,7 +38,7 @@
             <div class="col-md-12">
                 <div class="card-deck">
                     <div class="card">
-                        <?php echo '<form method="POST" action="admin_equipements_edit.php?id_equipment='.$_GET["id_equipment"].'&id_location='.$_GET["id_location"].'">'; ?>
+                        <?php echo '<form method="POST" action="admin_equipments_edit.php?id_equipment='.$_GET["id_equipment"].'&id_location='.$_GET["id_location"].'">'; ?>
                             <center>
                                 <div class="form-group">
                                     <?php
@@ -60,12 +61,15 @@
                                     ?>
                                 </div>
                                 <div class="form-group">
-                                        <?php echo "<label>Nom de l'équipement :".$result[0]."</label>"; ?>
+                                    <center>
+                                        <label>Lieu :</label>
+                                        <?php echo '<input type="text" class="form-control" name="equipment_name" value="'.$result[0].'">'; ?>
+                                    </center>
                                 </div>
                                 <div class="form-group">
                                     <center>
                                         <label>Quantité :</label>
-                                        <?php echo '<input type="text" class="form-control" name="equipment_quantity" placeholder="Actuellement : '.$result[1].'" required="required">'; ?>
+                                        <?php echo '<input type="text" class="form-control" name="equipment_quantity" value="'.$result[1].'">'; ?>
                                     </center>
                                 </div>
                                 <button type="submit" class="btn btn-primary">Valider</button>

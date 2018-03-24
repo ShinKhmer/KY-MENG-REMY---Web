@@ -28,7 +28,7 @@
                                                 <td>'.$res[3].'</td>
                                                 <td>'.$res[1].'</td>
                                                 <td>'.$res[2].'</td>
-                                                <td><a class="btn btn-primary" href="admin_equipements_edit.php?id_equipment='.$res[0].'&id_location='.$res[3].'" role="button">Modifier</a></td>
+                                                <td><a class="btn btn-primary" href="admin_equipments_edit.php?id_equipment='.$res[0].'&id_location='.$res[3].'" role="button">Modifier</a></td>
                                             </tr>';
                                 }
                              ?>
