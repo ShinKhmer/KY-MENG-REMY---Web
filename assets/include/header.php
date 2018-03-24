@@ -37,6 +37,9 @@
 		        <li class="nav-item">
 		          <a class="nav-link" href="./#contact">Nous contacter</a>
 		        </li>
+				<li class="nav-item">
+		          <a class="nav-link" href="./admin.php">Admin</a>
+		        </li>
 		      </ul>
 		      <form class="form-inline">
 		          <a href="account.php" id="icon-my-account">
