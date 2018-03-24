@@ -15,7 +15,7 @@
         <center><h2>Bienvenue dans la page d'administration !</h2></center>
 
         <div class="container main-content">
-			<div class="row" style="margin-top:50px;">
+			<div class="row" style="margin-top:50px; margin-bottom:50px;">
 				<div class="col-md-12">
                     <div class="card-deck">
                         <div class="card">

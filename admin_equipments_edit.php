@@ -34,10 +34,10 @@
     <center><h2>Administration - Modification d'équipement</h2></center>
 
     <div class="container main-content">
-        <div class="row" style="margin-top:50px;">
+        <div class="row" style="margin-top:50px; margin-bottom:50px;">
             <div class="col-md-12">
                 <div class="card-deck">
-                    <div class="card">
+                    <div class="card" style="padding-left:30%; padding-right:30%;">
                         <?php echo '<form method="POST" action="admin_equipments_edit.php?id_equipment='.$_GET["id_equipment"].'&id_location='.$_GET["id_location"].'">'; ?>
                             <center>
                                 <div class="form-group">

@@ -1,7 +1,7 @@
 <?php include "assets/include/header.php";
     $db = connectDb();
 
-    $query = $db->prepare("SELECT * FROM EQUIPMENT");
+    $query = $db->prepare("SELECT * FROM SCHEDULE");
 
     $query->execute();
 
@@ -19,22 +19,22 @@
                         <table class="table table-responsive table-hover">
                             <tr>
                                 <th>Lieu</th>
-                                <th>Equipement</th>
-                                <th>Quantité</th>
+                                <th>Jour</th>
+                                <th>Heure de d'ouverture</th>
+                                <th>Heure de fermeture</th>
                             </tr>
                             <?php
                                 foreach($result as $res){
                                     echo '  <tr>
-                                                <td>'.$res[3].'</td>
+                                                <td>'.$res[4].'</td>
                                                 <td>'.$res[1].'</td>
                                                 <td>'.$res[2].'</td>
-                                                <td><a class="btn btn-primary" href="admin_equipments_edit.php?id_equipment='.$res[0].'&id_location='.$res[3].'" role="button">Modifier</a></td>
+                                                <td>'.$res[3].'</td>
+                                                <td><a class="btn btn-primary" href="admin_schedules_edit.php?id_schedule='.$res[0].'&id_location='.$res[4].'" role="button">Modifier</a></td>
                                             </tr>';
                                 }
                              ?>
                         </table>
-
-                        <a class="btn btn-secondary" href="admin_equipments_add.php" role="button" style="margin-left:30%; margin-right:30%">Ajouter</a>
                     </div>
                 </div>
             </div>
