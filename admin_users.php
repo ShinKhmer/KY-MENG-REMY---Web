@@ -45,16 +45,16 @@
                                                             echo "Administrateur";
                                         echo '      <td>';
                                                         if($res[5] == 0)
-                                                            echo '<a class="btn btn-primary" href="admin_action.php?user='.$res[0].'&promote=up" role="button">Promouvoir</a>';
+                                                            echo '<a class="btn btn-primary" href="admin_users_actions.php?user='.$res[0].'&promote=up" role="button">Promouvoir</a>';
                                                         else if($res[5] == 1)
-                                                            echo '<a class="btn btn-primary" href="admin_action.php?user='.$res[0].'&promote=down" role="button">Destituer</a>';
+                                                            echo '<a class="btn btn-primary" href="admin_users_actions.php?user='.$res[0].'&promote=down" role="button">Destituer</a>';
                                         echo '      </td>
                                                     <td>';
                 										if($res[6] == 0){
-                											echo '<a class="btn btn-danger" href="admin_action.php?user='.$res[0].'&block=true">Bloquer</a>';
+                											echo '<a class="btn btn-danger" href="admin_users_actions.php?user='.$res[0].'&block=true">Bloquer</a>';
                 										}
                 										else if($res[6] == 1){
-                											echo '<a class="btn btn-danger" href="admin_action.php?user='.$res[0].'&unblock=true">Débloquer</a>';
+                											echo '<a class="btn btn-danger" href="admin_users_actions.php?user='.$res[0].'&unblock=true">Débloquer</a>';
                 										}
                 						echo '		</td>
                                                 </tr>';
