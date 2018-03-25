@@ -50,7 +50,7 @@
                                 <div class="form-group">
                                     <?php
                                     $db = connectDb();
-                                    $name =name_town($_DET["id_location"],$db);
+                                    $name =name_town($_GET["id_location"],$db);
                                     ?>
                                 </div>
                                 <div class="form-group">
