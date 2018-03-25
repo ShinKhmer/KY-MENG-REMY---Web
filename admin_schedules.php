@@ -6,10 +6,16 @@
     $query->execute();
 
     $result = $query->fetchAll();
+    function name_town($id,$db){
+        $query = $db->prepare("SELECT * FROM LOCATION WHERE id_location=:plop");
+        $query->execute(["plop" => $id]);
+        $result2 = $query->fetch(PDO::FETCH_ASSOC);
+        return $result2['town'];
+    }
 ?>
 
 <section>
-    <center><h2>Administration - Inventaire</h2></center>
+    <center><h2>Administration - Horaires</h2></center>
 
     <div class="container main-content">
         <div class="row" style="margin-top:50px; margin-bottom:50px;">
@@ -25,24 +31,10 @@
                             </tr>
                             <?php
                                 foreach($result as $res){
-                                    switch($res[4]){
-                                        case 1: $place = "Bastille";
-                                                break;
-                                        case 2: $place = "Beaubourg";
-                                                break;
-                                        case 3: $place = "Odéon";
-                                                break;
-                                        case 4: $place = "Place d'Italie";
-                                                break;
-                                        case 5: $place = "République";
-                                                break;
-                                        case 6: $place = "Ternes";
-                                                break;
-                                        default:
-                                                break;
-                                    }
+                                    $db = connectDb();
+                                    $name =name_town($res[3],$db);
                                     echo '  <tr>
-                                                <td><center>'.$place.'</center></td>
+                                                <td><center>'.$name.'</center></td>
                                                 <td><center>'.$res[1].'</center></td>
                                                 <td><center>'.$res[2].'</center></td>
                                                 <td><center>'.$res[3].'</center></td>

@@ -21,11 +21,12 @@
 
         if($cpt == 0){
             // SEND
-            $query = $db->prepare("INSERT INTO SCHEDULE(day, begin_schedule, end_schedule, id_location) VALUES(:day, :begin_schedule, :end_schedule, :id_location)");
-
+            $query = $db->prepare("INSERT INTO SCHEDULE(id_schedule,day, begin_schedule, end_schedule, id_location) VALUES(null,:day, :begin_schedule, :end_schedule, :id_location)");
+            $start = $_POST["debut_heure"].":".$_POST["debut_minute"].":00";
+            $end = $_POST["fin_heure"].":".$_POST["fin_minute"].":00";
             $query->execute([   "day" => $_POST["day_select"],
-                                "begin_schedule" => $_POST["begin"],
-                                "end_schedule" => $_POST["end"],
+                                "begin_schedule" => $start,
+                                "end_schedule" => $end,
                                 "id_location" => $_POST["place_select"]
                             ]);
 
@@ -74,10 +75,38 @@
                                 </div>
                                 <div class="form-group">
                                         <label>Début :</label>
-                                        <input type="time" class="form-control" name="begin" required="required">
+                                        <select name="debut_heure"  size="1">
+                                        <?php
+                                            for ($i=0; $i <12 ; $i++) {
+                                                echo "<option>$i</option>";
+                                            }
+                                         ?>
+                                     </select>
+                                     <select name="debut_minute"  size="1">
+                                        <?php
+                                            for ($i=0; $i <59 ; $i++) {
+                                                echo "<option>$i</option>";
+                                            }
+                                         ?>
+                                     </select>
+
+
 
                                         <label>Fin :</label>
-                                        <input type="time" class="form-control" name="end" required="required">
+                                        <select name="fin_heure"  size="1">
+                                           <?php
+                                               for ($i=0; $i <12 ; $i++) {
+                                                   echo "<option>$i</option>";
+                                               }
+                                            ?>
+                                        </select>
+                                        <select name="fin_minute"  size="1">
+                                           <?php
+                                               for ($i=0; $i <59 ; $i++) {
+                                                   echo "<option>$i</option>";
+                                               }
+                                            ?>
+                                           </select>
                                 </div>
                                 <button type="submit" class="btn btn-primary">Valider</button>
                                 <?php

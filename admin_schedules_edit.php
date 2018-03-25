@@ -11,16 +11,23 @@
 
     $result = $query->fetch();
 
+    function name_town($id,$db){
+        $query = $db->prepare("SELECT * FROM LOCATION WHERE id_location=:plop");
+        $query->execute(["plop" => $id]);
+        $result2 = $query->fetch(PDO::FETCH_ASSOC);
+        return $result2['town'];
+    }
 
 
     // UPDATE DATAS
     if( isset($_POST) && !empty($_POST) ){
 
         $query = $db->prepare("UPDATE SCHEDULE SET begin_schedule=:begin_schedule, end_schedule=:end_schedule WHERE day=:day AND id_location=:id_location");
-
+        $start = $_POST["debut_heure"].":".$_POST["debut_minute"].":00";
+        $end = $_POST["fin_heure"].":".$_POST["fin_minute"].":00";
         $query->execute([   "begin_schedule" => $_POST["begin"],
-                            "end_schedule" => $_POST["end"],
-                            "day" => $_GET["day"],
+                            "begin_schedule" => $start,
+                            "end_schedule" => $end,
                             "id_location" => $_GET["id_location"]
                         ]);
 
@@ -42,33 +49,44 @@
                             <center>
                                 <div class="form-group">
                                     <?php
-                                        switch($_GET["id_location"]){
-                                            case 1: echo '<label>Bastille</label>';
-                                                    break;
-                                            case 2: echo '<label>Beaubourg</label>';
-                                                    break;
-                                            case 3: echo '<label>Odéon</label>';
-                                                    break;
-                                            case 4: echo "<label>Place d'Italie</label>";
-                                                    break;
-                                            case 5: echo '<label>République</label>';
-                                                    break;
-                                            case 6: echo '<label>Ternes</label>';
-                                                    break;
-                                            default:
-                                                    break;
-                                        }
+                                    $db = connectDb();
+                                    $name =name_town($_DET["id_location"],$db);
                                     ?>
                                 </div>
                                 <div class="form-group">
-                                        <label>Début :</label>
-                                        <?php
-                                            echo '<input type="time" class="form-control" name="begin" value="'.$result[0].'" required="required">';
+                                    <label>Début :</label>
+                                    <select name="debut_heure"  size="1">
+                                    <?php
+                                        for ($i=0; $i <12 ; $i++) {
+                                            echo "<option>$i</option>";
+                                        }
+                                     ?>
+                                 </select>
+                                 <select name="debut_minute"  size="1">
+                                    <?php
+                                        for ($i=0; $i <59 ; $i++) {
+                                            echo "<option>$i</option>";
+                                        }
+                                     ?>
+                                 </select>
+
+
+
+                                    <label>Fin :</label>
+                                    <select name="fin_heure"  size="1">
+                                       <?php
+                                           for ($i=0; $i <12 ; $i++) {
+                                               echo "<option>$i</option>";
+                                           }
                                         ?>
-                                        <label>Fin :</label>
-                                        <?php
-                                            echo '<input type="time" class="form-control" name="end" value="'.$result[1].'" required="required">';
+                                    </select>
+                                    <select name="fin_minute"  size="1">
+                                       <?php
+                                           for ($i=0; $i <59 ; $i++) {
+                                               echo "<option>$i</option>";
+                                           }
                                         ?>
+                                    </select>
                                 </div>
                                 <button type="submit" class="btn btn-primary">Valider</button>
                             </center>
