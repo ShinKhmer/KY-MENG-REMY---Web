@@ -11,7 +11,12 @@
 
     $result = $query->fetch();
 
-
+    function name_town($id,$db){
+        $query = $db->prepare("SELECT * FROM LOCATION WHERE id_location=:plop");
+        $query->execute(["plop" => $id]);
+        $result2 = $query->fetch(PDO::FETCH_ASSOC);
+        return $result2['town'];
+    }
 
     // UPDATE DATAS
     if( isset($_POST) && !empty($_POST) ){
@@ -25,6 +30,18 @@
                         ]);
 
         header('Location:admin_equipments.php');
+
+        unset($_POST);
+    }
+    if(isset($_GET["id_equipment"])   && isset($_GET["del"]) && $_GET["del"] == "true" ){
+
+        $query = $db->prepare("DELETE FROM EQUIPMENT WHERE 'id_equipment'=:id_equipment");
+
+        $query->execute([
+                            "id_equipment" => $_GET["id_equipment"]
+                            ]);
+
+        //header('Location:admin_equipments.php');
 
         unset($_POST);
     }
@@ -42,27 +59,14 @@
                             <center>
                                 <div class="form-group">
                                     <?php
-                                        switch($_GET["id_location"]){
-                                            case 1: echo '<label>Bastille</label>';
-                                                    break;
-                                            case 2: echo '<label>Beaubourg</label>';
-                                                    break;
-                                            case 3: echo '<label>Odéon</label>';
-                                                    break;
-                                            case 4: echo "<label>Place d'Italie</label>";
-                                                    break;
-                                            case 5: echo '<label>République</label>';
-                                                    break;
-                                            case 6: echo '<label>Ternes</label>';
-                                                    break;
-                                            default:
-                                                    break;
-                                        }
+                                        $db = connectDb();
+                                        $name = name_town($_GET["id_location"],$db);
+                                        echo "<label>".$name."</label>";
                                     ?>
                                 </div>
                                 <div class="form-group">
                                     <center>
-                                        <label>Lieu :</label>
+                                        <label>Objet :</label>
                                         <?php echo '<input type="text" class="form-control" name="equipment_name" value="'.$result[0].'" required="required">'; ?>
                                     </center>
                                 </div>
@@ -73,6 +77,9 @@
                                     </center>
                                 </div>
                                 <button type="submit" class="btn btn-primary">Valider</button>
+
+                                <?php echo '<a class="btn btn-danger" href="admin_equipments_edit.php?id_equipment='.$_GET["id_equipment"].'&id_location='.$_GET["id_location"].'&del=true">Supprimer</a>'; ?>
+
                             </center>
                         </form>
                     </div>
