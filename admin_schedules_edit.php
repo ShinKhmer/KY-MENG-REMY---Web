@@ -3,9 +3,9 @@
     // PRINT DATAS
     $db = connectDb();
 
-    $query = $db->prepare("SELECT name_equipment, quantity FROM EQUIPMENT WHERE id_equipment=:id_equipment AND id_location=:id_location");
+    $query = $db->prepare("SELECT begin_schedule, end_schedule FROM SCHEDULE WHERE day=:day AND id_location=:id_location ");
 
-    $query->execute([   "id_equipment" => $_GET["id_equipment"],
+    $query->execute([   "day" => $_GET["day"],
                         "id_location" => $_GET["id_location"]
                     ]);
 
@@ -16,15 +16,15 @@
     // UPDATE DATAS
     if( isset($_POST) && !empty($_POST) ){
 
-        $query = $db->prepare("UPDATE EQUIPMENT SET name_equipment=:name_equipment, quantity=:quantity WHERE id_equipment=:id_equipment AND id_location=:id_location");
+        $query = $db->prepare("UPDATE SCHEDULE SET begin_schedule=:begin_schedule, end_schedule=:end_schedule WHERE day=:day AND id_location=:id_location");
 
-        $query->execute([   "name_equipment" => $_POST["equipment_name"],
-                            "quantity" => $_POST["equipment_quantity"],
-                            "id_equipment" => $_GET["id_equipment"],
+        $query->execute([   "begin_schedule" => $_POST["begin"],
+                            "end_schedule" => $_POST["end"],
+                            "day" => $_GET["day"],
                             "id_location" => $_GET["id_location"]
                         ]);
 
-        header('Location:admin_equipments.php');
+        header('Location:admin_schedules.php');
 
         unset($_POST);
     }
@@ -38,7 +38,7 @@
             <div class="col-md-12">
                 <div class="card-deck">
                     <div class="card" style="padding-left:30%; padding-right:30%;">
-                        <?php echo '<form method="POST" action="admin_equipments_edit.php?id_equipment='.$_GET["id_equipment"].'&id_location='.$_GET["id_location"].'">'; ?>
+                        <?php echo '<form method="POST" action="admin_schedules_edit.php?id_location='.$_GET["id_location"].'&day='.$_GET["day"].'">'; ?>
                             <center>
                                 <div class="form-group">
                                     <?php
@@ -61,16 +61,14 @@
                                     ?>
                                 </div>
                                 <div class="form-group">
-                                    <center>
-                                        <label>Lieu :</label>
-                                        <?php echo '<input type="text" class="form-control" name="equipment_name" value="'.$result[0].'" required="required">'; ?>
-                                    </center>
-                                </div>
-                                <div class="form-group">
-                                    <center>
-                                        <label>Quantité :</label>
-                                        <?php echo '<input type="text" class="form-control" name="equipment_quantity" value="'.$result[1].'" required="required">'; ?>
-                                    </center>
+                                        <label>Début :</label>
+                                        <?php
+                                            echo '<input type="time" class="form-control" name="begin" value="'.$result[0].'" required="required">';
+                                        ?>
+                                        <label>Fin :</label>
+                                        <?php
+                                            echo '<input type="time" class="form-control" name="end" value="'.$result[1].'" required="required">';
+                                        ?>
                                 </div>
                                 <button type="submit" class="btn btn-primary">Valider</button>
                             </center>

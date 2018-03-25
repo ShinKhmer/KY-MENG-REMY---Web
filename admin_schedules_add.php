@@ -1,11 +1,12 @@
-<?php include "assets/include/header.php";
+<?php
+    include "assets/include/header.php";
     $error = false;
 
     if( isset($_POST) && !empty($_POST) ){
         $db = connectDb();
 
         // CHECK
-        $query = $db->prepare("SELECT name_equipment FROM EQUIPMENT WHERE id_location=:id_location");
+        $query = $db->prepare("SELECT day FROM SCHEDULE WHERE id_location=:id_location");
 
         $query->execute([ "id_location" => $_POST["place_select"] ]);
 
@@ -14,25 +15,29 @@
         $cpt = 0;
 
         foreach($result as $res){
-            if(strcmp($_POST["equipment_name"], $res[0]) == 0)
+            if(strcmp($_POST["day_select"], $res[0]) == 0)
                 $cpt++;
         }
 
         if($cpt == 0){
             // SEND
-            $query = $db->prepare("INSERT INTO EQUIPMENT(name_equipment, quantity, id_location) VALUES(:name_equipment, :quantity, :id_location)");
+            $query = $db->prepare("INSERT INTO SCHEDULE(day, begin_schedule, end_schedule, id_location) VALUES(:day, :begin_schedule, :end_schedule, :id_location)");
 
-            $query->execute([   "name_equipment" => $_POST["equipment_name"],
-                                "quantity" => $_POST["equipment_quantity"],
+            $query->execute([   "day" => $_POST["day_select"],
+                                "begin_schedule" => $_POST["begin"],
+                                "end_schedule" => $_POST["end"],
                                 "id_location" => $_POST["place_select"]
                             ]);
 
-            header('Location:admin_equipments.php');
+            header('Location:admin_schedules.php');
         }else{
             $error = true;
         }
     }
+
 ?>
+
+<script>$('#datetimepicker').datetimepicker();</script>
 
 <section>
     <center><h2>Administration - Inventaire des équipements</h2></center>
@@ -42,7 +47,7 @@
             <div class="col-md-12">
                 <div class="card-deck">
                     <div class="card" style="padding-left:30%; padding-right:30%;">
-                        <form method="POST" action="admin_equipments_add.php">
+                        <form method="POST" action="admin_schedules_add.php">
                             <center>
                                 <div class="form-group">
                                     <label>Lieu</label>
@@ -56,19 +61,28 @@
                                     </select>
                                 </div>
                                 <div class="form-group">
-                                        <label>Nom de l'équipement :</label>
-                                        <input type="text" class="form-control" name="equipment_name" placeholder="Nom de l'équipement" required="required">
+                                        <label>Jour :</label>
+                                        <select class="form-control" name="day_select">
+                                            <option value="Lundi">Lundi</option>
+                                            <option value="Mardi">Mardi</option>
+                                            <option value="Mercredi">Mercredi</option>
+                                            <option value="Jeudi">Jeudi</option>
+                                            <option value="Vendredi">Vendredi</option>
+                                            <option value="Samedi">Samedi</option>
+                                            <option value="Dimanche">Dimanche</option>
+                                        </select>
                                 </div>
                                 <div class="form-group">
-                                    <center>
-                                        <label>Quantité :</label>
-                                        <input type="text" class="form-control" name="equipment_quantity" placeholder="Quantité" required="required">
-                                    </center>
+                                        <label>Début :</label>
+                                        <input type="time" class="form-control" name="begin" required="required">
+
+                                        <label>Fin :</label>
+                                        <input type="time" class="form-control" name="end" required="required">
                                 </div>
                                 <button type="submit" class="btn btn-primary">Valider</button>
                                 <?php
                                     if($error == true){
-                                        echo '<p class="bg-danger">Cet équipement est déjà existant sur ce site !</p>';
+                                        echo '<p class="bg-danger">Ce jour est déjà existant sur ce site !</p>';
                                         unset($error);
                                     }
                                 ?>

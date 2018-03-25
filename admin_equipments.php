@@ -25,9 +25,9 @@
                             <?php
                                 foreach($result as $res){
                                     echo '  <tr>
-                                                <td>'.$res[3].'</td>
-                                                <td>'.$res[1].'</td>
-                                                <td>'.$res[2].'</td>
+                                                <td><center>'.$res[3].'</center></td>
+                                                <td><center>'.$res[1].'</center></td>
+                                                <td><center>'.$res[2].'</center></td>
                                                 <td><a class="btn btn-primary" href="admin_equipments_edit.php?id_equipment='.$res[0].'&id_location='.$res[3].'" role="button">Modifier</a></td>
                                             </tr>';
                                 }
