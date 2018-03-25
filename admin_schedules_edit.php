@@ -51,6 +51,7 @@
                                     <?php
                                     $db = connectDb();
                                     $name =name_town($_GET["id_location"],$db);
+                                    echo '<label>'.$name .' : '. $_GET["day"].'</label>';
                                     ?>
                                 </div>
                                 <div class="form-group">
