@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le :  lun. 26 mars 2018 à 10:22
+-- Généré le :  lun. 26 mars 2018 à 16:45
 -- Version du serveur :  5.7.19
 -- Version de PHP :  5.6.31
 
@@ -35,7 +35,7 @@ CREATE TABLE IF NOT EXISTS `booking` (
   `begin_booking` datetime NOT NULL,
   `end_booking` datetime NOT NULL,
   PRIMARY KEY (`id_room`,`id_customer`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -46,28 +46,28 @@ CREATE TABLE IF NOT EXISTS `booking` (
 DROP TABLE IF EXISTS `customers`;
 CREATE TABLE IF NOT EXISTS `customers` (
   `id_customer` int(11) NOT NULL AUTO_INCREMENT,
-  `is_admin` tinyint(4) NOT NULL DEFAULT '0',
-  `blockded` tinyint(4) NOT NULL DEFAULT '0',
-  `name_customer` varchar(80) CHARACTER SET latin1 NOT NULL,
-  `last_name_customer` varchar(80) CHARACTER SET latin1 NOT NULL,
-  `phone_number_customer` char(10) CHARACTER SET latin1 NOT NULL,
-  `email_customer` varchar(255) CHARACTER SET latin1 NOT NULL,
-  `pseudo_customer` varchar(80) CHARACTER SET latin1 NOT NULL,
-  `password_customer` varchar(255) CHARACTER SET latin1 NOT NULL,
-  `code_customer` varchar(10) CHARACTER SET latin1 NOT NULL,
-  `inside` tinyint(4) NOT NULL,
+  `blocked` tinyint(4) NOT NULL DEFAULT '0',
+  `name_customer` varchar(80) NOT NULL,
+  `last_name_customer` varchar(80) NOT NULL,
+  `phone_number_customer` char(10) NOT NULL,
+  `email_customer` varchar(255) NOT NULL,
+  `pseudo_customer` varchar(80) NOT NULL,
+  `password_customer` varchar(255) NOT NULL,
+  `code_customer` varchar(10) NOT NULL,
+  `inside` tinyint(4) NOT NULL DEFAULT '0',
+  `is_student` tinyint(4) NOT NULL DEFAULT '0',
   `begin_subscription` datetime DEFAULT NULL,
   `end_subscription` datetime DEFAULT NULL,
   `id_subscription` int(11) DEFAULT NULL,
   PRIMARY KEY (`id_customer`)
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 --
 -- Déchargement des données de la table `customers`
 --
 
-INSERT INTO `customers` (`id_customer`, `is_admin`, `blockded`, `name_customer`, `last_name_customer`, `phone_number_customer`, `email_customer`, `pseudo_customer`, `password_customer`, `code_customer`, `inside`, `begin_subscription`, `end_subscription`, `id_subscription`) VALUES
-(1, 0, 0, 'test', 'oro', '0626733278', 'test@oro.com', 'test', '$2y$10$qb8OClH0FzUyAI1rTgaGp.tKNQglGiSjBuMlGzozQ5XoOvbDNMX9i', 'iMSJryZCOe', 0, NULL, NULL, NULL);
+INSERT INTO `customers` (`id_customer`, `blocked`, `name_customer`, `last_name_customer`, `phone_number_customer`, `email_customer`, `pseudo_customer`, `password_customer`, `code_customer`, `inside`, `is_student`, `begin_subscription`, `end_subscription`, `id_subscription`) VALUES
+(1, 0, 'test', 'oro', '0102030405', 'test@oro.com', 'test', '$2y$10$2Lm75pFlkRdU4x5gWTG2ju6wJTNT71WW/4LOzgYLdh3BYfbFbanr6', 'pdLzBvLnVS', 0, 0, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -78,18 +78,11 @@ INSERT INTO `customers` (`id_customer`, `is_admin`, `blockded`, `name_customer`,
 DROP TABLE IF EXISTS `equipment`;
 CREATE TABLE IF NOT EXISTS `equipment` (
   `id_equipment` int(11) NOT NULL AUTO_INCREMENT,
-  `name_equipment` varchar(100) CHARACTER SET latin1 NOT NULL,
+  `name_equipment` varchar(100) NOT NULL,
   `quantity` int(11) NOT NULL,
   `id_location` int(11) DEFAULT NULL,
   PRIMARY KEY (`id_equipment`)
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
-
---
--- Déchargement des données de la table `equipment`
---
-
-INSERT INTO `equipment` (`id_equipment`, `name_equipment`, `quantity`, `id_location`) VALUES
-(1, 'Ordinateur', 7, 1);
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -105,7 +98,7 @@ CREATE TABLE IF NOT EXISTS `history` (
   `id_customer` int(11) DEFAULT NULL,
   `id_location` int(11) DEFAULT NULL,
   PRIMARY KEY (`id_history`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -116,10 +109,10 @@ CREATE TABLE IF NOT EXISTS `history` (
 DROP TABLE IF EXISTS `location`;
 CREATE TABLE IF NOT EXISTS `location` (
   `id_location` int(11) NOT NULL AUTO_INCREMENT,
-  `town` varchar(50) CHARACTER SET latin1 NOT NULL,
-  `address` varchar(255) CHARACTER SET latin1 NOT NULL,
+  `town` varchar(50) NOT NULL,
+  `address` varchar(255) NOT NULL,
   PRIMARY KEY (`id_location`)
-) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
 --
 -- Déchargement des données de la table `location`
@@ -128,9 +121,9 @@ CREATE TABLE IF NOT EXISTS `location` (
 INSERT INTO `location` (`id_location`, `town`, `address`) VALUES
 (1, 'Bastille', '5 place de la Bastille 75004 PARIS'),
 (2, 'Beaubourg', '15 place Georges-Pompidou 75004 PARIS'),
-(3, 'Odéon', '32 place de l’Odéon 75006 PARIS'),
-(4, 'Place d’Italie', '13 place d’Italie 75013 PARIS'),
-(5, 'République', '52 place de la République 75011 PARIS'),
+(3, 'Odeon', '32 place de l’Odéon 75006 PARIS'),
+(4, 'Place d\'Italie', '13 place d’Italie 75013 PARIS'),
+(5, 'Republique', '52 place de la République 75011 PARIS'),
 (6, 'Ternes', '27 avenue des Ternes 75017 PARIS');
 
 -- --------------------------------------------------------
@@ -146,7 +139,7 @@ CREATE TABLE IF NOT EXISTS `renting_equipment` (
   `date_rent` datetime DEFAULT NULL,
   `date_return` datetime DEFAULT NULL,
   PRIMARY KEY (`id_customer`,`id_equipment`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -157,18 +150,19 @@ CREATE TABLE IF NOT EXISTS `renting_equipment` (
 DROP TABLE IF EXISTS `room`;
 CREATE TABLE IF NOT EXISTS `room` (
   `id_room` int(11) NOT NULL AUTO_INCREMENT,
-  `type_room` varchar(100) CHARACTER SET latin1 NOT NULL,
+  `type_room` varchar(100) NOT NULL,
   `number_places` int(11) NOT NULL,
+  `booked` tinyint(4) NOT NULL DEFAULT '0',
   `id_location` int(11) DEFAULT NULL,
   PRIMARY KEY (`id_room`)
-) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 --
 -- Déchargement des données de la table `room`
 --
 
-INSERT INTO `room` (`id_room`, `type_room`, `number_places`, `id_location`) VALUES
-(2, 'Salle de rÃ©union', 9, 1);
+INSERT INTO `room` (`id_room`, `type_room`, `number_places`, `booked`, `id_location`) VALUES
+(1, 'Salle d\'appel', 5, 0, 1);
 
 -- --------------------------------------------------------
 
@@ -179,20 +173,60 @@ INSERT INTO `room` (`id_room`, `type_room`, `number_places`, `id_location`) VALU
 DROP TABLE IF EXISTS `schedule`;
 CREATE TABLE IF NOT EXISTS `schedule` (
   `id_schedule` int(11) NOT NULL AUTO_INCREMENT,
-  `day` varchar(9) CHARACTER SET latin1 NOT NULL,
+  `day` varchar(9) NOT NULL,
   `begin_schedule` time NOT NULL,
   `end_schedule` time NOT NULL,
   `id_location` int(11) DEFAULT NULL,
   PRIMARY KEY (`id_schedule`)
-) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM AUTO_INCREMENT=43 DEFAULT CHARSET=utf8;
 
 --
 -- Déchargement des données de la table `schedule`
 --
 
 INSERT INTO `schedule` (`id_schedule`, `day`, `begin_schedule`, `end_schedule`, `id_location`) VALUES
-(1, 'Lundi', '08:00:00', '21:00:00', 1),
-(2, 'Mardi', '08:30:00', '20:30:00', 1);
+(1, 'lundi', '08:00:00', '23:00:00', 1),
+(2, 'mardi', '00:00:00', '00:00:00', 1),
+(3, 'mercredi', '00:00:00', '00:00:00', 1),
+(4, 'jeudi', '00:00:00', '00:00:00', 1),
+(5, 'vendredi', '00:00:00', '00:00:00', 1),
+(6, 'samedi', '00:00:00', '00:00:00', 1),
+(7, 'dimanche', '00:00:00', '00:00:00', 1),
+(8, 'lundi', '14:00:00', '20:00:00', 2),
+(9, 'mardi', '00:00:00', '00:00:00', 2),
+(10, 'mercredi', '00:00:00', '00:00:00', 2),
+(11, 'jeudi', '00:00:00', '00:00:00', 2),
+(12, 'vendredi', '00:00:00', '00:00:00', 2),
+(13, 'samedi', '00:00:00', '00:00:00', 2),
+(14, 'dimanche', '00:00:00', '00:00:00', 2),
+(15, 'lundi', '00:00:00', '00:00:00', 3),
+(16, 'mardi', '00:00:00', '00:00:00', 3),
+(17, 'mercredi', '00:00:00', '00:00:00', 3),
+(18, 'jeudi', '00:00:00', '00:00:00', 3),
+(19, 'vendredi', '00:00:00', '00:00:00', 3),
+(20, 'samedi', '00:00:00', '00:00:00', 3),
+(21, 'dimanche', '00:00:00', '00:00:00', 3),
+(22, 'lundi', '00:00:00', '00:00:00', 4),
+(23, 'mardi', '00:00:00', '00:00:00', 4),
+(24, 'mercredi', '00:00:00', '00:00:00', 4),
+(25, 'jeudi', '00:00:00', '00:00:00', 4),
+(26, 'vendredi', '00:00:00', '00:00:00', 4),
+(27, 'samedi', '00:00:00', '00:00:00', 4),
+(28, 'dimanche', '00:00:00', '00:00:00', 4),
+(29, 'lundi', '00:00:00', '00:00:00', 5),
+(30, 'mardi', '00:00:00', '00:00:00', 5),
+(31, 'mercredi', '00:00:00', '00:00:00', 5),
+(32, 'jeudi', '00:00:00', '00:00:00', 5),
+(33, 'vendredi', '00:00:00', '00:00:00', 5),
+(34, 'samedi', '00:00:00', '00:00:00', 5),
+(35, 'dimanche', '00:00:00', '00:00:00', 5),
+(36, 'lundi', '00:00:00', '00:00:00', 6),
+(37, 'mardi', '00:00:00', '00:00:00', 6),
+(38, 'mercredi', '00:00:00', '00:00:00', 6),
+(39, 'jeudi', '00:00:00', '00:00:00', 6),
+(40, 'vendredi', '00:00:00', '00:00:00', 6),
+(41, 'samedi', '00:00:00', '00:00:00', 6),
+(42, 'dimanche', '00:00:00', '00:00:00', 6);
 
 -- --------------------------------------------------------
 
@@ -202,14 +236,17 @@ INSERT INTO `schedule` (`id_schedule`, `day`, `begin_schedule`, `end_schedule`, 
 
 DROP TABLE IF EXISTS `staff`;
 CREATE TABLE IF NOT EXISTS `staff` (
-  `id_staff` int(11) NOT NULL AUTO_INCREMENT,
-  `name_staff` varchar(80) CHARACTER SET latin1 NOT NULL,
-  `surname_staff` varchar(80) CHARACTER SET latin1 NOT NULL,
-  `nickname_staff` varchar(80) CHARACTER SET latin1 NOT NULL,
-  `hierarchy` int(11) NOT NULL,
-  `id_location` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id_staff`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+  `is_admin` tinyint(4) NOT NULL DEFAULT '0',
+  `id_customer` int(11) NOT NULL,
+  PRIMARY KEY (`id_customer`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+--
+-- Déchargement des données de la table `staff`
+--
+
+INSERT INTO `staff` (`is_admin`, `id_customer`) VALUES
+(0, 1);
 
 -- --------------------------------------------------------
 
@@ -219,10 +256,10 @@ CREATE TABLE IF NOT EXISTS `staff` (
 
 DROP TABLE IF EXISTS `staff_ticket`;
 CREATE TABLE IF NOT EXISTS `staff_ticket` (
-  `id_staff` int(11) NOT NULL,
   `id_ticket` int(11) NOT NULL,
-  PRIMARY KEY (`id_staff`,`id_ticket`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+  `id_customer` int(11) NOT NULL,
+  PRIMARY KEY (`id_ticket`,`id_customer`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -233,12 +270,12 @@ CREATE TABLE IF NOT EXISTS `staff_ticket` (
 DROP TABLE IF EXISTS `subscription`;
 CREATE TABLE IF NOT EXISTS `subscription` (
   `id_subscription` int(11) NOT NULL AUTO_INCREMENT,
-  `type_subscription` varchar(255) CHARACTER SET latin1 NOT NULL,
+  `type_subscription` varchar(255) NOT NULL,
   `price_with_engagement` double DEFAULT NULL,
   `price_without_engagement` double DEFAULT NULL,
-  `description` longtext CHARACTER SET latin1,
+  `description` longtext,
   PRIMARY KEY (`id_subscription`)
-) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 --
 -- Déchargement des données de la table `subscription`
@@ -258,11 +295,12 @@ INSERT INTO `subscription` (`id_subscription`, `type_subscription`, `price_with_
 DROP TABLE IF EXISTS `ticket`;
 CREATE TABLE IF NOT EXISTS `ticket` (
   `id_ticket` int(11) NOT NULL AUTO_INCREMENT,
-  `subject` varchar(255) CHARACTER SET latin1 NOT NULL,
-  `description` longtext CHARACTER SET latin1 NOT NULL,
+  `subject` varchar(255) NOT NULL,
+  `description` longtext NOT NULL,
+  `id_customer` int(11) DEFAULT NULL,
   `id_equipment` int(11) DEFAULT NULL,
   PRIMARY KEY (`id_ticket`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

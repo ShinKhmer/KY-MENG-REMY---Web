@@ -1,40 +1,25 @@
 <?php include "assets/include/header.php";
 
-    // PRINT DATAS
-    $db = connectDb();
-
-    $query = $db->prepare("SELECT begin_schedule, end_schedule FROM SCHEDULE WHERE day=:day AND id_location=:id_location ");
-
-    $query->execute([   "day" => $_GET["day"],
-                        "id_location" => $_GET["id_location"]
-                    ]);
-
-    $result = $query->fetch();
-
-    function name_town($id,$db){
-        $query = $db->prepare("SELECT * FROM LOCATION WHERE id_location=:plop");
-        $query->execute(["plop" => $id]);
-        $result2 = $query->fetch(PDO::FETCH_ASSOC);
-        return $result2['town'];
-    }
 
 
     // UPDATE DATAS
     if( isset($_POST) && !empty($_POST) ){
-        if ($_POST["debut_heure"]<$_POST["fin_heure"]) { {
+        $db = connectDb();
+        if ($_POST["debut_heure"]<$_POST["fin_heure"]) {
             $query = $db->prepare("UPDATE SCHEDULE SET begin_schedule=:begin_schedule, end_schedule=:end_schedule WHERE day=:day AND id_location=:id_location");
             $start = $_POST["debut_heure"].":".$_POST["debut_minute"].":00";
             $end = $_POST["fin_heure"].":".$_POST["fin_minute"].":00";
-            $query->execute([   "day" => $_GET["day"],
+            $query->execute([
                                 "begin_schedule" => $start,
                                 "end_schedule" => $end,
-                                "day" => $_GET["day"],
-                                "id_location" => $_GET["id_location"]
+                                "day" => $_POST["day_select"],
+                                "id_location" => $_POST["place_select"]
                             ]);
 
             header('Location:admin_schedules.php');
 
             unset($_POST);
+
         }
     }
 ?>
@@ -47,14 +32,30 @@
             <div class="col-md-12">
                 <div class="card-deck">
                     <div class="card" style="padding-left:30%; padding-right:30%;">
-                        <?php echo '<form method="POST" action="admin_schedules_edit.php?id_location='.$_GET["id_location"].'&day='.$_GET["day"].'">'; ?>
+                        <?php echo '<form method="POST" action="admin_schedules_edit.php">'; ?>
                             <center>
                                 <div class="form-group">
-                                    <?php
-                                    $db = connectDb();
-                                    $name =name_town($_GET["id_location"],$db);
-                                    echo '<label>'.$name .' : '. $_GET["day"].'</label>';
-                                    ?>
+                                    <label>Lieu</label>
+                                    <select class="form-control" name="place_select">
+                                        <option value="1">Bastille</option>
+                                        <option value="2">Beaubourg</option>
+                                        <option value="3">Odéon</option>
+                                        <option value="4">Place d'Italie</option>
+                                        <option value="5">République</option>
+                                        <option value="6">Ternes</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                        <label>Jour :</label>
+                                        <select class="form-control" name="day_select">
+                                            <option value="Lundi">Lundi</option>
+                                            <option value="Mardi">Mardi</option>
+                                            <option value="Mercredi">Mercredi</option>
+                                            <option value="Jeudi">Jeudi</option>
+                                            <option value="Vendredi">Vendredi</option>
+                                            <option value="Samedi">Samedi</option>
+                                            <option value="Dimanche">Dimanche</option>
+                                        </select>
                                 </div>
                                 <div class="form-group">
                                     <label>Début :</label>

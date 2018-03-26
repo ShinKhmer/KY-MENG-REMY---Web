@@ -1,10 +1,10 @@
 <?php
     include "assets/include/header.php";
 
-    /* DATABASE ACTION */
+    /* SEARCH CUSTOMERS DATA */
     $db = connectDb();
 
-    $query = $db->prepare("SELECT id_customer, pseudo_customer, last_name_customer, name_customer, email_customer, is_admin, blocked FROM CUSTOMERS");
+    $query = $db->prepare("SELECT CUSTOMERS.id_customer, pseudo_customer, last_name_customer, name_customer, email_customer, is_admin, blocked FROM CUSTOMERS, STAFF WHERE STAFF.id_customer=CUSTOMERS.id_customer");
 
     $query->execute();
 

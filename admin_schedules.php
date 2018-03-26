@@ -21,29 +21,33 @@
         <div class="row" style="margin-top:50px; margin-bottom:50px;">
             <div class="col-md-12">
                 <div class="card-deck">
-                    <div class="card" style="padding-left:20%; padding-right:20%;">
+                    <div class="card" style="padding-left:10%; padding-right:10%;">
                         <table class="table table-responsive table-hover">
                             <tr>
                                 <th>Lieu</th>
-                                <th>Jour</th>
-                                <th>Heure d'ouverture</th>
-                                <th>Heure de fermeture</th>
+                                <th>Lundi</th>
+                                <th>Mardi</th>
+                                <th>Mercredi</th>
+                                <th>Jeudi</th>
+                                <th>Vendredi</th>
+                                <th>Samedi</th>
+                                <th>Dimanche</th>
                             </tr>
                             <?php
-                                foreach($result as $res){
-                                    $db = connectDb();
-                                    $name =name_town($res[3],$db);
+                                for($i = 0; $i < 6; $i++){
+                                    $name = name_town($result[$i*7][3],$db);
                                     echo '  <tr>
-                                                <td><center>'.$name.'</center></td>
-                                                <td><center>'.$res[0].'</center></td>
-                                                <td><center>'.$res[1].'</center></td>
-                                                <td><center>'.$res[2].'</center></td>
-                                                <td><a class="btn btn-primary" href="admin_schedules_edit.php?id_location='.$res[3].'&day='.$res[0].'" role="button">Modifier</a></td>
-                                            </tr>';
+                                                <td><center>'.$name.'</center></td>';
+                                    for($j = 0; $j < 7; $j++){
+                                        echo '  <td><center>'.$result[$i*7+$j][1].'<br>'.$result[$i*7+$j][2].'</center></td>';
+                                    }
+                                    //echo ' <td><a class="btn btn-primary" href="admin_schedules_edit.php?id_location='.$result[$i*$6].'&day='.$result[0].'" role="button">Modifier</a></td></tr>';
+                                    echo '</tr>';
                                 }
+
                              ?>
                         </table>
-                        <a class="btn btn-primary" href="admin_schedules_add.php">Ajouter</a>
+                        <a class="btn btn-primary" href="admin_schedules_edit.php">Modifier</a>
                     </div>
                 </div>
             </div>

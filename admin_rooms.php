@@ -31,12 +31,12 @@
                             <?php
                                 foreach($result as $res){
                                         $db = connectDb();
-                                        $name =name_town($res[3],$db);
+                                        $name =name_town($res[4],$db);
                                     echo '  <tr>
                                                 <td><center>'.$name.'</center></td>
                                                 <td><center>'.$res[1].'</center></td>
                                                 <td><center>'.$res[2].'</center></td>
-                                                <td><a class="btn btn-primary" href="admin_rooms_edit.php?id_room='.$res[0].'&id_location='.$res[3].'" role="button">Modifier</a></td>
+                                                <td><a class="btn btn-primary" href="admin_rooms_edit.php?id_room='.$res[0].'&id_location='.$res[4].'" role="button">Modifier</a></td>
                                             </tr>';
                                 }
                              ?>

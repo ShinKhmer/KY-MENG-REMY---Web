@@ -8,7 +8,7 @@
 
 		if( isset($_GET["user"]) && isset($_GET["promote"]) ){
 
-			$query = $db->prepare("SELECT is_admin FROM CUSTOMERS WHERE id_customer=:id_customer");
+			$query = $db->prepare("SELECT is_admin FROM STAFF WHERE id_customer=:id_customer");
 
 			$query->execute([
 						"id_customer"=>$_GET["user"]
@@ -21,7 +21,7 @@
 
 			if( $_GET["promote"] == "up" && $result[0] == 0 ){
 
-				$query = $db->prepare("UPDATE CUSTOMERS SET is_admin=:is_admin WHERE id_customer=:id_customer");
+				$query = $db->prepare("UPDATE STAFF SET is_admin=:is_admin WHERE id_customer=:id_customer");
 
 				$query->execute([
 							"is_admin"=>1,
@@ -39,7 +39,7 @@
 
 			if( $_GET["promote"] == "down" && $result[0] == 1 ){
 
-				$query = $db->prepare("UPDATE CUSTOMERS SET is_admin=:is_admin WHERE id_customer=:id_customer");
+				$query = $db->prepare("UPDATE STAFF SET is_admin=:is_admin WHERE id_customer=:id_customer");
 
 				$query->execute([
 							"is_admin"=>0,

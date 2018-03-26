@@ -148,6 +148,20 @@ function registerCustomer(){
     $code_customer = $randomCustomerCode;
     $inside = "0";
     $query->execute();
+
+    // Récupération de l'id du client
+    $query = $db->prepare("SELECT MAX(id_customer) FROM CUSTOMERS");
+    $query->execute();
+    $result = $query->fetch();
+
+    // Insertion de is_admin
+    $query = $db->prepare("INSERT INTO STAFF VALUES(:is_admin, :id_customer)");
+    $query->bindParam(':is_admin', $is_admin);
+    $query->bindParam(':id_customer', $id_customer);
+
+    $is_admin = "0";
+    $id_customer = $result[0];
+    $query->execute();
   }
 }
 

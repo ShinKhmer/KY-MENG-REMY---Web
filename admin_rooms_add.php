@@ -51,7 +51,7 @@
                                 <div class="form-group">
                                     <center>
                                         <label>Nombre de places :</label>
-                                        <input type="text" class="form-control" name="number_of_places" placeholder="Quantité" required="required">
+                                        <input type="text" class="form-control" name="number_of_places" placeholder="Nombre de places" required="required">
                                     </center>
                                 </div>
                                 <button type="submit" class="btn btn-primary">Valider</button>
