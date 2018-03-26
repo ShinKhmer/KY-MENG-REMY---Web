@@ -87,10 +87,10 @@ function registerCustomer(){
       $error = true;
     } else {
       $phone_number_customer = verifyInput($_POST["tel"]);
-      if (!preg_match("^(0[1-68])(?:[ _.-]?(\d{2})){4}$",$_POST["tel"])) {
+      /*if (!preg_match("^(0[1-68])(?:[ _.-]?(\d{2})){4}$",$_POST["tel"])) {
         $phone_number_customer_Error = "Format de téléphone invalide";
         $error = true;
-      }
+    }*/
     }
 
     if (empty($_POST["pseudo"])) {

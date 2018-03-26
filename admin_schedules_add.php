@@ -77,14 +77,14 @@
                                         <label>Début :</label>
                                         <select name="debut_heure"  size="1">
                                         <?php
-                                            for ($i=0; $i <12 ; $i++) {
+                                            for ($i=0; $i <24 ; $i++) {
                                                 echo "<option>$i</option>";
                                             }
                                          ?>
                                      </select>
                                      <select name="debut_minute"  size="1">
                                         <?php
-                                            for ($i=0; $i <59 ; $i++) {
+                                            for ($i=0; $i <60 ; $i++) {
                                                 echo "<option>$i</option>";
                                             }
                                          ?>
@@ -95,14 +95,14 @@
                                         <label>Fin :</label>
                                         <select name="fin_heure"  size="1">
                                            <?php
-                                               for ($i=0; $i <12 ; $i++) {
+                                               for ($i=0; $i <24 ; $i++) {
                                                    echo "<option>$i</option>";
                                                }
                                             ?>
                                         </select>
                                         <select name="fin_minute"  size="1">
                                            <?php
-                                               for ($i=0; $i <59 ; $i++) {
+                                               for ($i=0; $i <60 ; $i++) {
                                                    echo "<option>$i</option>";
                                                }
                                             ?>
