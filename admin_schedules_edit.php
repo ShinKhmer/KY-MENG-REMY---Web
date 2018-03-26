@@ -28,6 +28,7 @@
         $query->execute([   "day" => $_GET["day"],
                             "begin_schedule" => $start,
                             "end_schedule" => $end,
+                            "day" => $_GET["day"],
                             "id_location" => $_GET["id_location"]
                         ]);
 

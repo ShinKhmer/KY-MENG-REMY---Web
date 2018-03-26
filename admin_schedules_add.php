@@ -106,7 +106,7 @@
                                                    echo "<option>$i</option>";
                                                }
                                             ?>
-                                           </select>
+                                        </select>
                                 </div>
                                 <button type="submit" class="btn btn-primary">Valider</button>
                                 <?php
