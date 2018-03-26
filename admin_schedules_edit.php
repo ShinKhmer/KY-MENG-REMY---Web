@@ -25,7 +25,7 @@
         $query = $db->prepare("UPDATE SCHEDULE SET begin_schedule=:begin_schedule, end_schedule=:end_schedule WHERE day=:day AND id_location=:id_location");
         $start = $_POST["debut_heure"].":".$_POST["debut_minute"].":00";
         $end = $_POST["fin_heure"].":".$_POST["fin_minute"].":00";
-        $query->execute([   "begin_schedule" => $_POST["begin"],
+        $query->execute([   "day" => $_GET["day"],
                             "begin_schedule" => $start,
                             "end_schedule" => $end,
                             "id_location" => $_GET["id_location"]
@@ -38,7 +38,7 @@
 ?>
 
 <section>
-    <center><h2>Administration - Modification d'équipement</h2></center>
+    <center><h2>Administration - Modification d'horaire</h2></center>
 
     <div class="container main-content">
         <div class="row" style="margin-top:50px; margin-bottom:50px;">
@@ -58,14 +58,14 @@
                                     <label>Début :</label>
                                     <select name="debut_heure"  size="1">
                                     <?php
-                                        for ($i=0; $i <12 ; $i++) {
+                                        for ($i=0; $i <24 ; $i++) {
                                             echo "<option>$i</option>";
                                         }
                                      ?>
                                  </select>
                                  <select name="debut_minute"  size="1">
                                     <?php
-                                        for ($i=0; $i <59 ; $i++) {
+                                        for ($i=0; $i <60 ; $i++) {
                                             echo "<option>$i</option>";
                                         }
                                      ?>
@@ -76,14 +76,14 @@
                                     <label>Fin :</label>
                                     <select name="fin_heure"  size="1">
                                        <?php
-                                           for ($i=0; $i <12 ; $i++) {
+                                           for ($i=0; $i <24 ; $i++) {
                                                echo "<option>$i</option>";
                                            }
                                         ?>
                                     </select>
                                     <select name="fin_minute"  size="1">
                                        <?php
-                                           for ($i=0; $i <59 ; $i++) {
+                                           for ($i=0; $i <60 ; $i++) {
                                                echo "<option>$i</option>";
                                            }
                                         ?>

@@ -1,7 +1,7 @@
 <?php include "assets/include/header.php";
     $db = connectDb();
 
-    $query = $db->prepare("SELECT day, TIME_FORMAT(begin_schedule, '%H:%i'), TIME_FORMAT(end_schedule, '%H:%i'), id_location FROM SCHEDULE ORDER BY id_location ASC");
+    $query = $db->prepare("SELECT * FROM ROOM ORDER BY id_location ASC");
 
     $query->execute();
 
@@ -15,35 +15,34 @@
 ?>
 
 <section>
-    <center><h2>Administration - Horaires</h2></center>
+    <center><h2>Administration - Salles</h2></center>
 
     <div class="container main-content">
         <div class="row" style="margin-top:50px; margin-bottom:50px;">
             <div class="col-md-12">
                 <div class="card-deck">
-                    <div class="card" style="padding-left:20%; padding-right:20%;">
+                    <div class="card" style="padding-left:30%; padding-right:30%;">
                         <table class="table table-responsive table-hover">
                             <tr>
                                 <th>Lieu</th>
-                                <th>Jour</th>
-                                <th>Heure d'ouverture</th>
-                                <th>Heure de fermeture</th>
+                                <th>Type de salle</th>
+                                <th>Nombre de places</th>
                             </tr>
                             <?php
                                 foreach($result as $res){
-                                    $db = connectDb();
-                                    $name =name_town($res[3],$db);
+                                        $db = connectDb();
+                                        $name =name_town($res[3],$db);
                                     echo '  <tr>
                                                 <td><center>'.$name.'</center></td>
-                                                <td><center>'.$res[0].'</center></td>
                                                 <td><center>'.$res[1].'</center></td>
                                                 <td><center>'.$res[2].'</center></td>
-                                                <td><a class="btn btn-primary" href="admin_schedules_edit.php?id_location='.$res[3].'&day='.$res[0].'" role="button">Modifier</a></td>
+                                                <td><a class="btn btn-primary" href="admin_rooms_edit.php?id_room='.$res[0].'&id_location='.$res[3].'" role="button">Modifier</a></td>
                                             </tr>';
                                 }
                              ?>
                         </table>
-                        <a class="btn btn-primary" href="admin_schedules_add.php">Ajouter</a>
+
+                        <a class="btn btn-secondary" href="admin_rooms_add.php" role="button" style="margin-left:30%; margin-right:30%">Ajouter</a>
                     </div>
                 </div>
             </div>
