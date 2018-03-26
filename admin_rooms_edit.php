@@ -33,18 +33,18 @@
 
         unset($_POST);
     }
-    /*if(isset($_GET["id_room"])   && isset($_GET["del"]) && $_GET["del"] == "true" ){
+    if(isset($_GET["id_room"]) && isset($_GET["del"]) && $_GET["del"] == "true" ){
 
-        $query = $db->prepare("DELETE FROM EQUIPMENT WHERE id_equipment=:id_equipment");
+        $query = $db->prepare("DELETE FROM ROOM WHERE id_room=:id_room");
 
         $query->execute([
-                            "id_equipment" => $_GET["id_equipment"]
+                            "id_room" => $_GET["id_room"]
                             ]);
 
-        header('Location:admin_equipments.php');
+        header('Location:admin_rooms.php');
 
         unset($_POST);
-    }*/
+    }
 ?>
 
 <section>

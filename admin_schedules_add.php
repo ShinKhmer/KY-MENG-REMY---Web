@@ -20,20 +20,17 @@
         }
 
         if($cpt == 0){
-            if ($_POST["debut_heure"]<$_POST["fin_heure"]) {
-                // SEND
-                $query = $db->prepare("INSERT INTO SCHEDULE(id_schedule,day, begin_schedule, end_schedule, id_location) VALUES(null,:day, :begin_schedule, :end_schedule, :id_location)");
-                $start = $_POST["debut_heure"].":".$_POST["debut_minute"].":00";
-                $end = $_POST["fin_heure"].":".$_POST["fin_minute"].":00";
-                $query->execute([   "day" => $_POST["day_select"],
-                                    "begin_schedule" => $start,
-                                    "end_schedule" => $end,
-                                    "id_location" => $_POST["place_select"]
-                                ]);
+            // SEND
+            $query = $db->prepare("INSERT INTO SCHEDULE(id_schedule,day, begin_schedule, end_schedule, id_location) VALUES(null,:day, :begin_schedule, :end_schedule, :id_location)");
+            $start = $_POST["debut_heure"].":".$_POST["debut_minute"].":00";
+            $end = $_POST["fin_heure"].":".$_POST["fin_minute"].":00";
+            $query->execute([   "day" => $_POST["day_select"],
+                                "begin_schedule" => $start,
+                                "end_schedule" => $end,
+                                "id_location" => $_POST["place_select"]
+                            ]);
 
-                header('Location:admin_schedules.php');
-            }
-
+            header('Location:admin_schedules.php');
         }else{
             $error = true;
         }
@@ -41,7 +38,6 @@
 
 ?>
 
-<script>$('#datetimepicker').datetimepicker();</script>
 
 <section>
     <center><h2>Administration - Inventaire des équipements</h2></center>
@@ -109,7 +105,7 @@
                                                    echo "<option>$i</option>";
                                                }
                                             ?>
-                                        </select>
+                                           </select>
                                 </div>
                                 <button type="submit" class="btn btn-primary">Valider</button>
                                 <?php
