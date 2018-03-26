@@ -20,17 +20,20 @@
         }
 
         if($cpt == 0){
-            // SEND
-            $query = $db->prepare("INSERT INTO SCHEDULE(id_schedule,day, begin_schedule, end_schedule, id_location) VALUES(null,:day, :begin_schedule, :end_schedule, :id_location)");
-            $start = $_POST["debut_heure"].":".$_POST["debut_minute"].":00";
-            $end = $_POST["fin_heure"].":".$_POST["fin_minute"].":00";
-            $query->execute([   "day" => $_POST["day_select"],
-                                "begin_schedule" => $start,
-                                "end_schedule" => $end,
-                                "id_location" => $_POST["place_select"]
-                            ]);
+            if ($_POST["debut_heure"]<$_POST["fin_heure"]) {
+                // SEND
+                $query = $db->prepare("INSERT INTO SCHEDULE(id_schedule,day, begin_schedule, end_schedule, id_location) VALUES(null,:day, :begin_schedule, :end_schedule, :id_location)");
+                $start = $_POST["debut_heure"].":".$_POST["debut_minute"].":00";
+                $end = $_POST["fin_heure"].":".$_POST["fin_minute"].":00";
+                $query->execute([   "day" => $_POST["day_select"],
+                                    "begin_schedule" => $start,
+                                    "end_schedule" => $end,
+                                    "id_location" => $_POST["place_select"]
+                                ]);
 
-            header('Location:admin_schedules.php');
+                header('Location:admin_schedules.php');
+            }
+
         }else{
             $error = true;
         }

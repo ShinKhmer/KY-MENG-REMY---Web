@@ -21,20 +21,21 @@
 
     // UPDATE DATAS
     if( isset($_POST) && !empty($_POST) ){
+        if ($_POST["debut_heure"]<$_POST["fin_heure"]) { {
+            $query = $db->prepare("UPDATE SCHEDULE SET begin_schedule=:begin_schedule, end_schedule=:end_schedule WHERE day=:day AND id_location=:id_location");
+            $start = $_POST["debut_heure"].":".$_POST["debut_minute"].":00";
+            $end = $_POST["fin_heure"].":".$_POST["fin_minute"].":00";
+            $query->execute([   "day" => $_GET["day"],
+                                "begin_schedule" => $start,
+                                "end_schedule" => $end,
+                                "day" => $_GET["day"],
+                                "id_location" => $_GET["id_location"]
+                            ]);
 
-        $query = $db->prepare("UPDATE SCHEDULE SET begin_schedule=:begin_schedule, end_schedule=:end_schedule WHERE day=:day AND id_location=:id_location");
-        $start = $_POST["debut_heure"].":".$_POST["debut_minute"].":00";
-        $end = $_POST["fin_heure"].":".$_POST["fin_minute"].":00";
-        $query->execute([   "day" => $_GET["day"],
-                            "begin_schedule" => $start,
-                            "end_schedule" => $end,
-                            "day" => $_GET["day"],
-                            "id_location" => $_GET["id_location"]
-                        ]);
+            header('Location:admin_schedules.php');
 
-        header('Location:admin_schedules.php');
-
-        unset($_POST);
+            unset($_POST);
+        }
     }
 ?>
 
