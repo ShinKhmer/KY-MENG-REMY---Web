@@ -9,6 +9,7 @@
     $query->execute();
 
     $result = $query->fetchAll();
+
 ?>
 
     <section>
@@ -18,8 +19,8 @@
 			<div class="row" style="margin-top:50px; margin-bottom:50px;">
 				<div class="col-md-12">
                     <div class="card-deck">
-                        <div class="card">
-                            <table class="table table-responsive table-hover">
+                        <div class="card" style="padding-left:10%; padding-right:10%">
+                            <table class="table table-responsive table-hover" style="padding-left:5%; padding-right:5%">
                 				<tr>
                 					<th>ID USER</th>
                 					<th>PSEUDO</th>
@@ -43,7 +44,8 @@
                                                             echo "Utilisateur";
                                                         else if($res[5] == 1)
                                                             echo "Administrateur";
-                                        echo '      <td>';
+                                        echo '     </td>
+                                                    <td>';
                                                         if($res[5] == 0)
                                                             echo '<a class="btn btn-primary" href="admin_users_actions.php?user='.$res[0].'&promote=up" role="button">Promouvoir</a>';
                                                         else if($res[5] == 1)
@@ -69,5 +71,16 @@
         </div>
 
     </section>
+
+    <script src="function.js"></script>
+    <script type="text/javascript">
+        var tab = <?php echo json_encode($res); ?>;
+        var xhr = getXMLHttpRequest();
+
+
+        console.log(tab);
+        xhr.open("GET", "admin_users_actions.php?user=" + tab[0] + "&promote=up", true);
+        xhr.send(null);
+    </script>
 
 <?php include "assets/include/footer.php"; ?>

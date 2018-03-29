@@ -1,6 +1,6 @@
 <?php
 	session_start();
-	require "assets/include/functions.php";
+	require "assets/include/function.php";
 
 	$db = connectDb();
 

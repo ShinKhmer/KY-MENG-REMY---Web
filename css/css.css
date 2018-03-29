@@ -121,3 +121,8 @@ p{
 #passwordHelpBlock{
   color: white !important;
 }
+
+#table{
+    padding-left: 5%;
+    padding-right: 5%
+}
