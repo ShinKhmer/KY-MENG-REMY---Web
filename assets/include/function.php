@@ -1,5 +1,4 @@
 <?php
-
 require "conf.inc.php";
 
 function connectDb() {
@@ -7,7 +6,6 @@ function connectDb() {
     $db = new PDO("mysql:host=".DB_HOST.";dbname=".DB_NAME, DB_USER, DB_PWD);
     // set the PDO error mode to exception
     $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-		echo '<script>console.log("Connection ok");</script>';
   } catch(PDOException $e) {
     die("Erreur de connection: " . $e->getMessage() );
   }
@@ -15,7 +13,6 @@ function connectDb() {
 }
 
 function verifyInput($data) {
-	echo " verifyInput ";
 	$data = trim($data);
 	$data = stripslashes($data);
 	$data = htmlspecialchars($data);
@@ -50,70 +47,71 @@ function registerCustomer(){
 
   if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (empty($_POST["name"])) {
-      $name_customer_Error = "Un prénom est requis";
+      $_SESSION["errors"]["name_customer_error"] = "Un prénom est requis";
       $error = true;
     } else {
       $name_customer = verifyInput($_POST["name"]);
       if(!ctype_alpha($name_customer)) {
-        $name_customer_Error = "Seules les lettres sont autorisés";
+        $_SESSION["errors"]["name_customer_error"] = "Seules les lettres sont autorisés";
         $error = true;
       }
     }
 
     if (empty($_POST["last-name"])) {
-      $last_name_customer_Error = "Un nom est requis";
+      $_SESSION["errors"]["last_name_customer_error"] = "Un prénom est requis";
       $error = true;
     } else {
       $last_name_customer = verifyInput($_POST["last-name"]);
       if(!ctype_alpha($last_name_customer)) {
-        $last_name_customer_Error = "Seules les lettres sont autorisés";
+        $_SESSION["errors"]["last_name_customer_error"] = "Seules les lettres sont autorisés";
         $error = true;
       }
     }
 
     if (empty($_POST["email"])) {
-      $email_customer_Error = "Un email est requis";
+      $_SESSION["errors"]["email_customer_error"] = "Un email est requis";
       $error = true;
     } else {
       $email_customer = verifyInput($_POST["email"]);
       if (!filter_var($email_customer, FILTER_VALIDATE_EMAIL)) {
-        $email_customer_Error = "Format d'email invalide";
+        $_SESSION["errors"]["email_customer_error"] = "Format d'email invalide";
         $error = true;
       }
     }
 
     if (empty($_POST["tel"])) {
-      $phone_number_customer_Error = "Un téléphone est requis";
+      $_SESSION["errors"]["phone_number_customer_error"] = "Un téléphone est requis";
       $error = true;
     } else {
       $phone_number_customer = verifyInput($_POST["tel"]);
-      /*if (!preg_match("^(0[1-68])(?:[ _.-]?(\d{2})){4}$",$_POST["tel"])) {
-        $phone_number_customer_Error = "Format de téléphone invalide";
+      if (!(strlen($_POST["tel"])==0 or (strlen($_POST["tel"])==10 and is_numeric($_POST["tel"])))) {
+        $_SESSION["errors"]["phone_number_customer_error"] = "Format de téléphone invalide";
         $error = true;
-    }*/
+      }
     }
 
     if (empty($_POST["pseudo"])) {
-      $pseudo_customer_Error = "Un pseudo est requis";
+      $_SESSION["errors"]["pseudo_customer_error"] = "Un pseudo est requis";
       $error = true;
     } else {
       $pseudo_customer = verifyInput($_POST["pseudo"]);
       if(!ctype_alnum($pseudo_customer)) {
-        $pseudo_customer_Error = "Seules les lettres et les chiffres sont autorisés";
+        $_SESSION["errors"]["pseudo_customer_error"] = "Seules les lettres et les chiffres sont autorisés";
         $error = true;
       }
     }
 
     if (empty($_POST["password"])) {
-      $password_customer_Error = "Un mot de passe est requis";
+      $_SESSION["errors"]["password_customer_error"] = "Un mot de passe est requis";
+      $error = true;
     } else {
       $password_customer = verifyInput($_POST["password"]);
       if(!ctype_alnum($password_customer)) {
-        $password_customer_Error = "Seules les lettres et les chiffres sont autorisés";
+        $_SESSION["errors"]["password_customer_error"] = "Seules les lettres et les chiffres sont autorisés";
         $error = true;
       }
-      if (strlen($_POST["password"])<8 || strlen($_POST["password"])>20) {
-        $password_customer_Error = "Min: 8 - Max: 20";
+      if (strlen($_POST["password"])<8 or strlen($_POST["password"])>20) {
+        $_SESSION["errors"]["password_customer_error"] = "Min: 8 - Max: 20";
         $error = true;
       }
     }
@@ -149,22 +147,186 @@ function registerCustomer(){
     $inside = "0";
     $query->execute();
 
+
     // Récupération de l'id du client
     $query = $db->prepare("SELECT MAX(id_customer) FROM CUSTOMERS");
     $query->execute();
     $result = $query->fetch();
+    var_dump($result);
 
     // Insertion de is_admin
     $query = $db->prepare("INSERT INTO STAFF VALUES(:is_admin, :id_customer)");
     $query->bindParam(':is_admin', $is_admin);
     $query->bindParam(':id_customer', $id_customer);
 
-    $is_admin = "0";
+    $is_admin = 0;
     $id_customer = $result[0];
     $query->execute();
+
+    header("Location: profil.php");
   }
 }
 
+function generateAccessToken($pseudo_customer) {
+	$token = md5(uniqid()."fdpo5524 .fFds");
+	$db=connectDb();
+	$query = $db->prepare("UPDATE customers SET token = :token WHERE pseudo_customer= :pseudo_customer");
+	$query->execute([
+    "token"=>$token,
+		"pseudo_customer"=>$pseudo_customer
+  ]);
+  return $token;
+}
 
+function loginCustomer() {
+  if ($_SERVER["REQUEST_METHOD"] == "POST") {
+		$db = connectDb();
+
+		// Récupérer le mot de passe hashé dans la bdd pour le pseudo saisie
+		$query = $db->prepare("SELECT * FROM CUSTOMERS, STAFF WHERE pseudo_customer=:pseudo_customer AND STAFF.id_customer=(SELECT id_customer FROM CUSTOMERS WHERE pseudo_customer=:pseudo_customer)");
+		$query->execute([
+      "pseudo_customer"=>$_POST["pseudo"]
+		]);
+		$data = $query->fetch();
+
+		// Vérifier que le mdp hashé correspond au mot de passe saisi
+		if(password_verify($_POST["password"],$data["password_customer"])) {
+
+            // Mettre les identifiants en session
+            $_SESSION["account"]["token"] = generateAccessToken($_POST["pseudo"]);
+            $_SESSION["account"]["pseudo"] = $_POST["pseudo"];
+            $_SESSION["account"]["name"] = $data['name_customer'];
+            $_SESSION["account"]["last_name"] = $data['last_name_customer'];
+            $_SESSION["account"]["email"] = $data['email_customer'];
+            $_SESSION["account"]["tel"] = $data['phone_number_customer'];
+            $_SESSION["account"]["admin"] = $data['is_admin'];
+
+			// Rediriger vers le profil
+			header("Location: profil.php");
+
+		} else {
+      $_SESSION["errors"]["login_error"] = "Compte introuvable";
+    }
+  }
+}
+
+function isConnected() {
+	// Vérifie l'existence des sessions pseudo et token
+	if(!empty($_SESSION["account"]["pseudo"]) && !empty($_SESSION["account"]["token"])) {
+		// Vérifie l'existence en BDD du pseudo et du token
+		$db = connectDb();
+		$query = $db->prepare("SELECT id_customer FROM customers WHERE pseudo_customer=:pseudo_customer AND token=:token");
+
+		$query->execute([
+      "pseudo_customer"=>$_SESSION["account"]["pseudo"],
+			"token"=>$_SESSION["account"]["token"]
+		]);
+
+		if($query->rowCount()) {
+			$_SESSION["account"]["token"]=generateAccessToken($_SESSION["account"]["pseudo"]);
+			return true;
+		} else {
+			logoutCustomer($_SESSION["account"]["pseudo"]);
+			return false;
+		}
+	}
+	return false;
+}
+
+function logoutCustomer($pseudo_customer, $redirect=false) {
+	// Supprimer le token de l'utilisateur en bdd
+	// On remplace par null
+	$db = connectDb();
+	$query = $db->prepare("UPDATE customers SET token=null WHERE pseudo_customer=:pseudo_customer");
+
+	$query->execute([
+		"pseudo_customer"=>$pseudo_customer
+	]);
+
+	// Effacer les variables de session
+	unset($_SESSION["account"]);
+
+	if($redirect) {
+		header("Location: index.php");
+	}
+}
+
+function editCustomer() {
+  $db = connectDb();
+
+   if(isset($_POST['email']) AND !empty($_POST['email'])) {
+      $email_customer = verifyInput($_POST["email"]);
+      if (filter_var($email_customer, FILTER_VALIDATE_EMAIL)) {
+        $insert_email_customer = $db->prepare("UPDATE customers SET email_customer=:email_customer WHERE pseudo_customer=:pseudo_customer");
+        $insert_email_customer->execute([
+          "email_customer"=>$email_customer,
+          "pseudo_customer"=>$_SESSION["account"]["pseudo"]
+        ]);
+        $_SESSION["account"]["email"] = $email_customer;
+      }
+   }
+
+   if(isset($_POST['tel']) AND !empty($_POST['tel'])) {
+      $phone_number_customer = verifyInput($_POST["tel"]);
+      if ((strlen($_POST["tel"])==0 or (strlen($_POST["tel"])==10 and is_numeric($_POST["tel"])))) {
+        $insert_phone_number_customer = $db->prepare("UPDATE customers SET phone_number_customer=:phone_number_customer WHERE pseudo_customer=:pseudo_customer");
+        $insert_phone_number_customer->execute([
+          "phone_number_customer"=>$phone_number_customer,
+          "pseudo_customer"=>$_SESSION["account"]["pseudo"]
+        ]);
+        $_SESSION["account"]["tel"] = $phone_number_customer;
+      }
+   }
+
+   if(isset($_POST['password']) AND !empty($_POST['password'])) {
+      $password_customer = verifyInput($_POST["password"]);
+      if(ctype_alnum($password_customer)) {
+        if (strlen($_POST["password"])>8 and strlen($_POST["password"])<20) {
+          $password_customer = password_hash($_POST["password"], PASSWORD_DEFAULT);
+          $insert_password_customer = $db->prepare("UPDATE customers SET password_customer=:password_customer WHERE pseudo_customer=:pseudo_customer");
+          $insert_password_customer->execute([
+            "password_customer"=>$password_customer,
+            "pseudo_customer"=>$_SESSION["account"]["pseudo"]
+          ]);
+          $_SESSION["account"]["password"] = $password_customer;
+        }
+      }
+   }
+}
+
+function subscription_view($pseudo){
+    $db = connectDb();
+
+    $query = $db->prepare("SELECT id_subscription, begin_subscription, end_subscription FROM CUSTOMERS WHERE pseudo_customer=:pseudo_customer");
+    $query->bindParam(':pseudo_customer', $pseudo);
+
+    $query->execute();
+    $result = $query->fetch();
+
+    return $result;
+}
+
+function subscription_update($pseudo, $id_subscription){
+    $db = connectDb();
+    $begin = null;
+    $end = null;
+
+    if($id_subscription != 1){
+        $begin = date('Y-m-d');
+        $end = date('Y-m-d', time() + 30 * 24 * 60 * 60);
+    }
+
+    $query = $db->prepare(" UPDATE CUSTOMERS
+                            SET id_subscription=:id_subscription,
+                            begin_subscription=:begin_subscription,
+                            end_subscription=:end_subscription
+                            WHERE pseudo_customer=:pseudo_customer");
+    $query->bindParam(':id_subscription', $id_subscription);
+    $query->bindParam(':begin_subscription', $begin);
+    $query->bindParam(':end_subscription', $end);
+    $query->bindParam(':pseudo_customer', $pseudo);
+
+    $query->execute();
+}
 
 ?>

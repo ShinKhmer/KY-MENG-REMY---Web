@@ -1,4 +1,11 @@
-<?php include "assets/include/header.php";
+<?php
+    $pageDescription = "Page administrateur de Work'n Share - Modifier un abonnement.";
+    $pageTitle = "Work'n Share - Modification d'abonnement";
+    include 'assets/include/head.php';
+    if(!isset($_SESSION["account"]["token"]) && !isset($_SESSION["account"]["admin"]) && $_SESSION["account"]["admin"] != 1){
+      header('Location: index.php');
+      exit();
+    }
 
     // PRINT DATAS
     $db = connectDb();
@@ -51,48 +58,52 @@
     }
 ?>
 
-<section>
-    <center><h2>Administration - Modification d'abonnement</h2></center>
+    <body>
+        <?php include 'assets/include/header.php'; ?>
+        <section>
+            <center><h2>Administration - Modification d'abonnement</h2></center>
 
-    <div class="container main-content">
-        <div class="row" style="margin-top:50px; margin-bottom:50px;">
-            <div class="col-md-12">
-                <div class="card-deck">
-                    <div class="card" style="padding-left:30%; padding-right:30%;">
-                        <?php echo '<form method="POST" action="admin_subscriptions_edit.php?id_subscription='.$_GET["id_subscription"].'">'; ?>
-                            <center>
-                                <div class="form-group">
-                                    <label>Type d'abonnement :</label>
-                                    <?php echo '<input type="text" class="form-control" name="subscription_name" value="'.$result[0].'" required="required">'; ?>
-                                </div>
-                                <div class="form-group">
+            <div class="container main-content">
+                <div class="row" style="margin-top:50px; margin-bottom:50px;">
+                    <div class="col-md-12">
+                        <div class="card-deck">
+                            <div class="card" style="padding-left:30%; padding-right:30%;">
+                                <?php echo '<form method="POST" action="admin_subscriptions_edit.php?id_subscription='.$_GET["id_subscription"].'">'; ?>
                                     <center>
-                                        <label>Prix avec engagement par mois :</label>
-                                        <?php echo '<input type="text" class="form-control" name="price_with_engagement" value="'.$result[1].'" required="required">'; ?>
-                                    </center>
-                                </div>
-                                <div class="form-group">
-                                    <center>
-                                        <label>Prix sans engagement par mois :</label>
-                                        <?php echo '<input type="text" class="form-control" name="price_without_engagement" value="'.$result[2].'" required="required">'; ?>
-                                    </center>
-                                </div>
-                                <div class="form-group">
-                                    <center>
-                                        <label>Description :</label>
-                                        <?php echo '<input type="text" class="form-control" name="description" value="'.$result[3].'">'; ?>
-                                    </center>
-                                </div>
-                                <button type="submit" class="btn btn-primary">Valider</button>
+                                        <div class="form-group">
+                                            <label>Type d'abonnement :</label>
+                                            <?php echo '<input type="text" class="form-control" name="subscription_name" value="'.$result[0].'" required="required">'; ?>
+                                        </div>
+                                        <div class="form-group">
+                                            <center>
+                                                <label>Prix avec engagement par mois :</label>
+                                                <?php echo '<input type="text" class="form-control" name="price_with_engagement" value="'.$result[1].'" required="required">'; ?>
+                                            </center>
+                                        </div>
+                                        <div class="form-group">
+                                            <center>
+                                                <label>Prix sans engagement par mois :</label>
+                                                <?php echo '<input type="text" class="form-control" name="price_without_engagement" value="'.$result[2].'" required="required">'; ?>
+                                            </center>
+                                        </div>
+                                        <div class="form-group">
+                                            <center>
+                                                <label>Description :</label>
+                                                <?php echo '<input type="text" class="form-control" name="description" value="'.$result[3].'">'; ?>
+                                            </center>
+                                        </div>
+                                        <button type="submit" class="btn btn-primary">Valider</button>
 
-                                <?php echo '<a class="btn btn-danger" href="admin_subscriptions_edit.php?id_subscription='.$_GET["id_subscription"].'&del=true">Supprimer</a>'; ?>
+                                        <?php echo '<a class="btn btn-danger" href="admin_subscriptions_edit.php?id_subscription='.$_GET["id_subscription"].'&del=true">Supprimer</a>'; ?>
 
-                            </center>
-                        </form>
+                                    </center>
+                                </form>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
-
-<?php include "assets/include/footer.php"; ?>
+        </section>
+        <?php include "assets/include/footer.php"; ?>
+    </body>
+</html>

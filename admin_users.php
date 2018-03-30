@@ -1,5 +1,11 @@
 <?php
-    include "assets/include/header.php";
+    $pageDescription = "Page administrateur de Work'n Share.";
+    $pageTitle = "Work'n Share - Administration";
+    include 'assets/include/head.php';
+    if(!isset($_SESSION["account"]["token"]) && !isset($_SESSION["account"]["admin"]) && $_SESSION["account"]["admin"] != 1){
+      header('Location: index.php');
+      exit();
+    }
 
     /* SEARCH CUSTOMERS DATA */
     $db = connectDb();
@@ -12,15 +18,16 @@
 
 ?>
 
-    <section>
-        <center><h2>Administration - Utilisateurs</h2></center>
+    <body>
+        <?php include 'assets/include/header.php'; ?>
+        <section>
+            <center><h2>Administration - Utilisateurs</h2></center>
 
-        <div class="container main-content">
-			<div class="row" style="margin-top:50px; margin-bottom:50px;">
-				<div class="col-md-12">
-                    <div class="card-deck">
-                        <div class="card" style="padding-left:10%; padding-right:10%">
-                            <table class="table table-responsive table-hover" style="padding-left:5%; padding-right:5%">
+            <div class="container main-content">
+    			<div class="row" style="margin-top:50px; margin-bottom:50px;">
+    				<div class="col-md-12">
+                    <div class="card">
+                            <table class="table table-responsive table-hover" style="width:100%">
                 				<tr>
                 					<th>ID USER</th>
                 					<th>PSEUDO</th>
@@ -68,19 +75,19 @@
                     </div>
                 </div>
             </div>
-        </div>
 
-    </section>
-
-    <script src="function.js"></script>
-    <script type="text/javascript">
-        var tab = <?php echo json_encode($res); ?>;
-        var xhr = getXMLHttpRequest();
+        </section>
+        <script src="function.js"></script>
+        <script type="text/javascript">
+            var tab = <?php echo json_encode($res); ?>;
+            var xhr = getXMLHttpRequest();
 
 
-        console.log(tab);
-        xhr.open("GET", "admin_users_actions.php?user=" + tab[0] + "&promote=up", true);
-        xhr.send(null);
-    </script>
+            console.log(tab);
+            xhr.open("GET", "admin_users_actions.php?user=" + tab[0] + "&promote=up", true);
+            xhr.send(null);
+        </script>
 
-<?php include "assets/include/footer.php"; ?>
+    <?php include "assets/include/footer.php"; ?>
+    </body>
+</html>

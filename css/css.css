@@ -1,39 +1,49 @@
-/* GOOGLE ICONS */
-.material-icons.md-18 { font-size: 18px; }
-.material-icons.md-24 { font-size: 24px; }
-.material-icons.md-36 { font-size: 36px; }
-.material-icons.md-48 { font-size: 48px; }
-
-.material-icons.md-dark { color: rgba(0, 0, 0, 0.54); }
-.material-icons.md-dark.md-inactive { color: rgba(0, 0, 0, 0.26); }
-
-.material-icons.md-light { color: rgba(255, 255, 255, 1); }
-.material-icons.md-light.md-inactive { color: rgba(255, 255, 255, 0.3); }
-
-/* TEST - FORMULAIRE MODAL POUR INSCRIPTION */
-@media (min-width: 768px) {
-  .modal-lg {
-      max-width: 60% !important;
-  }
-}
-.modal-content{
-  background-color: #145f87 !important;
+html, body{
+  height: 100%;
 }
 
 body{
   background-color: #eae9e8;
 }
 
-footer{
-  background-color: #C5d3e8;
+footer a, header a{
+  font-family: 'Montserrat', sans-serif;
+  text-decoration: none !important;
 }
 
-a{
-  font-family: 'Cantarell', sans-serif;
-  text-decoration: none !important;
-  color: #145f87;
+footer{
+  background-color: #002f46;
+  margin-top: 50px;
+  color: #4da0cd;
 }
-a:hover{
+
+footer h5{
+  color: #6695AC;
+}
+
+footer a{
+  color: #4da0cd;
+}
+
+footer a:hover{
+  color: white;
+}
+
+.social-network{
+  padding: 10px;
+  font-size: 50px;
+  width: 50px !important;
+  border-radius: 50%;
+}
+.social-network:hover{
+  opacity: 0.7;
+}
+.fa-facebook-f{
+  background: #3B5998;
+  color: white;
+}
+.fa-twitter{
+  background: #00aced;
   color: white;
 }
 
@@ -44,85 +54,251 @@ ul{
 }
 
 h1, h2, h3, h4, h5, h6{
-  font-family: 'Abril Fatface', cursive;
+  font-family: 'Montserrat', sans-serif;
   color: #333240;
 }
 
 p{
   font-family: 'Open Sans', sans-serif;
-  color: #19709e;
-}
-
-/* CORPS PRINCIPAL DE LA PAGE */
-.container-main-content{
-  margin-top: 50px;
-  padding-top: 10px;
-  background-color: #FFFAFA;
 }
 
 /* BARRE DE MENU */
 .navbar-brand{
   color: white !important;
 }
-.nav-link{
-  font-family: 'Cantarell', sans-serif;
+.nav-link-head{
+  font-family: 'Montserrat', sans-serif;
   color: white !important;
   font-size: 1.4rem;
 	padding: 1.4rem;
 }
-.nav-link:hover{
+.nav-link-head:hover{
   background-color: #19709e;
 }
 #icon-my-account{
   color: white;
 }
 
-/* BOUTON PERSONNALISE */
-.btn-custom{
-  background-color: #31a2a6;
+/* ILLUSTRATION DE L'ACCUEIL */
+#introduction{
+  background-image: url("../image/illustration/introBackground.png");
+  background-color: #000019;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  height: 100%;
 }
-.btn-custom:hover{
-  background-color: #333240;
+#introduction h1{
+  color: white !important;
+}
+
+/* BORDURE DES TITRES */
+.border-bottom-header{
+  padding-bottom: 10px;
+  border-color: #798ed2 !important;
+}
+.border-top-bottom-header{
+  padding-top: 10px;
+  padding-bottom: 10px;
+  border-color: #798ed2 !important;
+}
+
+/* CORPS PRINCIPAL DE LA PAGE */
+.container-main-content{
+  margin-top: 50px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  background-color: #EFEEED;
 }
 
 /* BLOC CONNEXION */
 #sign-in{
   background-color: #8dbcdf;
   color: white;
-  padding: 30px;
+  margin-top: 10px;
+  padding: 20px;
 }
 #sign-in:hover{
   background-color: #333240;
 }
 #btn-sign-in{
   margin-top: 20px;
-  background-color: #31a2a6;
 }
 #btn-sign-in:hover{
-  background-color: #333240;
+  background-color: #5BDA78;
 }
 
 /* BLOC INSCRIPTION */
+@media (max-width: 768px){
+  #header-spacing{
+    margin-top: 30px;
+  }
+}
 #sign-up{
   background-color: #8dbcdf;
   color: white;
-  padding: 30px;
+  margin-top: 10px;
+  padding: 20px;
 }
 #sign-up:hover{
-  background-color: #1D2031;
+  background-color: #333240;
 }
 #btn-sign-up{
   margin-top: 20px;
-  background-color: #31a2a6;
 }
 #btn-sign-up:hover{
-  background-color: #333240
+  background-color: #A0A9B1;
 }
 #passwordHelpBlock{
   color: white !important;
 }
 
-#table{
-    padding-left: 5%;
-    padding-right: 5%
+/* CARDS - POURQUOI NOUS REJOINDRE */
+.card-header-sign{
+  background-color: #19709e;
+  color: white;
+}
+.card-body-sign{
+  background-color: #4CA3D1;
+}
+.card-body-sign p{
+  color: white;
+}
+.card-sign:hover .card-header-sign{
+   background-color: #000021;
+}
+.card-sign:hover .card-body-sign{
+    background-color: #00133B;
+}
+
+/* CARDS - OPENSPACE */
+.card-body-openspace{
+  background-color: #1D2031;
+}
+.card-body-openspace h5, .card-body-openspace p{
+  color: white;
+}
+.card-openspace:hover .card-body-openspace{
+    background-color: #31a2a6;
+}
+
+/* CARDS - OFFRES */
+.card-header-offers{
+  background-color: #b1e97c;
+  color: white;
+}
+.card-body-offers{
+  background-color: #7cc1e9;
+}
+.card-footer-offers{
+  background-color: #7486b4;
+}
+.card-body-offers h5, .card-body-offers ul, .card-body-offers p{
+  color: white;
+}
+.card-offers:hover .card-header-offers{
+   background-color: #CBFF96;
+}
+.card-offers:hover .card-body-offers{
+    background-color: #96DBFF;
+}
+.card-offers:hover .card-footer-offers{
+    background-color: #8EA0CE;
+}
+
+/* BOUTON OFFRES */
+.btn-offers{
+  background-color: #0a689e;
+  border-color: #2482B8;
+}
+.btn-offers:hover{
+  background-color: #333240;
+  border-color: #2482B8;
+}
+
+/* BORDURE DU BLOC */
+.border{
+  border-width: medium !important;
+}
+.border-sign:hover{
+  border-color: #1D2031 !important;
+  box-shadow: 1px 1px 20px 10px #1D2031;
+}
+.border-join-us:hover{
+  border-color: #1A2D55 !important;
+  box-shadow: 1px 1px 20px 10px #00133B;
+}
+.border-openspace:hover{
+  border-color: #44b0ec !important;
+  box-shadow: 1px 1px 20px 10px #8dbcdf;
+}
+.border-offers:hover{
+  border-color: #64BAF8 !important;
+  box-shadow: 1px 1px 20px 10px #4aa0de;
+}
+.border-profile:hover{
+  border-color: #1D2031 !important;
+  box-shadow: 1px 1px 20px 10px #333240;
+}
+
+/* POURQUOI NOUS REJOINDRE ? */
+@media (min-width: 768px){
+  #why-join-us{
+    margin-top: 10px;
+  }
+}
+
+/* Contactez nous */
+#contact-us{
+  background-color: #d5d5d7;
+  padding: 20px;
+}
+#btn-send{
+  background-color: #5F8995;
+  border-color: #46707C;
+}
+#btn-send:hover{
+  background-color: #2C5662;
+  border-color: #133D49;
+}
+
+/* PAGE PROFIL */
+/* CARDS PROFIL */
+.card-header-profile{
+  background-color: #337ab7;
+  color: white;
+}
+.card-body-profile{
+  background-color: #8dbcdf;
+  color: white;
+}
+.card-profile:hover .card-header-profile{
+  background-color: #004784;
+}
+.card-profile:hover .card-body-profile{
+  background-color: #417093;
+}
+
+.table{
+    width: 80%;
+    margin: 0 auto;
+    padding-left: 10%;
+    padding-right: 10%;
+}
+
+tbody{
+    display: block;
+}
+
+tr{
+    width: 90%;
+    margin: 0 auto;
+}
+
+th{
+    text-align: center;
+}
+
+td{
+    text-align: center;
 }

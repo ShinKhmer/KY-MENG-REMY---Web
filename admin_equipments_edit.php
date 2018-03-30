@@ -1,4 +1,11 @@
-<?php include "assets/include/header.php";
+<?php
+    $pageDescription = "Page administrateur de Work'n Share - Modifier un équipement.";
+    $pageTitle = "Work'n Share - Administration - Modification d'équipement";
+    include 'assets/include/head.php';
+    if(!isset($_SESSION["account"]["token"]) && !isset($_SESSION["account"]["admin"]) && $_SESSION["account"]["admin"] != 1){
+      header('Location: index.php');
+      exit();
+    }
 
     // PRINT DATAS
     $db = connectDb();
@@ -47,45 +54,51 @@
     }
 ?>
 
-<section>
-    <center><h2>Administration - Modification d'équipement</h2></center>
+    <body>
+        <?php include 'assets/include/header.php'; ?>
 
-    <div class="container main-content">
-        <div class="row" style="margin-top:50px; margin-bottom:50px;">
-            <div class="col-md-12">
-                <div class="card-deck">
-                    <div class="card" style="padding-left:30%; padding-right:30%;">
-                        <?php echo '<form method="POST" action="admin_equipments_edit.php?id_equipment='.$_GET["id_equipment"].'&id_location='.$_GET["id_location"].'">'; ?>
-                            <center>
-                                <div class="form-group">
-                                    <?php
-                                        $db = connectDb();
-                                        $name = name_town($_GET["id_location"],$db);
-                                        echo "<label>".$name."</label>";
-                                    ?>
-                                </div>
-                                <div class="form-group">
+        <section>
+            <center><h2>Administration - Modification d'équipement</h2></center>
+
+            <div class="container main-content">
+                <div class="row" style="margin-top:50px; margin-bottom:50px;">
+                    <div class="col-md-12">
+                        <div class="card-deck">
+                            <div class="card" style="padding-left:30%; padding-right:30%;">
+                                <?php echo '<form method="POST" action="admin_equipments_edit.php?id_equipment='.$_GET["id_equipment"].'&id_location='.$_GET["id_location"].'">'; ?>
                                     <center>
-                                        <label>Objet :</label>
-                                        <?php echo '<input type="text" class="form-control" name="equipment_name" value="'.$result[0].'" required="required">'; ?>
-                                    </center>
-                                </div>
-                                <div class="form-group">
-                                    <center>
-                                        <label>Quantité :</label>
-                                        <?php echo '<input type="text" class="form-control" name="equipment_quantity" value="'.$result[1].'" required="required">'; ?>
-                                    </center>
-                                </div>
-                                <button type="submit" class="btn btn-primary">Valider</button>
+                                        <div class="form-group">
+                                            <?php
+                                                $db = connectDb();
+                                                $name = name_town($_GET["id_location"],$db);
+                                                echo "<label>".$name."</label>";
+                                            ?>
+                                        </div>
+                                        <div class="form-group">
+                                            <center>
+                                                <label>Objet :</label>
+                                                <?php echo '<input type="text" class="form-control" name="equipment_name" value="'.$result[0].'" required="required">'; ?>
+                                            </center>
+                                        </div>
+                                        <div class="form-group">
+                                            <center>
+                                                <label>Quantité :</label>
+                                                <?php echo '<input type="text" class="form-control" name="equipment_quantity" value="'.$result[1].'" required="required">'; ?>
+                                            </center>
+                                        </div>
+                                        <button type="submit" class="btn btn-primary">Valider</button>
 
-                                <?php echo '<a class="btn btn-danger" href="admin_equipments_edit.php?id_equipment='.$_GET["id_equipment"].'&id_location='.$_GET["id_location"].'&del=true">Supprimer</a>'; ?>
+                                        <?php echo '<a class="btn btn-danger" href="admin_equipments_edit.php?id_equipment='.$_GET["id_equipment"].'&id_location='.$_GET["id_location"].'&del=true">Supprimer</a>'; ?>
 
-                            </center>
-                        </form>
+                                    </center>
+                                </form>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
+        </section>
 
-<?php include "assets/include/footer.php"; ?>
+        <?php include "assets/include/footer.php"; ?>
+    </body>
+</html>
