@@ -3,7 +3,7 @@
     $pageDescription = "Page administrateur de Work'n Share - Ajouter un équipement.";
     $pageTitle = "Work'n Share - Administration - Ajout d'équipement";
     include 'assets/include/head.php';
-    if(!isset($_SESSION["account"]["token"]) && !isset($_SESSION["account"]["admin"]) && $_SESSION["account"]["admin"] != 1){
+    if(!isset($_SESSION["account"]["token"]) && !isset($_SESSION["account"]["admin"]) || $_SESSION["account"]["admin"] != 1){
       header('Location: index.php');
       exit();
     }

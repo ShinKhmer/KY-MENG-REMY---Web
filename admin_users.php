@@ -2,7 +2,7 @@
     $pageDescription = "Page administrateur de Work'n Share.";
     $pageTitle = "Work'n Share - Administration";
     include 'assets/include/head.php';
-    if(!isset($_SESSION["account"]["token"]) && !isset($_SESSION["account"]["admin"]) && $_SESSION["account"]["admin"] != 1){
+    if(!isset($_SESSION["account"]["token"]) && !isset($_SESSION["account"]["admin"]) || $_SESSION["account"]["admin"] != 1){
       header('Location: index.php');
       exit();
     }
@@ -80,12 +80,8 @@
         <script src="function.js"></script>
         <script type="text/javascript">
             var tab = <?php echo json_encode($res); ?>;
-            var xhr = getXMLHttpRequest();
-
-
-            console.log(tab);
-            xhr.open("GET", "admin_users_actions.php?user=" + tab[0] + "&promote=up", true);
-            xhr.send(null);
+            var url = "admin_users_actions.php?user=".tab[0]."&promote=up";
+            request(readData, url);
         </script>
 
     <?php include "assets/include/footer.php"; ?>

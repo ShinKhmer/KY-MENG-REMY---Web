@@ -12,22 +12,22 @@ include 'assets/include/head.php';
 						<h1>Openspaces de qualité au meilleur prix</h1>
 					</div>
 				</div>
-				
+
 				<div class="row" style="color:white;">
 					<div class="col-md-4">
-						<img src="image/illustration/support_icon.svg" alt="Support Work'n Share" height="80">
+						<img src="assets/image/illustration/support_icon.svg" alt="Support Work'n Share" height="80">
 						<p style="padding-top:20px;">
 							Au cours des années, Work'n Share a su bâtir une excellente réputation en matière de service à la clientèle. En cas de problème, vous êtes assuré d’avoir une assistance personnalisée selon vos besoins.
 						</p>
 					</div>
 					<div class="col-md-4">
-						<img src="image/illustration/speed_icon.svg" alt="Support Work'n Share" height="80">
+						<img src="assets/image/illustration/speed_icon.svg" alt="Support Work'n Share" height="80">
 						<p style="padding-top:20px;">
 							Dès votre inscription terminée, automatiquement, vos identifiants sont valides. Ainsi, vous pourrez profiter de votre abonnement sans tarder.
 						</p>
 					</div>
 					<div class="col-md-4">
-						<img src="image/illustration/money_icon.svg" alt="Remboursement garanti" height="80">
+						<img src="assets/image/illustration/money_icon.svg" alt="Remboursement garanti" height="80">
 						<p style="padding-top:20px;">
 							Possibilité d'obtenir un remboursement complet durant les 7 jours suivant l'achat de votre abonnement.
 						</p>

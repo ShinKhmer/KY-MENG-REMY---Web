@@ -2,7 +2,7 @@
   <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #004365;">
     <div class="container">
       <a class="navbar-brand">
-        <img src="image/logo/brandLogo.png" alt="Logo Work'n Share" width="100" height="100">
+        <img src="assets/image/logo/brandLogo.png" alt="Logo Work'n Share" width="100" height="100">
       </a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -20,6 +20,9 @@
           </li>
           <li class="nav-item">
             <a class="nav-link nav-link-head" href="./#contact">Nous contacter</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link nav-link-head" href="book.php">Réserver</a>
           </li>
         <?php
             if(isset($_SESSION["account"]["admin"]) && $_SESSION["account"]["admin"] == 1){

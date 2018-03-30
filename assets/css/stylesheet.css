@@ -279,26 +279,9 @@ p{
   background-color: #417093;
 }
 
-.table{
+.table-admin{
     width: 80%;
     margin: 0 auto;
     padding-left: 10%;
     padding-right: 10%;
-}
-
-tbody{
-    display: block;
-}
-
-tr{
-    width: 90%;
-    margin: 0 auto;
-}
-
-th{
-    text-align: center;
-}
-
-td{
-    text-align: center;
 }

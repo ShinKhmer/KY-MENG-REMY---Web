@@ -2,7 +2,7 @@
     $pageDescription = "Page administrateur de Work'n Share - Modifier une salle.";
     $pageTitle = "Work'n Share - Administration - Modification de salle";
     include 'assets/include/head.php';
-    if(!isset($_SESSION["account"]["token"]) && !isset($_SESSION["account"]["admin"]) && $_SESSION["account"]["admin"] != 1){
+    if(!isset($_SESSION["account"]["token"]) && !isset($_SESSION["account"]["admin"]) || $_SESSION["account"]["admin"] != 1){
       header('Location: index.php');
       exit();
     }
@@ -18,12 +18,7 @@
 
     $result = $query->fetch();
 
-    function name_town($id,$db){
-        $query = $db->prepare("SELECT * FROM LOCATION WHERE id_location=:plop");
-        $query->execute(["plop" => $id]);
-        $result2 = $query->fetch(PDO::FETCH_ASSOC);
-        return $result2['town'];
-    }
+    
 
     // UPDATE DATAS
     if( isset($_POST) && !empty($_POST) ){
