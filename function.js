@@ -19,12 +19,14 @@ function getXMLHttpRequest() {
 	return xhr;
 }
 
-function request(callback, url){
+
+function users_table_print(){
 	var xhr = getXMLHttpRequest();
+	var url = "admin_users_actions.php";
 
 	xhr.onreadystatechange = function(){
-		if( xhr.onreadystatechange == 4 && (xhr.status == 200 || xhr.status == 0) ){
-			callback(xhr.responseText);
+		if( xhr.readyState == 4 && (xhr.status == 200 || xhr.status == 0) ){
+			document.body.getElementsByTagName("section")[0].innerHTML = xhr.responseText;
 		}
 	}
 
@@ -32,11 +34,32 @@ function request(callback, url){
 	xhr.send();
 }
 
-function readData(sData){
-	if(sData == "OK"){
-		alert("OK");
+
+function promote(id, promote){
+	var xhr = getXMLHttpRequest();
+	var url = "admin_users_actions.php?user=" + id + "&promote=" + promote;
+
+	xhr.onreadystatechange = function(){
+		if( xhr.readyState == 4 && (xhr.status == 200 || xhr.status == 0) ){
+			users_table_print();
+		}
 	}
-	else{
-		alert("Not OK");
+
+	xhr.open("GET", url, true);
+	xhr.send();
+}
+
+
+function block(id, block){
+	var xhr = getXMLHttpRequest();
+	var url = "admin_users_actions.php?user=" + id + "&block=" + block;
+
+	xhr.onreadystatechange = function(){
+		if( xhr.readyState == 4 && (xhr.status == 200 || xhr.status == 0) ){
+			users_table_print();
+		}
 	}
+
+	xhr.open("GET", url, true);
+	xhr.send();
 }
