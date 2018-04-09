@@ -11,7 +11,7 @@
 
 ?>
 
-    <body>
+<body>
     <?php   include 'assets/include/header.php'; ?>
     <section>
-    <script src="function.js" onload="users_table_print()"></script>
+        <script src="function.js" onload="users_table_print()"></script>
