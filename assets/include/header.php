@@ -24,6 +24,9 @@
           <li class="nav-item">
             <a class="nav-link nav-link-head" href="book.php">Réserver</a>
           </li>
+          <li class="nav-item">
+            <a class="nav-link nav-link-head" href="support.php">Support</a>
+          </li>
         <?php
             if(isset($_SESSION["account"]["admin"]) && $_SESSION["account"]["admin"] == 1){
                 echo '  <li class="nav-item">

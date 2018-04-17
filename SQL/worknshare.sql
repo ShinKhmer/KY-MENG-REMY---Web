@@ -1,15 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 4.7.4
+-- version 4.6.4
 -- https://www.phpmyadmin.net/
 --
--- Hôte : 127.0.0.1:3306
--- Généré le :  ven. 30 mars 2018 à 03:19
--- Version du serveur :  5.7.19
--- Version de PHP :  5.6.31
+-- Client :  127.0.0.1
+-- Généré le :  Mar 17 Avril 2018 à 22:15
+-- Version du serveur :  5.7.14
+-- Version de PHP :  5.6.25
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
-START TRANSACTION;
 SET time_zone = "+00:00";
 
 
@@ -28,13 +26,11 @@ SET time_zone = "+00:00";
 -- Structure de la table `booking`
 --
 
-DROP TABLE IF EXISTS `booking`;
-CREATE TABLE IF NOT EXISTS `booking` (
+CREATE TABLE `booking` (
   `id_room` int(11) NOT NULL,
   `id_customer` int(11) NOT NULL,
   `begin_booking` datetime NOT NULL,
-  `end_booking` datetime NOT NULL,
-  PRIMARY KEY (`id_room`,`id_customer`)
+  `end_booking` datetime NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -43,9 +39,8 @@ CREATE TABLE IF NOT EXISTS `booking` (
 -- Structure de la table `customers`
 --
 
-DROP TABLE IF EXISTS `customers`;
-CREATE TABLE IF NOT EXISTS `customers` (
-  `id_customer` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `customers` (
+  `id_customer` int(11) NOT NULL,
   `blocked` tinyint(4) NOT NULL DEFAULT '0',
   `name_customer` varchar(80) NOT NULL,
   `last_name_customer` varchar(80) NOT NULL,
@@ -59,17 +54,16 @@ CREATE TABLE IF NOT EXISTS `customers` (
   `is_student` tinyint(4) NOT NULL DEFAULT '0',
   `begin_subscription` datetime DEFAULT NULL,
   `end_subscription` datetime DEFAULT NULL,
-  `id_subscription` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id_customer`)
-) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+  `id_subscription` int(11) DEFAULT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Déchargement des données de la table `customers`
+-- Contenu de la table `customers`
 --
 
 INSERT INTO `customers` (`id_customer`, `blocked`, `name_customer`, `last_name_customer`, `phone_number_customer`, `email_customer`, `pseudo_customer`, `password_customer`, `code_customer`, `token`, `inside`, `is_student`, `begin_subscription`, `end_subscription`, `id_subscription`) VALUES
-(1, 0, 'test', 'oro', '0102030405', 'test.oro@work.com', 'test', '$2y$10$8DqJjOJTWKMRWMqs2TeizORdxdOaBwtHj7uTeXzykqKSNfIhwRxeW', 'noRVxdaCCo', '20b36f2618ee914003d45ee338d2b323', 0, 0, NULL, NULL, 1),
-(2, 0, 'testo', 'oro', '0102030404', 'testo.oro@work.com', 'testo', '$2y$10$jREI4WhtB09ayJpAQiQkY.Q0Yd5Dj5avDX6bJZTtU3MqORY1FFrQO', 'XnIgzcsras', '7cc16b535805b901fc2e0f9396650637', 0, 0, NULL, NULL, 3);
+(1, 0, 'test', 'oro', '0102030405', 'test.oro@work.com', 'test', '$2y$10$8DqJjOJTWKMRWMqs2TeizORdxdOaBwtHj7uTeXzykqKSNfIhwRxeW', 'noRVxdaCCo', '78c0964e76ef0fb896353fd014453703', 0, 0, '2018-04-05 00:00:00', '2018-05-05 00:00:00', 2),
+(2, 0, 'testo', 'oro', '0102030404', 'testo.oro@work.com', 'testo', '$2y$10$jREI4WhtB09ayJpAQiQkY.Q0Yd5Dj5avDX6bJZTtU3MqORY1FFrQO', 'XnIgzcsras', 'c42dff4ceac1fb2208bb8e983fadb860', 0, 0, NULL, NULL, 3);
 
 -- --------------------------------------------------------
 
@@ -77,22 +71,21 @@ INSERT INTO `customers` (`id_customer`, `blocked`, `name_customer`, `last_name_c
 -- Structure de la table `equipment`
 --
 
-DROP TABLE IF EXISTS `equipment`;
-CREATE TABLE IF NOT EXISTS `equipment` (
-  `id_equipment` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `equipment` (
+  `id_equipment` int(11) NOT NULL,
   `name_equipment` varchar(100) NOT NULL,
-  `quantity` int(11) NOT NULL,
-  `id_location` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id_equipment`)
-) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+  `reference` varchar(25) DEFAULT NULL,
+  `state` tinyint(4) NOT NULL DEFAULT '1',
+  `id_location` int(11) DEFAULT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Déchargement des données de la table `equipment`
+-- Contenu de la table `equipment`
 --
 
-INSERT INTO `equipment` (`id_equipment`, `name_equipment`, `quantity`, `id_location`) VALUES
-(1, 'Ordinateur', 2, 1),
-(2, 'Ordinateur', 5, 2);
+INSERT INTO `equipment` (`id_equipment`, `name_equipment`, `reference`, `state`, `id_location`) VALUES
+(1, 'Ordi', NULL, 1, 1),
+(2, 'Ordi', NULL, 1, 2);
 
 -- --------------------------------------------------------
 
@@ -100,18 +93,16 @@ INSERT INTO `equipment` (`id_equipment`, `name_equipment`, `quantity`, `id_locat
 -- Structure de la table `history`
 --
 
-DROP TABLE IF EXISTS `history`;
-CREATE TABLE IF NOT EXISTS `history` (
-  `id_history` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `history` (
+  `id_history` int(11) NOT NULL,
   `date_entry` datetime DEFAULT NULL,
   `date_exit` datetime DEFAULT NULL,
   `id_customer` int(11) DEFAULT NULL,
-  `id_location` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id_history`)
-) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+  `id_location` int(11) DEFAULT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Déchargement des données de la table `history`
+-- Contenu de la table `history`
 --
 
 INSERT INTO `history` (`id_history`, `date_entry`, `date_exit`, `id_customer`, `id_location`) VALUES
@@ -124,16 +115,14 @@ INSERT INTO `history` (`id_history`, `date_entry`, `date_exit`, `id_customer`, `
 -- Structure de la table `location`
 --
 
-DROP TABLE IF EXISTS `location`;
-CREATE TABLE IF NOT EXISTS `location` (
-  `id_location` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `location` (
+  `id_location` int(11) NOT NULL,
   `town` varchar(50) NOT NULL,
-  `address` varchar(255) NOT NULL,
-  PRIMARY KEY (`id_location`)
-) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+  `address` varchar(255) NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Déchargement des données de la table `location`
+-- Contenu de la table `location`
 --
 
 INSERT INTO `location` (`id_location`, `town`, `address`) VALUES
@@ -150,13 +139,11 @@ INSERT INTO `location` (`id_location`, `town`, `address`) VALUES
 -- Structure de la table `renting_equipment`
 --
 
-DROP TABLE IF EXISTS `renting_equipment`;
-CREATE TABLE IF NOT EXISTS `renting_equipment` (
+CREATE TABLE `renting_equipment` (
   `id_customer` int(11) NOT NULL,
   `id_equipment` int(11) NOT NULL,
   `date_rent` datetime DEFAULT NULL,
-  `date_return` datetime DEFAULT NULL,
-  PRIMARY KEY (`id_customer`,`id_equipment`)
+  `date_return` datetime DEFAULT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -165,18 +152,16 @@ CREATE TABLE IF NOT EXISTS `renting_equipment` (
 -- Structure de la table `room`
 --
 
-DROP TABLE IF EXISTS `room`;
-CREATE TABLE IF NOT EXISTS `room` (
-  `id_room` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `room` (
+  `id_room` int(11) NOT NULL,
   `type_room` varchar(100) NOT NULL,
   `number_places` int(11) NOT NULL,
   `booked` tinyint(4) NOT NULL DEFAULT '0',
-  `id_location` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id_room`)
-) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+  `id_location` int(11) DEFAULT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Déchargement des données de la table `room`
+-- Contenu de la table `room`
 --
 
 INSERT INTO `room` (`id_room`, `type_room`, `number_places`, `booked`, `id_location`) VALUES
@@ -189,18 +174,16 @@ INSERT INTO `room` (`id_room`, `type_room`, `number_places`, `booked`, `id_locat
 -- Structure de la table `schedule`
 --
 
-DROP TABLE IF EXISTS `schedule`;
-CREATE TABLE IF NOT EXISTS `schedule` (
-  `id_schedule` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `schedule` (
+  `id_schedule` int(11) NOT NULL,
   `day` varchar(9) NOT NULL,
   `begin_schedule` time NOT NULL,
   `end_schedule` time NOT NULL,
-  `id_location` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id_schedule`)
-) ENGINE=MyISAM AUTO_INCREMENT=43 DEFAULT CHARSET=utf8;
+  `id_location` int(11) DEFAULT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Déchargement des données de la table `schedule`
+-- Contenu de la table `schedule`
 --
 
 INSERT INTO `schedule` (`id_schedule`, `day`, `begin_schedule`, `end_schedule`, `id_location`) VALUES
@@ -253,20 +236,18 @@ INSERT INTO `schedule` (`id_schedule`, `day`, `begin_schedule`, `end_schedule`, 
 -- Structure de la table `staff`
 --
 
-DROP TABLE IF EXISTS `staff`;
-CREATE TABLE IF NOT EXISTS `staff` (
+CREATE TABLE `staff` (
   `is_admin` tinyint(4) NOT NULL DEFAULT '0',
-  `id_customer` int(11) NOT NULL,
-  PRIMARY KEY (`id_customer`)
+  `id_customer` int(11) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Déchargement des données de la table `staff`
+-- Contenu de la table `staff`
 --
 
 INSERT INTO `staff` (`is_admin`, `id_customer`) VALUES
 (1, 1),
-(0, 2);
+(1, 2);
 
 -- --------------------------------------------------------
 
@@ -274,11 +255,9 @@ INSERT INTO `staff` (`is_admin`, `id_customer`) VALUES
 -- Structure de la table `staff_ticket`
 --
 
-DROP TABLE IF EXISTS `staff_ticket`;
-CREATE TABLE IF NOT EXISTS `staff_ticket` (
+CREATE TABLE `staff_ticket` (
   `id_ticket` int(11) NOT NULL,
-  `id_customer` int(11) NOT NULL,
-  PRIMARY KEY (`id_ticket`,`id_customer`)
+  `id_customer` int(11) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -287,18 +266,16 @@ CREATE TABLE IF NOT EXISTS `staff_ticket` (
 -- Structure de la table `subscription`
 --
 
-DROP TABLE IF EXISTS `subscription`;
-CREATE TABLE IF NOT EXISTS `subscription` (
-  `id_subscription` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `subscription` (
+  `id_subscription` int(11) NOT NULL,
   `type_subscription` varchar(255) NOT NULL,
   `price_with_engagement` double DEFAULT NULL,
   `price_without_engagement` double DEFAULT NULL,
-  `description` longtext,
-  PRIMARY KEY (`id_subscription`)
-) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+  `description` longtext
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Déchargement des données de la table `subscription`
+-- Contenu de la table `subscription`
 --
 
 INSERT INTO `subscription` (`id_subscription`, `type_subscription`, `price_with_engagement`, `price_without_engagement`, `description`) VALUES
@@ -312,17 +289,182 @@ INSERT INTO `subscription` (`id_subscription`, `type_subscription`, `price_with_
 -- Structure de la table `ticket`
 --
 
-DROP TABLE IF EXISTS `ticket`;
-CREATE TABLE IF NOT EXISTS `ticket` (
-  `id_ticket` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `ticket` (
+  `id_ticket` int(11) NOT NULL,
   `subject` varchar(255) NOT NULL,
   `description` longtext NOT NULL,
+  `date_creation` timestamp NULL DEFAULT NULL,
   `id_customer` int(11) DEFAULT NULL,
   `id_equipment` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id_ticket`)
+  `state` tinyint(4) NOT NULL DEFAULT '0'
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-COMMIT;
 
+--
+-- Contenu de la table `ticket`
+--
+
+INSERT INTO `ticket` (`id_ticket`, `subject`, `description`, `date_creation`, `id_customer`, `id_equipment`, `state`) VALUES
+(1, 'Test', 'Ceci est un test', NULL, 1, 1, 0);
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `ticket_message`
+--
+
+CREATE TABLE `ticket_message` (
+  `id_message` int(11) NOT NULL,
+  `message` longtext,
+  `id_ticket` int(11) DEFAULT NULL,
+  `id_customer` int(11) DEFAULT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+--
+-- Contenu de la table `ticket_message`
+--
+
+INSERT INTO `ticket_message` (`id_message`, `message`, `id_ticket`, `id_customer`) VALUES
+(1, NULL, 1, 1),
+(2, NULL, 1, 1),
+(3, NULL, 1, 1),
+(4, NULL, 1, 1),
+(5, 'Yo', 1, 1),
+(6, 'Ceci est vraiment un test', 1, 1),
+(7, 'Yo hÃ©hÃ©', 1, 1),
+(8, 'Yo hehe', 1, 1),
+(9, 'Yo !!!', 1, 1);
+
+--
+-- Index pour les tables exportées
+--
+
+--
+-- Index pour la table `booking`
+--
+ALTER TABLE `booking`
+  ADD PRIMARY KEY (`id_room`,`id_customer`);
+
+--
+-- Index pour la table `customers`
+--
+ALTER TABLE `customers`
+  ADD PRIMARY KEY (`id_customer`);
+
+--
+-- Index pour la table `equipment`
+--
+ALTER TABLE `equipment`
+  ADD PRIMARY KEY (`id_equipment`);
+
+--
+-- Index pour la table `history`
+--
+ALTER TABLE `history`
+  ADD PRIMARY KEY (`id_history`);
+
+--
+-- Index pour la table `location`
+--
+ALTER TABLE `location`
+  ADD PRIMARY KEY (`id_location`);
+
+--
+-- Index pour la table `renting_equipment`
+--
+ALTER TABLE `renting_equipment`
+  ADD PRIMARY KEY (`id_customer`,`id_equipment`);
+
+--
+-- Index pour la table `room`
+--
+ALTER TABLE `room`
+  ADD PRIMARY KEY (`id_room`);
+
+--
+-- Index pour la table `schedule`
+--
+ALTER TABLE `schedule`
+  ADD PRIMARY KEY (`id_schedule`);
+
+--
+-- Index pour la table `staff`
+--
+ALTER TABLE `staff`
+  ADD PRIMARY KEY (`id_customer`);
+
+--
+-- Index pour la table `staff_ticket`
+--
+ALTER TABLE `staff_ticket`
+  ADD PRIMARY KEY (`id_ticket`,`id_customer`);
+
+--
+-- Index pour la table `subscription`
+--
+ALTER TABLE `subscription`
+  ADD PRIMARY KEY (`id_subscription`);
+
+--
+-- Index pour la table `ticket`
+--
+ALTER TABLE `ticket`
+  ADD PRIMARY KEY (`id_ticket`);
+
+--
+-- Index pour la table `ticket_message`
+--
+ALTER TABLE `ticket_message`
+  ADD PRIMARY KEY (`id_message`);
+
+--
+-- AUTO_INCREMENT pour les tables exportées
+--
+
+--
+-- AUTO_INCREMENT pour la table `customers`
+--
+ALTER TABLE `customers`
+  MODIFY `id_customer` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+--
+-- AUTO_INCREMENT pour la table `equipment`
+--
+ALTER TABLE `equipment`
+  MODIFY `id_equipment` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+--
+-- AUTO_INCREMENT pour la table `history`
+--
+ALTER TABLE `history`
+  MODIFY `id_history` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+--
+-- AUTO_INCREMENT pour la table `location`
+--
+ALTER TABLE `location`
+  MODIFY `id_location` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+--
+-- AUTO_INCREMENT pour la table `room`
+--
+ALTER TABLE `room`
+  MODIFY `id_room` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+--
+-- AUTO_INCREMENT pour la table `schedule`
+--
+ALTER TABLE `schedule`
+  MODIFY `id_schedule` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
+--
+-- AUTO_INCREMENT pour la table `subscription`
+--
+ALTER TABLE `subscription`
+  MODIFY `id_subscription` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+--
+-- AUTO_INCREMENT pour la table `ticket`
+--
+ALTER TABLE `ticket`
+  MODIFY `id_ticket` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+--
+-- AUTO_INCREMENT pour la table `ticket_message`
+--
+ALTER TABLE `ticket_message`
+  MODIFY `id_message` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

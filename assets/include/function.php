@@ -193,8 +193,9 @@ function loginCustomer() {
 		if(password_verify($_POST["password"],$data["password_customer"])) {
 
             // Mettre les identifiants en session
-            $_SESSION["account"]["token"] = generateAccessToken($_POST["pseudo"]);
-            $_SESSION["account"]["pseudo"] = $_POST["pseudo"];
+            $_SESSION["account"]["id_customer"] = $data['id_customer'];
+            $_SESSION["account"]['token'] = generateAccessToken($_POST['pseudo']);
+            $_SESSION["account"]["pseudo"] = $_POST['pseudo'];
             $_SESSION["account"]["name"] = $data['name_customer'];
             $_SESSION["account"]["last_name"] = $data['last_name_customer'];
             $_SESSION["account"]["email"] = $data['email_customer'];
@@ -294,6 +295,18 @@ function editCustomer() {
    }
 }
 
+function customers_data($id_customer){
+    $db = connectDb();
+
+    $query = $db->prepare("SELECT * FROM CUSTOMERS WHERE id_customer=:id_customer");
+    $query->bindParam('id_customer', $id_customer);
+
+    $query->execute();
+    $result = $query->fetch();
+
+    return $result;
+}
+
 function subscription_view($pseudo){
     $db = connectDb();
 
@@ -325,6 +338,55 @@ function subscription_update($pseudo, $id_subscription){
     $query->bindParam(':begin_subscription', $begin);
     $query->bindParam(':end_subscription', $end);
     $query->bindParam(':pseudo_customer', $pseudo);
+
+    $query->execute();
+}
+
+/* SUPPORT */
+function support_customer_view($id_customer){
+    $db = connectDb();
+
+    $query = $db->prepare("SELECT * FROM TICKET WHERE id_customer=:id_customer");
+    $query->bindParam(':id_customer', $id_customer);
+
+    $query->execute();
+    $result = $query->fetchAll();
+
+    return $result;
+}
+
+function support_ticket_view($id_ticket){
+    $db = connectDb();
+
+    $query = $db->prepare("SELECT * FROM TICKET WHERE id_ticket=:id_ticket");
+    $query->bindParam('id_ticket', $id_ticket);
+
+    $query->execute();
+    $result = $query->fetch();
+
+    return $result;
+}
+
+
+function support_messages_view($id_ticket){
+    $db = connectDb();
+
+    $query = $db->prepare("SELECT * FROM TICKET_MESSAGE WHERE id_ticket=:id_ticket ORDER BY id_ticket ASC");
+    $query->bindParam('id_ticket', $id_ticket);
+
+    $query->execute();
+    $result = $query->fetchAll();
+
+    return $result;
+}
+
+function support_message_send($id_customer, $id_ticket, $message){
+    $db = connectDb();
+
+    $query = $db->prepare("INSERT INTO TICKET_MESSAGE(message, id_ticket, id_customer) VALUES(:message, :id_ticket, :id_customer)");
+    $query->bindParam('message', $message);
+    $query->bindParam('id_ticket', $id_ticket);
+    $query->bindParam('id_customer', $id_customer);
 
     $query->execute();
 }

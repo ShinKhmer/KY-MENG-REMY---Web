@@ -98,3 +98,38 @@ function equipment_edit(id_equipment, id_location){
 	xhr.open("GET", url, true);
 	xhr.send();
 }
+
+/* SUPPORT */
+function support_messages_print(id_ticket){
+	var xhr = getXMLHttpRequest();
+	var url = "support_messages.php?ticket=" + id_ticket;
+	console.log(url);
+
+	xhr.onreadystatechange = function(){
+		if( xhr.readyState == 4 && (xhr.status == 200 || xhr.status == 0) ){
+			document.getElementById("support-js").innerHTML = xhr.responseText;
+		}
+	}
+
+	xhr.open("GET", url, true);
+	xhr.send();
+}
+
+function support_message_add(id_customer, id_ticket){
+	var xhr = getXMLHttpRequest();
+	var message = document.getElementsByName("message")[0].value;
+
+	var url = "support_messages.php";
+	var values = "customer=" + id_customer + "&ticket=" + id_ticket + "&message=" + message;
+
+	xhr.onreadystatechange = function(){
+		if( xhr.readyState == 4 && (xhr.status == 200 || xhr.status == 0) ){
+			console.log("message send");
+			support_messages_print(id_ticket);
+		}
+	}
+
+	xhr.open("POST", url, true);
+	xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+	xhr.send(values);
+}
