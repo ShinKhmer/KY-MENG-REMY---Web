@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Client :  127.0.0.1
--- Généré le :  Mar 17 Avril 2018 à 22:15
+-- Généré le :  Jeu 19 Avril 2018 à 01:39
 -- Version du serveur :  5.7.14
 -- Version de PHP :  5.6.25
 
@@ -62,7 +62,7 @@ CREATE TABLE `customers` (
 --
 
 INSERT INTO `customers` (`id_customer`, `blocked`, `name_customer`, `last_name_customer`, `phone_number_customer`, `email_customer`, `pseudo_customer`, `password_customer`, `code_customer`, `token`, `inside`, `is_student`, `begin_subscription`, `end_subscription`, `id_subscription`) VALUES
-(1, 0, 'test', 'oro', '0102030405', 'test.oro@work.com', 'test', '$2y$10$8DqJjOJTWKMRWMqs2TeizORdxdOaBwtHj7uTeXzykqKSNfIhwRxeW', 'noRVxdaCCo', '78c0964e76ef0fb896353fd014453703', 0, 0, '2018-04-05 00:00:00', '2018-05-05 00:00:00', 2),
+(1, 0, 'test', 'oro', '0102030405', 'test.oro@work.com', 'test', '$2y$10$8DqJjOJTWKMRWMqs2TeizORdxdOaBwtHj7uTeXzykqKSNfIhwRxeW', 'noRVxdaCCo', '086304c32adcd41dcbcb3d4f93016e12', 0, 0, '2018-04-05 00:00:00', '2018-05-05 00:00:00', 2),
 (2, 0, 'testo', 'oro', '0102030404', 'testo.oro@work.com', 'testo', '$2y$10$jREI4WhtB09ayJpAQiQkY.Q0Yd5Dj5avDX6bJZTtU3MqORY1FFrQO', 'XnIgzcsras', 'c42dff4ceac1fb2208bb8e983fadb860', 0, 0, NULL, NULL, 3);
 
 -- --------------------------------------------------------
@@ -84,8 +84,9 @@ CREATE TABLE `equipment` (
 --
 
 INSERT INTO `equipment` (`id_equipment`, `name_equipment`, `reference`, `state`, `id_location`) VALUES
-(1, 'Ordi', NULL, 1, 1),
-(2, 'Ordi', NULL, 1, 2);
+(1, 'Ordinateur', 'COBA1', 1, 1),
+(2, 'Ordinateur', 'COBE1', 1, 2),
+(4, 'Routeur', 'ROBA1', 1, 1);
 
 -- --------------------------------------------------------
 
@@ -304,7 +305,8 @@ CREATE TABLE `ticket` (
 --
 
 INSERT INTO `ticket` (`id_ticket`, `subject`, `description`, `date_creation`, `id_customer`, `id_equipment`, `state`) VALUES
-(1, 'Test', 'Ceci est un test', NULL, 1, 1, 0);
+(1, 'Test', 'Ceci est un test', NULL, 1, 1, 0),
+(2, 'ProblÃ¨me Ã©cran', 'L\'Ã©cran ne veut plus s\'allumer', NULL, 1, 1, 0);
 
 -- --------------------------------------------------------
 
@@ -354,7 +356,8 @@ ALTER TABLE `customers`
 -- Index pour la table `equipment`
 --
 ALTER TABLE `equipment`
-  ADD PRIMARY KEY (`id_equipment`);
+  ADD PRIMARY KEY (`id_equipment`),
+  ADD UNIQUE KEY `reference` (`reference`);
 
 --
 -- Index pour la table `history`
@@ -429,7 +432,7 @@ ALTER TABLE `customers`
 -- AUTO_INCREMENT pour la table `equipment`
 --
 ALTER TABLE `equipment`
-  MODIFY `id_equipment` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_equipment` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT pour la table `history`
 --
@@ -459,7 +462,7 @@ ALTER TABLE `subscription`
 -- AUTO_INCREMENT pour la table `ticket`
 --
 ALTER TABLE `ticket`
-  MODIFY `id_ticket` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_ticket` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT pour la table `ticket_message`
 --

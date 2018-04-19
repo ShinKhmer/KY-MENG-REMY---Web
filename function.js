@@ -133,3 +133,54 @@ function support_message_add(id_customer, id_ticket){
 	xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 	xhr.send(values);
 }
+
+function support_view_equipment_list(){
+	var xhr = getXMLHttpRequest();
+
+	var value = document.getElementsByName("category")[0].value;
+	console.log("value : " + value);
+
+	var url = "support_equipment_list.php?name=" + value;
+	console.log("url : " + url);
+
+	console.log("1");
+	console.log(document.getElementById("equipment_reference"));
+
+	xhr.onreadystatechange = function(){
+		if( xhr.readyState == 4 && (xhr.status == 200 || xhr.status == 0) ){
+			console.log("value2 : " + value);
+			if(value == "selection"){
+				document.getElementById("equipment_reference").innerHTML = "";
+			}
+			else{
+				document.getElementById("equipment_reference").innerHTML = xhr.responseText;
+			}
+		}
+	}
+
+	xhr.open("GET", url, true);
+	xhr.send();
+}
+
+function support_ticket_add(){
+	var xhr = getXMLHttpRequest();
+
+	var equipment_id = document.getElementsByName("equipment_id")[0].value;
+	var title = document.getElementsByName("title")[0].value;
+	var description = document.getElementsByName("message")[0].value;
+	console.log(equipment_id, title, description);
+
+	var url = "support.php";
+	var params = "id=" + equipment_id + "&title=" + title + "&description=" + description;
+	console.log(url + params);
+
+	xhr.onreadystatechange = function(){
+		if( xhr.readyState == 4 && (xhr.status == 200 || xhr.status == 0) ){
+			alert("Ticket envoyé");
+		}
+	}
+
+	xhr.open("POST", url, true);
+	xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+	xhr.send(params);
+}

@@ -285,3 +285,7 @@ p{
     padding-left: 10%;
     padding-right: 10%;
 }
+
+label{
+    color: black;
+}

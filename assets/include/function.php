@@ -367,6 +367,19 @@ function support_ticket_view($id_ticket){
     return $result;
 }
 
+function ticket_support_add($id_customer, $id_equipment, $title, $description){
+    $db = connectDb();
+
+    $query = $db->prepare(" INSERT INTO TICKET(subject, description, id_customer, id_equipment)
+                            VALUES(:subject, :description, :id_customer, :id_equipment)");
+    $query->bindParam('subject', $title);
+    $query->bindParam('description', $description);
+    $query->bindParam('id_customer', $id_customer);
+    $query->bindParam('id_equipment', $id_equipment);
+
+    $query->execute();
+}
+
 
 function support_messages_view($id_ticket){
     $db = connectDb();
@@ -390,5 +403,30 @@ function support_message_send($id_customer, $id_ticket, $message){
 
     $query->execute();
 }
+
+function support_search_category(){
+    $db = connectDb();
+
+    $query = $db->prepare("SELECT DISTINCT name_equipment FROM EQUIPMENT");
+    $query->execute();
+
+    $result = $query->fetchAll();
+
+    return $result;
+}
+
+function support_search_equipment($equipment_name){
+    $db = connectDb();
+
+    $query = $db->prepare("SELECT * FROM EQUIPMENT WHERE name_equipment=:name_equipment");
+    $query->bindParam('name_equipment', $equipment_name);
+
+    $query->execute();
+
+    $result = $query->fetchAll();
+
+    return $result;
+}
+
 
 ?>
