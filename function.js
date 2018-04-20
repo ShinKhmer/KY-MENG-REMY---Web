@@ -184,3 +184,27 @@ function support_ticket_add(){
 	xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 	xhr.send(params);
 }
+
+
+function support_ticket_lock(ticket, change){
+	var xhr = getXMLHttpRequest();
+	console.log(change);
+
+	if(change == true){
+		var url = "support_messages.php?ticket=" + ticket + "&lock=true";
+	}
+	else{
+		var url = "support_messages.php?ticket=" + ticket + "&lock=false";
+	}
+
+	console.log(url);
+
+	xhr.onreadystatechange = function(){
+		if( xhr.readyState == 4 && (xhr.status == 200 || xhr.status == 0) ){
+			support_messages_print(ticket);
+		}
+	}
+
+	xhr.open("GET", url, true);
+	xhr.send();
+}

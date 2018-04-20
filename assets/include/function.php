@@ -380,6 +380,16 @@ function ticket_support_add($id_customer, $id_equipment, $title, $description){
     $query->execute();
 }
 
+function support_ticket_locker($id_ticket, $state){
+    $db = connectDb();
+
+    $query = $db->prepare("UPDATE TICKET SET state=:state WHERE id_ticket=:id_ticket");
+    $query->bindParam('state', $state);
+    $query->bindParam('id_ticket', $id_ticket);
+
+    $query->execute();
+}
+
 
 function support_messages_view($id_ticket){
     $db = connectDb();

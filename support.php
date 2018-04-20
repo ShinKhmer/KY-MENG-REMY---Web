@@ -84,6 +84,7 @@
                                                           <span aria-hidden="true">&times;</span>
                                                       </button>
                                                   </div>
+                                                  
                                                   <div class="modal-body">
                                                       <form name="ticket_add" method="post" onsubmit="return false">
                                                           <div class="form-group">
@@ -110,12 +111,10 @@
                                                           </div>
                                                           <div class="form-group">
                                                               <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
-                                                              <button type="submit" data-dismiss="modal" onclick="support_ticket_add()" class="btn btn-primary">Envoyer</button>
+                                                              <button type="submit"  onclick="support_ticket_add()" class="btn btn-primary">Envoyer</button>
                                                           </div>
                                                       </form>
-
                                                   </div>
-
                                               </div>
                                           </div>
                                       </div>

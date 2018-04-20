@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Client :  127.0.0.1
--- Généré le :  Jeu 19 Avril 2018 à 01:39
+-- Généré le :  Ven 20 Avril 2018 à 16:30
 -- Version du serveur :  5.7.14
 -- Version de PHP :  5.6.25
 
@@ -62,8 +62,8 @@ CREATE TABLE `customers` (
 --
 
 INSERT INTO `customers` (`id_customer`, `blocked`, `name_customer`, `last_name_customer`, `phone_number_customer`, `email_customer`, `pseudo_customer`, `password_customer`, `code_customer`, `token`, `inside`, `is_student`, `begin_subscription`, `end_subscription`, `id_subscription`) VALUES
-(1, 0, 'test', 'oro', '0102030405', 'test.oro@work.com', 'test', '$2y$10$8DqJjOJTWKMRWMqs2TeizORdxdOaBwtHj7uTeXzykqKSNfIhwRxeW', 'noRVxdaCCo', '086304c32adcd41dcbcb3d4f93016e12', 0, 0, '2018-04-05 00:00:00', '2018-05-05 00:00:00', 2),
-(2, 0, 'testo', 'oro', '0102030404', 'testo.oro@work.com', 'testo', '$2y$10$jREI4WhtB09ayJpAQiQkY.Q0Yd5Dj5avDX6bJZTtU3MqORY1FFrQO', 'XnIgzcsras', 'c42dff4ceac1fb2208bb8e983fadb860', 0, 0, NULL, NULL, 3);
+(1, 0, 'test', 'oro', '0102030405', 'test.oro@work.com', 'test', '$2y$10$8DqJjOJTWKMRWMqs2TeizORdxdOaBwtHj7uTeXzykqKSNfIhwRxeW', 'noRVxdaCCo', '1d4d101f87769380ac92f41b7c0e53ec', 0, 0, '2018-04-05 00:00:00', '2018-05-05 00:00:00', 2),
+(2, 0, 'testo', 'oro', '0102030404', 'testo.oro@work.com', 'testo', '$2y$10$jREI4WhtB09ayJpAQiQkY.Q0Yd5Dj5avDX6bJZTtU3MqORY1FFrQO', 'XnIgzcsras', 'fd6f71729c1d11935ae6ba7a0db62faa', 0, 0, NULL, NULL, 3);
 
 -- --------------------------------------------------------
 
@@ -248,7 +248,7 @@ CREATE TABLE `staff` (
 
 INSERT INTO `staff` (`is_admin`, `id_customer`) VALUES
 (1, 1),
-(1, 2);
+(0, 2);
 
 -- --------------------------------------------------------
 
@@ -306,7 +306,7 @@ CREATE TABLE `ticket` (
 
 INSERT INTO `ticket` (`id_ticket`, `subject`, `description`, `date_creation`, `id_customer`, `id_equipment`, `state`) VALUES
 (1, 'Test', 'Ceci est un test', NULL, 1, 1, 0),
-(2, 'ProblÃ¨me Ã©cran', 'L\'Ã©cran ne veut plus s\'allumer', NULL, 1, 1, 0);
+(2, 'ProblÃ¨me Ã©cran', 'L\'Ã©cran ne veut plus s\'allumer', NULL, 1, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -334,7 +334,9 @@ INSERT INTO `ticket_message` (`id_message`, `message`, `id_ticket`, `id_customer
 (6, 'Ceci est vraiment un test', 1, 1),
 (7, 'Yo hÃ©hÃ©', 1, 1),
 (8, 'Yo hehe', 1, 1),
-(9, 'Yo !!!', 1, 1);
+(9, 'Yo !!!', 1, 1),
+(10, 'Hello !', 1, 1),
+(11, 'Bonjour', 2, 1);
 
 --
 -- Index pour les tables exportées
@@ -467,7 +469,7 @@ ALTER TABLE `ticket`
 -- AUTO_INCREMENT pour la table `ticket_message`
 --
 ALTER TABLE `ticket_message`
-  MODIFY `id_message` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id_message` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

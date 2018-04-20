@@ -32,7 +32,7 @@
             $query = $db->prepare("INSERT INTO EQUIPMENT(name_equipment, quantity, id_location) VALUES(:name_equipment, :quantity, :id_location)");
 
             $query->execute([   "name_equipment" => $_POST["equipment_name"],
-                                "quantity" => $_POST["equipment_quantity"],
+                                "reference" => $_POST["reference"],
                                 "id_location" => $_POST["place_select"]
                             ]);
 
@@ -73,8 +73,8 @@
                                         </div>
                                         <div class="form-group">
                                             <center>
-                                                <label>Quantité :</label>
-                                                <input type="text" class="form-control" name="equipment_quantity" placeholder="Quantité" required="required">
+                                                <label>Référence :</label>
+                                                <input type="text" class="form-control" name="reference" placeholder="Référence" required="required">
                                             </center>
                                         </div>
                                         <button type="submit" class="btn btn-primary">Valider</button>

@@ -27,11 +27,9 @@ $ticket_base = support_ticket_view($_GET["ticket"]);
                 <div class="row" style="margin-top:50px;">
                     <div class="col-lg-12">
                         <div class="card-deck">
-                            <div class="card card-profile text-center border border-info border-profile">
-                                <h5 class="card-header card-header-profile">Ticket #<?php echo $_GET["ticket"].'<br>'.$ticket_base["subject"]; ?></h5>
-                                <div id="support-js" class="card-body card-body-profile">
+                            <div id="support-js" class="card card-profile text-center border border-info border-profile">
+                                    <!-- AJAX -->
                                     <script src="function.js" onload="support_messages_print(<?php echo $_GET["ticket"]; ?>)"></script>
-                                </div>
                             </div>
                         </div>
                     </div>
