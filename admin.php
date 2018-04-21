@@ -22,7 +22,8 @@
                                 <a class="btn btn-secondary" href="admin_equipments.php" role="button">Modifier l'inventaire des équipements</a><br>
                                 <a class="btn btn-secondary" href="admin_schedules.php" role="button">Modifier l'horaire d'un site</a><br>
                                 <a class="btn btn-secondary" href="admin_rooms.php" role="button">Ajouter ou modifier une salle</a><br>
-                                <a class="btn btn-secondary" href="admin_subscriptions.php" role="button">Ajouter ou modifier un abonnement</a>
+                                <a class="btn btn-secondary" href="admin_subscriptions.php" role="button">Ajouter ou modifier un abonnement</a><br>
+                                <a class="btn btn-secondary" href="admin_subscriptions_notify.php" role="button">Envoyer un mail</a>
                             </div>
                         </div>
                     </div>

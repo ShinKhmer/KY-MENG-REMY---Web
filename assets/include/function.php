@@ -295,11 +295,34 @@ function editCustomer() {
    }
 }
 
+function customers_list(){
+    $db = connectDb();
+
+    $query = $db->prepare("SELECT * FROM CUSTOMERS");
+    $query->execute();
+
+    $result = $query->fetchAll(PDO::FETCH_ASSOC);
+
+    return $result;
+}
+
 function customers_data($id_customer){
     $db = connectDb();
 
     $query = $db->prepare("SELECT * FROM CUSTOMERS WHERE id_customer=:id_customer");
     $query->bindParam('id_customer', $id_customer);
+
+    $query->execute();
+    $result = $query->fetch();
+
+    return $result;
+}
+
+function customers_data_by_email($email){
+    $db = connectDb();
+
+    $query = $db->prepare("SELECT * FROM CUSTOMERS WHERE email_customer=:email_customer");
+    $query->bindParam('email_customer', $email);
 
     $query->execute();
     $result = $query->fetch();

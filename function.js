@@ -99,6 +99,24 @@ function equipment_edit(id_equipment, id_location){
 	xhr.send();
 }
 
+/* SEND MAIL */
+function send_mail(mail){
+	var xhr = getXMLHttpRequest();
+	var url = "admin_subscriptions_notify.php";
+	var param = "mail=" + mail;
+	console.log(url);
+
+	xhr.onreadystatechange = function(){
+		if( xhr.readyState == 4 && (xhr.status == 200 || xhr.status == 0) ){
+			alert("Mail envoyé à " + mail);
+		}
+	}
+
+	xhr.open("POST", url, true);
+	xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+	xhr.send(param);
+}
+
 /* SUPPORT */
 function support_messages_print(id_ticket){
 	var xhr = getXMLHttpRequest();
