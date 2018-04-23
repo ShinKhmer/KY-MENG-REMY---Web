@@ -2,29 +2,28 @@
 require 'assets/include/function.php';
 $db = connectDb();
 
-$query = $db->prepare("SELECT * FROM EQUIPMENT");
+$query = $db->prepare("SELECT * FROM EQUIPMENT WHERE deleted=0 ORDER BY id_location, name_equipment ASC ");
 
 $query->execute();
 
 $result = $query->fetchAll();
 
-function name_town($id,$db){
-    $query = $db->prepare("SELECT * FROM LOCATION WHERE id_location=:plop");
-    $query->execute(["plop" => $id]);
-    $result2 = $query->fetch(PDO::FETCH_ASSOC);
-    return $result2['town'];
-}
-
-/** UPDATE DATAS **/
 if( isset($_GET) && !empty($_GET) ){
 
-    $query = $db->prepare("UPDATE EQUIPMENT SET name_equipment=:name_equipment, quantity=:quantity WHERE id_equipment=:id_equipment AND id_location=:id_location");
+    /* ADD DATA */
+    if($_GET["add"] == true){
+        add_equipment($_GET["name"], $_GET["reference"], $_GET["location"]);
+    }
 
-    $query->execute([   "name_equipment" => $_GET["name"],
-                        "quantity" => $_GET["quantity"],
-                        "id_equipment" => $_GET["id"],
-                        "id_location" => $_GET["location"]
-                    ]);
+    /* UPDATE DATA */
+    if($_GET["edit"] == true){
+        edit_equipment($_GET["id"], $_GET["name"], $_GET["reference"], $_GET["location"]);
+    }
+
+    /* DELETE DATA */
+    if($_GET["delete"] == true){
+        delete_equipment($_GET["id"]);
+    }
 }
 
 ?>
@@ -42,19 +41,18 @@ if( isset($_GET) && !empty($_GET) ){
                         <tr>
                             <th>Lieu</th>
                             <th>Equipement</th>
-                            <th>Quantité</th>
+                            <th>Référence</th>
                         </tr>
                         <?php
                             $i = 0;
                             foreach($result as $res){
-                                    $db = connectDb();
-                                    $name =name_town($res[3],$db);
+                                    $name = name_town($res["id_location"]);
                                 echo '  <tr>
                                             <td><center>'.$name.'</center></td>
-                                            <td><center>'.$res[1].'</center></td>
-                                            <td><center>'.$res[2].'</center></td>';
+                                            <td><center>'.$res["name_equipment"].'</center></td>
+                                            <td><center>'.$res["reference"].'</center></td>';
 
-                                            /* POP UP EN FONCTION DE LA LIGNE RECUPEREE */
+                                            /* EDIT A LINE */
                                 echo '      <td><button class="btn btn-primary" data-toggle="modal" data-target="#equipment_pop_up_'.$i.'" style="margin-left: 50px;">Modifier</button></td>
                                         </tr>
 
@@ -72,15 +70,16 @@ if( isset($_GET) && !empty($_GET) ){
                                                         <form name="equipments_form" method="post" onsubmit="return false">
                                                             <div class="form-group">
                                                                     <label>Equipement</label>
-                                                                    <input type="text" class="form-control" name="equipment_name">
+                                                                    <input type="text" class="form-control" name="equipment_name" value="'.$res["name_equipment"].'">
                                                             </div>
                                                             <div class="form-group">
-                                                                    <label>Quantité</label>
-                                                                    <input type="text" class="form-control" name="equipment_quantity">
+                                                                    <label>Référence</label>
+                                                                    <input type="text" class="form-control" name="equipment_reference" value="'.$res["reference"].'">
                                                             </div>
                                                             <div class="form-group">
                                                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                                <button type="submit" data-dismiss="modal" onclick="equipment_edit('.$res[0].', '.$res[3].')" class="btn btn-primary">Save changes</button>
+                                                                <button type="submit" data-dismiss="modal" onclick="admin_equipment_edit('.$res["id_equipment"].', '.$res["id_location"].', '.$i.')" class="btn btn-primary">Save changes</button>
+                                                                <button class="btn btn-danger" data-dismiss="modal" onclick="admin_equipment_delete('.$res["id_equipment"].')">Supprimer</button>
                                                             </div>
                                                         </form>
 
@@ -95,7 +94,50 @@ if( isset($_GET) && !empty($_GET) ){
                          ?>
                     </table>
 
-                    <a class="btn btn-secondary" href="admin_equipments_add.php" role="button" style="margin-left:45%">Ajouter</a>
+                    <!-- ADD EQUIPMENT -->
+                    <td><button class="btn btn-info" data-toggle="modal" data-target="#modal_add_equipment" style="margin-left: 50px;">Ajouter</button></td>
+
+                    <div class="modal fade" id="modal_add_equipment" tabindex="-1" role="dialog" aria-labelledby="Ajouter un équipement" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Ajouter un équipement</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <form name="equipments_form_add" method="post" onsubmit="return false">
+                                        <div class="form-group">
+                                            <label>Lieu</label>
+                                            <select class="form-control" name="equipment_location_add">
+                                                <?php
+                                                $locations = location_data();
+                                                foreach($locations as $loc){
+                                                    echo '<option value="'.$loc["id_location"].'">'.name_town($loc["id_location"]).'</option>';
+                                                }
+                                                ?>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Equipement</label>
+                                            <input type="text" class="form-control" name="equipment_name_add">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Référence</label>
+                                            <input type="text" class="form-control" name="equipment_reference_add">
+                                        </div>
+                                        <div class="form-group">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                            <button type="submit" data-dismiss="modal" onclick="admin_equipment_add()" class="btn btn-primary">Save changes</button>
+                                        </div>
+                                    </form>
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
                 </div>
               </div>
             </div>

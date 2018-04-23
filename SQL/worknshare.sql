@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Client :  127.0.0.1
--- Généré le :  Ven 20 Avril 2018 à 16:30
+-- Généré le :  Lun 23 Avril 2018 à 19:04
 -- Version du serveur :  5.7.14
 -- Version de PHP :  5.6.25
 
@@ -29,9 +29,17 @@ SET time_zone = "+00:00";
 CREATE TABLE `booking` (
   `id_room` int(11) NOT NULL,
   `id_customer` int(11) NOT NULL,
-  `begin_booking` datetime NOT NULL,
-  `end_booking` datetime NOT NULL
+  `begin_booking` time DEFAULT NULL,
+  `end_booking` time DEFAULT NULL,
+  `date_booking` date DEFAULT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+--
+-- Contenu de la table `booking`
+--
+
+INSERT INTO `booking` (`id_room`, `id_customer`, `begin_booking`, `end_booking`, `date_booking`) VALUES
+(1, 1, '10:00:00', '11:30:00', '2018-04-28');
 
 -- --------------------------------------------------------
 
@@ -54,16 +62,17 @@ CREATE TABLE `customers` (
   `is_student` tinyint(4) NOT NULL DEFAULT '0',
   `begin_subscription` datetime DEFAULT NULL,
   `end_subscription` datetime DEFAULT NULL,
-  `id_subscription` int(11) DEFAULT NULL
+  `id_subscription` int(11) DEFAULT NULL,
+  `renewal_subscription` tinyint(4) DEFAULT '1'
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
 -- Contenu de la table `customers`
 --
 
-INSERT INTO `customers` (`id_customer`, `blocked`, `name_customer`, `last_name_customer`, `phone_number_customer`, `email_customer`, `pseudo_customer`, `password_customer`, `code_customer`, `token`, `inside`, `is_student`, `begin_subscription`, `end_subscription`, `id_subscription`) VALUES
-(1, 0, 'test', 'oro', '0102030405', 'test.oro@work.com', 'test', '$2y$10$8DqJjOJTWKMRWMqs2TeizORdxdOaBwtHj7uTeXzykqKSNfIhwRxeW', 'noRVxdaCCo', '1d4d101f87769380ac92f41b7c0e53ec', 0, 0, '2018-04-05 00:00:00', '2018-05-05 00:00:00', 2),
-(2, 0, 'testo', 'oro', '0102030404', 'testo.oro@work.com', 'testo', '$2y$10$jREI4WhtB09ayJpAQiQkY.Q0Yd5Dj5avDX6bJZTtU3MqORY1FFrQO', 'XnIgzcsras', 'fd6f71729c1d11935ae6ba7a0db62faa', 0, 0, NULL, NULL, 3);
+INSERT INTO `customers` (`id_customer`, `blocked`, `name_customer`, `last_name_customer`, `phone_number_customer`, `email_customer`, `pseudo_customer`, `password_customer`, `code_customer`, `token`, `inside`, `is_student`, `begin_subscription`, `end_subscription`, `id_subscription`, `renewal_subscription`) VALUES
+(1, 0, 'test', 'oro', '0102030405', 'cmkhmer@gmail.com', 'test', '$2y$10$8DqJjOJTWKMRWMqs2TeizORdxdOaBwtHj7uTeXzykqKSNfIhwRxeW', 'noRVxdaCCo', '19400911519e9f7560ea8f19212eeba7', 0, 0, '2018-04-05 00:00:00', '2018-05-05 00:00:00', 2, 1),
+(2, 0, 'testo', 'oro', '0102030404', 'testo.oro@work.com', 'testo', '$2y$10$jREI4WhtB09ayJpAQiQkY.Q0Yd5Dj5avDX6bJZTtU3MqORY1FFrQO', 'XnIgzcsras', 'fd6f71729c1d11935ae6ba7a0db62faa', 0, 0, NULL, NULL, 3, 1);
 
 -- --------------------------------------------------------
 
@@ -76,17 +85,22 @@ CREATE TABLE `equipment` (
   `name_equipment` varchar(100) NOT NULL,
   `reference` varchar(25) DEFAULT NULL,
   `state` tinyint(4) NOT NULL DEFAULT '1',
-  `id_location` int(11) DEFAULT NULL
+  `id_location` int(11) DEFAULT NULL,
+  `deleted` tinyint(4) NOT NULL DEFAULT '0'
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
 -- Contenu de la table `equipment`
 --
 
-INSERT INTO `equipment` (`id_equipment`, `name_equipment`, `reference`, `state`, `id_location`) VALUES
-(1, 'Ordinateur', 'COBA1', 1, 1),
-(2, 'Ordinateur', 'COBE1', 1, 2),
-(4, 'Routeur', 'ROBA1', 1, 1);
+INSERT INTO `equipment` (`id_equipment`, `name_equipment`, `reference`, `state`, `id_location`, `deleted`) VALUES
+(1, 'Ordinateur', 'BACO1', 1, 1, 0),
+(2, 'Ordinateur', 'BECO1', 1, 2, 0),
+(4, 'Routeur', 'BARO1', 1, 1, 0),
+(5, 'Ordinateur', 'BACO2', 1, 1, 0),
+(6, 'Ordinateur', 'ITCO1', 1, 4, 0),
+(7, 'Ordinateur', 'ITCO2', 1, 4, 0),
+(8, 'Ordinateur', 'ODCO1', 1, 3, 0);
 
 -- --------------------------------------------------------
 
@@ -166,7 +180,7 @@ CREATE TABLE `room` (
 --
 
 INSERT INTO `room` (`id_room`, `type_room`, `number_places`, `booked`, `id_location`) VALUES
-(1, 'Salle de rÃ©union', 3, 0, 1),
+(1, 'Salle de reunion', 3, 0, 1),
 (2, 'Salon cosy', 3, 0, 1);
 
 -- --------------------------------------------------------
@@ -188,13 +202,13 @@ CREATE TABLE `schedule` (
 --
 
 INSERT INTO `schedule` (`id_schedule`, `day`, `begin_schedule`, `end_schedule`, `id_location`) VALUES
-(1, 'lundi', '02:00:00', '10:00:00', 1),
-(2, 'mardi', '00:00:00', '00:00:00', 1),
-(3, 'mercredi', '00:00:00', '00:00:00', 1),
-(4, 'jeudi', '00:00:00', '00:00:00', 1),
-(5, 'vendredi', '00:00:00', '00:00:00', 1),
-(6, 'samedi', '00:00:00', '00:00:00', 1),
-(7, 'dimanche', '00:00:00', '00:00:00', 1),
+(1, 'lundi', '09:00:00', '20:00:00', 1),
+(2, 'mardi', '09:00:00', '20:00:00', 1),
+(3, 'mercredi', '09:00:00', '20:00:00', 1),
+(4, 'jeudi', '09:00:00', '20:00:00', 1),
+(5, 'vendredi', '09:00:00', '20:00:00', 1),
+(6, 'samedi', '11:00:00', '20:00:00', 1),
+(7, 'dimanche', '11:00:00', '20:00:00', 1),
 (8, 'lundi', '14:00:00', '20:00:00', 2),
 (9, 'mardi', '00:00:00', '00:00:00', 2),
 (10, 'mercredi', '00:00:00', '00:00:00', 2),
@@ -434,7 +448,7 @@ ALTER TABLE `customers`
 -- AUTO_INCREMENT pour la table `equipment`
 --
 ALTER TABLE `equipment`
-  MODIFY `id_equipment` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_equipment` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 --
 -- AUTO_INCREMENT pour la table `history`
 --

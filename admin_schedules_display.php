@@ -21,12 +21,6 @@ $query = $db->prepare("SELECT day, TIME_FORMAT(begin_schedule, '%H:%i'), TIME_FO
 $query->execute();
 $result = $query->fetchAll();
 
-function name_town($id,$db){
-    $query = $db->prepare("SELECT * FROM LOCATION WHERE id_location=:plop");
-    $query->execute(["plop" => $id]);
-    $result2 = $query->fetch(PDO::FETCH_ASSOC);
-    return $result2['town'];
-}
 
  ?>
 <center><h2>Administration - Horaires</h2></center>
@@ -50,7 +44,7 @@ function name_town($id,$db){
                             </tr>
                             <?php
                                 for($i = 0; $i < 6; $i++){
-                                    $name = name_town($result[$i*7][3],$db);
+                                    $name = name_town($result[$i*7][3]);
                                     echo '  <tr>
                                                 <td><center>'.$name.'</center></td>';
                                     for($j = 0; $j < 7; $j++){

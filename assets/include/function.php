@@ -295,6 +295,8 @@ function editCustomer() {
    }
 }
 
+/* SEARCH DATA */
+
 function customers_list(){
     $db = connectDb();
 
@@ -313,7 +315,7 @@ function customers_data($id_customer){
     $query->bindParam('id_customer', $id_customer);
 
     $query->execute();
-    $result = $query->fetch();
+    $result = $query->fetch(PDO::FETCH_ASSOC);
 
     return $result;
 }
@@ -329,6 +331,74 @@ function customers_data_by_email($email){
 
     return $result;
 }
+
+function location_data(){
+    $db = connectDb();
+
+    $query = $db->prepare("SELECT * FROM LOCATION");
+    $query->execute();
+    $result = $query->fetchAll(PDO::FETCH_ASSOC);
+
+    return $result;
+}
+
+function name_town($id){
+    $db = connectDb();
+
+    $query = $db->prepare("SELECT town FROM LOCATION WHERE id_location=:id_location");
+    $query->bindParam('id_location', $id);
+
+    $query->execute();
+    $result = $query->fetch(PDO::FETCH_ASSOC);
+
+    return $result["town"];
+}
+
+/* ADMIN - EQUIPMENTS */
+function add_equipment($name_equipment, $reference, $id_location){
+    $db = connectDb();
+
+    $query = $db->prepare(" INSERT INTO EQUIPMENT(name_equipment, reference, id_location)
+                            VALUES(:name_equipment, :reference, :id_location)");
+    $query->bindParam('name_equipment', $name_equipment);
+    $query->bindParam('reference', $reference);
+    $query->bindParam('id_location', $id_location);
+
+    $query->execute();
+
+    echo '<script>alert("Votre équipement a été ajouté.");</script>';
+}
+
+function edit_equipment($id_equipment, $name_equipment, $reference, $id_location){
+    $db = connectDb();
+
+    $query = $db->prepare(" UPDATE EQUIPMENT SET
+                            name_equipment=:name_equipment,
+                            reference=:reference,
+                            id_location=:id_location
+                            WHERE id_equipment=:id_equipment"
+                        );
+    $query->bindParam('id_equipment', $id_equipment);
+    $query->bindParam('name_equipment', $name_equipment);
+    $query->bindParam('reference', $reference);
+    $query->bindParam('id_location', $id_location);
+
+    $query->execute();
+}
+
+function delete_equipment($id_equipment){
+    $db = connectDb();
+
+    $query = $db->prepare(" UPDATE EQUIPMENT SET deleted=1
+                            WHERE id_equipment=:id_equipment");
+    $query->bindParam('id_equipment', $id_equipment);
+
+    $query->execute();
+
+    echo '<script>alert("L\'équipement sélectionné a été supprimé")</script>';
+}
+
+/* SUBSCRIPTION */
 
 function subscription_view($pseudo){
     $db = connectDb();
@@ -459,6 +529,138 @@ function support_search_equipment($equipment_name){
     $result = $query->fetchAll();
 
     return $result;
+}
+
+/* NOTIFICATION */
+function subscription_check($id_customer, $delay){
+    $db = connectDb();
+
+    $customer = customers_data($id_customer);
+    $email = $customer["email_customer"];
+    $subscription_end = strtotime($customer["end_subscription"]);
+    $now = time();
+    echo '<script>console.log("'.$subscription_end.'", "'.$now.'")</script>';
+
+    /* MAIL MESSAGE */
+    $title = "Notification de fin d'abonnement";
+    $text = "
+    Bonjour M. ".$customer["name_customer"].",
+
+    Votre abonnement prend fin le ".date('d-m-Y', $subscription_end).".
+    Le renouvellement automatique est toujours actif !
+
+    Cordialement,
+
+    Work'n Share";
+
+
+    /* SEND CONDITION */
+    if( ($subscription_end - $delay*24*60*60) < $now ){
+        mail($email, $title, $text);
+        echo '<script>console.log("mail envoyé")</script>';
+    }else{
+        echo '<script>console.log("mail non envoyé")</script>';
+    }
+
+
+    /* BOOLEAN MAIL SEND */
+
+    /* BOOLEAN MAIL NOT SEND */
+}
+
+
+
+/* BOOK */
+function room_data($id_location){
+    $db = connectDb();
+
+    $query = $db->prepare("SELECT * FROM ROOM WHERE id_location=:id_location");
+    $query->bindParam('id_location', $id_location);
+
+    $query->execute();
+    $result = $query->fetchAll(PDO::FETCH_ASSOC);
+
+    return $result;
+}
+
+function schedule_data($id_location, $date){
+    $db = connectDb();
+
+    $query = $db->prepare("SELECT * FROM SCHEDULE WHERE id_location=:id_location AND day=:day");
+    $query->bindParam('id_location', $id_location);
+
+    /* KNOW THE DATE */
+    $day = strtotime($date);
+    $day = date('l', $day);
+    $day = convert_day_to_fr($day);
+
+    $query->bindParam('day', $day);
+    $query->execute();
+    $result = $query->fetch(PDO::FETCH_ASSOC);
+
+    return $result;
+}
+
+function convert_day_to_fr($day){
+    switch($day){
+        case 'Monday':      $day = 'lundi';
+                            break;
+        case 'Tuesday':     $day = 'mardi';
+                            break;
+        case 'Wednesday':   $day = 'mercredi';
+                            break;
+        case 'Thursday':    $day = 'jeudi';
+                            break;
+        case 'Friday':      $day = 'vendredi';
+                            break;
+        case 'Saturday':    $day = 'samedi';
+                            break;
+        case 'Sunday':      $day = 'dimanche';
+                            break;
+        default:            break;
+    }
+
+    return $day;
+}
+
+function check_booked($id_room, $date){
+    $db = connectDb();
+
+    $query = $db->prepare(" SELECT * FROM BOOKING
+                            WHERE id_room=:id_room
+                            AND date_booking=:date_booking");
+    $query->bindParam('id_room', $id_room);
+    $query->bindParam('date_booking', $date);
+
+    $query-> execute();
+    $result = $query->fetchAll(PDO::FETCH_ASSOC);
+
+    return $result;
+}
+
+function check_book_available($hour, $begin, $end){
+    $begin = date('H,i', strtotime($begin));
+    $end = date('H,i', strtotime($end));
+    if($hour > $begin && $hour < $end){
+        return false;
+    }
+    else{
+        return true;
+    }
+}
+
+function send_booking($id_room, $date, $begin, $end){
+    $db = connectDb();
+
+    $query = $db->prepare(" INSERT INTO BOOKING(id_room, id_customer, date_booking, begin_booking, end_booking)
+                            VALUES(:id_room, :id_customer, :date_booking, :begin_booking, :end_booking)");
+    $query->bindParam('id_room', $id_room);
+    $query->bindParam('id_customer', $_SESSION["account"]["id_customer"]);
+    $query->bindParam('date_booking', $date);
+    $query->bindParam('begin_booking', $begin);
+    $query->bindParam('end_booking', $end);
+
+    $query->execute();
 }
 
 

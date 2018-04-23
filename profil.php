@@ -13,6 +13,11 @@ if(isset($_GET["subscription"])){
     subscription_update($_SESSION["account"]["pseudo"], $_GET["subscription"]);
     header("Location: profil.php");
 }
+
+/* CHECK SUBSCRIPTION - NOTIFICATION */
+$delay_notification = 14;
+subscription_check($_SESSION["account"]["id_customer"], $delay_notification);
+
 ?>
   <body>
     <?php include 'assets/include/header.php'; ?>

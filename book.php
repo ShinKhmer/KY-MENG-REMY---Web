@@ -7,12 +7,10 @@
       exit();
     }
 
-    function name_town($id,$db){
-        $query = $db->prepare("SELECT * FROM LOCATION WHERE id_location=:plop");
-        $query->execute(["plop" => $id]);
-        $result2 = $query->fetch(PDO::FETCH_ASSOC);
-        return $result2['town'];
+    if(isset($_POST["room"]) && isset($_POST["date"]) && isset($_POST["begin"]) && isset($_POST["end"]) ){
+        send_booking($_POST["room"], $_POST["date"], $_POST["begin"], $_POST["end"]);
     }
+
 ?>
 
     <body>
@@ -34,17 +32,29 @@
                                 <center>
                                     <div class="form-group">
                                         <label>Lieu</label>
-                                        <select class="form-control" name="place_select">
-                                            <option value="1">Bastille</option>
-                                            <option value="2">Beaubourg</option>
-                                            <option value="3">Odéon</option>
-                                            <option value="4">Place d'Italie</option>
-                                            <option value="5">République</option>
-                                            <option value="6">Ternes</option>
+                                        <select class="form-control" name="place_select" onchange="book_print_room()">
+                                            <option value="place_default">Sélectionner un lieu</option>
+                                            <?php
+                                            $locations = location_data();
+                                            foreach($locations as $loc){
+                                                echo '<option value="'.$loc["id_location"].'">'.name_town($loc["id_location"]).'</option>';
+                                            }
+                                            ?>
                                         </select>
                                     </div>
-
-                                    <button type="submit" class="btn btn-primary">Valider</button>
+                                    <div id="print_room" class="form-group">
+                                        <!-- AJAX -->
+                                    </div>
+                                    <div id="print_date" class="form-group" style="display:none">
+                                        <input type="date" name="date_select" onchange="book_print_day()">
+                                    </div>
+                                    <div id="print_day" class="form-group">
+                                        <!-- AJAX -->
+                                    </div>
+                                    <div id="print_day_next" class="form-group">
+                                        <!-- AJAX -->
+                                    </div>
+                                    <button class="btn btn-primary" onclick="send_booking()">Valider</button>
 
                                     <?php //echo '<a class="btn btn-danger" href="admin_rooms_edit.php?id_room='.$_GET["id_room"].'&id_location='.$_GET["id_location"].'&del=true">Supprimer</a>'; ?>
 
@@ -56,6 +66,8 @@
               </div>
 
         </section>
+
+        <script src="function.js"></script>
 
         <?php
             include "assets/include/footer.php";
