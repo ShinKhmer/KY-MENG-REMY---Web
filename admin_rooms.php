@@ -14,12 +14,6 @@
     $query->execute();
 
     $result = $query->fetchAll();
-    function name_town($id,$db){
-        $query = $db->prepare("SELECT * FROM LOCATION WHERE id_location=:plop");
-        $query->execute(["plop" => $id]);
-        $result2 = $query->fetch(PDO::FETCH_ASSOC);
-        return $result2['town'];
-    }
 ?>
 
     <body>

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Client :  127.0.0.1
--- Généré le :  Lun 23 Avril 2018 à 19:04
+-- Généré le :  Dim 29 Avril 2018 à 01:04
 -- Version du serveur :  5.7.14
 -- Version de PHP :  5.6.25
 
@@ -27,19 +27,21 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `booking` (
+  `id_booking` int(11) NOT NULL,
   `id_room` int(11) NOT NULL,
   `id_customer` int(11) NOT NULL,
-  `begin_booking` time DEFAULT NULL,
-  `end_booking` time DEFAULT NULL,
-  `date_booking` date DEFAULT NULL
+  `date_booking` date NOT NULL,
+  `begin_booking` time NOT NULL,
+  `end_booking` time NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
 -- Contenu de la table `booking`
 --
 
-INSERT INTO `booking` (`id_room`, `id_customer`, `begin_booking`, `end_booking`, `date_booking`) VALUES
-(1, 1, '10:00:00', '11:30:00', '2018-04-28');
+INSERT INTO `booking` (`id_booking`, `id_room`, `id_customer`, `date_booking`, `begin_booking`, `end_booking`) VALUES
+(2, 1, 2, '2018-04-28', '19:00:00', '20:00:00'),
+(8, 2, 1, '2018-04-29', '19:00:00', '19:30:00');
 
 -- --------------------------------------------------------
 
@@ -71,8 +73,8 @@ CREATE TABLE `customers` (
 --
 
 INSERT INTO `customers` (`id_customer`, `blocked`, `name_customer`, `last_name_customer`, `phone_number_customer`, `email_customer`, `pseudo_customer`, `password_customer`, `code_customer`, `token`, `inside`, `is_student`, `begin_subscription`, `end_subscription`, `id_subscription`, `renewal_subscription`) VALUES
-(1, 0, 'test', 'oro', '0102030405', 'cmkhmer@gmail.com', 'test', '$2y$10$8DqJjOJTWKMRWMqs2TeizORdxdOaBwtHj7uTeXzykqKSNfIhwRxeW', 'noRVxdaCCo', '19400911519e9f7560ea8f19212eeba7', 0, 0, '2018-04-05 00:00:00', '2018-05-05 00:00:00', 2, 1),
-(2, 0, 'testo', 'oro', '0102030404', 'testo.oro@work.com', 'testo', '$2y$10$jREI4WhtB09ayJpAQiQkY.Q0Yd5Dj5avDX6bJZTtU3MqORY1FFrQO', 'XnIgzcsras', 'fd6f71729c1d11935ae6ba7a0db62faa', 0, 0, NULL, NULL, 3, 1);
+(1, 0, 'test', 'oro', '0102030405', 'cmkhmer@gmail.com', 'test', '$2y$10$8DqJjOJTWKMRWMqs2TeizORdxdOaBwtHj7uTeXzykqKSNfIhwRxeW', 'noRVxdaCCo', 'c392c8d1b70136ad41f75f8134308aaf', 0, 0, '2018-04-05 00:00:00', '2018-05-05 00:00:00', 2, 1),
+(2, 0, 'testo', 'oro', '0102030404', 'testo.oro@work.com', 'testo', '$2y$10$jREI4WhtB09ayJpAQiQkY.Q0Yd5Dj5avDX6bJZTtU3MqORY1FFrQO', 'XnIgzcsras', '4538344aaac6f6732ca8a3540aa1cc0d', 0, 0, NULL, NULL, 3, 1);
 
 -- --------------------------------------------------------
 
@@ -360,7 +362,7 @@ INSERT INTO `ticket_message` (`id_message`, `message`, `id_ticket`, `id_customer
 -- Index pour la table `booking`
 --
 ALTER TABLE `booking`
-  ADD PRIMARY KEY (`id_room`,`id_customer`);
+  ADD PRIMARY KEY (`id_booking`);
 
 --
 -- Index pour la table `customers`
@@ -439,6 +441,11 @@ ALTER TABLE `ticket_message`
 -- AUTO_INCREMENT pour les tables exportées
 --
 
+--
+-- AUTO_INCREMENT pour la table `booking`
+--
+ALTER TABLE `booking`
+  MODIFY `id_booking` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 --
 -- AUTO_INCREMENT pour la table `customers`
 --

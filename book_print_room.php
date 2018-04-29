@@ -5,6 +5,8 @@ if( isset($_POST["location"])){
     $rooms = room_data($_POST["location"]);
 }
 ?>
+
+
 <label>Salle</label>
 
 <select class="form-control" name="room_select" onchange="book_print_date()">

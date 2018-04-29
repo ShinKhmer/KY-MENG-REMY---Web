@@ -33,7 +33,7 @@
                               <div class="card card-profile text-center border border-info border-profile">
                                   <h5 class="card-header card-header-profile">Aperçu de vos requêtes</h5>
                                   <div id="support-js" class="card-body card-body-profile">
-                                      <table class="table table-striped">
+                                      <table class="table table-borderless">
                                           <tbody>
                                               <?php
                                                   $tickets = support_customer_view($_SESSION["account"]["id_customer"]);
@@ -61,7 +61,7 @@
                                                                     <td>'.$ticket["date_creation"].'</td>
                                                                     <td>'.$state_print.'</td>
                                                                     <td>
-                                                                        <a class="btn btn-primary" href="support_ticket_view.php?ticket='.$ticket["id_ticket"].'">Visualiser</a>
+                                                                        <a class="btn btn-primary btn-purple" href="support_ticket_view.php?ticket='.$ticket["id_ticket"].'">Visualiser</a>
                                                                         </button>
                                                                     </td>
                                                                 </tr>';
@@ -72,7 +72,7 @@
                                       </table>
 
                                       <!-- ADD TICKET -->
-                                      <button class="btn btn-primary" data-toggle="modal" data-target="#add_ticket" style="margin-left: 50px;">Soumettre un ticket</button></td>
+                                      <button class="btn btn-primary btn-orange" data-toggle="modal" data-target="#add_ticket">Soumettre un ticket</button></td>
 
 
                                       <div class="modal fade" id="add_ticket" tabindex="-1" role="dialog" aria-labelledby="Ajouter un message" aria-hidden="true">
@@ -84,11 +84,11 @@
                                                           <span aria-hidden="true">&times;</span>
                                                       </button>
                                                   </div>
-                                                  
+
                                                   <div class="modal-body">
                                                       <form name="ticket_add" method="post" onsubmit="return false">
                                                           <div class="form-group">
-                                                              <label>Catégorie :</label>
+                                                              <label style="color:black;">Catégorie :</label>
                                                               <select name="category" onchange="support_view_equipment_list()">
                                                                   <option value="selection">Sélectionner</option>
                                                                   <?php
@@ -102,16 +102,16 @@
 
                                                           </div>
                                                           <div class="form-group">
-                                                              <label>Title :</label>
+                                                              <label style="color:black;">Title :</label>
                                                               <textarea class="form-control" name="title"></textarea>
                                                           </div>
                                                           <div class="form-group">
-                                                              <label>Description :
+                                                              <label style="color:black;">Description :</label>
                                                               <textarea class="form-control" name="message" rows="10"></textarea>
                                                           </div>
                                                           <div class="form-group">
-                                                              <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
-                                                              <button type="submit"  onclick="support_ticket_add()" class="btn btn-primary">Envoyer</button>
+                                                              <button type="button" class="btn btn-secondary btn-purple" data-dismiss="modal">Annuler</button>
+                                                              <button type="submit"  onclick="support_ticket_add()" class="btn btn-primary btn-orange">Envoyer</button>
                                                           </div>
                                                       </form>
                                                   </div>

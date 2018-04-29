@@ -3,6 +3,7 @@ $pageDescription = "Page d'accueil de Work'n Share.";
 $pageTitle = "Work'n Share - Location d'openspace";
 include 'assets/include/head.php';
 
+//exec("C:\\Users\\cmeng\\Downloads\\sendmail.zip");
 ?>
 	<body>
 		<section id="introduction">
@@ -49,21 +50,27 @@ include 'assets/include/head.php';
 					<div class="col-md-12">
 						<div class="card-deck">
 						  <div class="card card-openspace border border-openspace border-secondary">
-						    <img class="card-img-top" src="assets/image/openspace/bastille.jpg" alt="Image de la Bastille">
+								<a href="bastille.php">
+							    <img class="card-img-top" src="assets/image/openspace/bastille.jpg" alt="Image de la Bastille" height="200">
+								</a>
 						    <div class="card-body card-body-openspace">
 						      <h5 class="card-title text-center">Bastille</h5>
 						      <p class="card-text">Notre openspace à la Bastille est situé dans un quartier agréable et facile d'accès.</p>
 						    </div>
-						  </div>
+							</div>
 						  <div class="card card-openspace border border-openspace border-secondary">
-								<img class="card-img-top" src="assets/image/openspace/beaubourg.jpg" alt="Image de Beaubourg">
+								<a href="beaubourg.php">
+									<img class="card-img-top" src="assets/image/openspace/beaubourg.jpg" alt="Image de Beaubourg" height="200">
+								</a>
 						    <div class="card-body card-body-openspace">
 						      <h5 class="card-title text-center">Beaubourg</h5>
 						      <p class="card-text">Notre openspace à Beaubourg est situé dans un quartier agréable et facile d'accès.</p>
 						    </div>
 						  </div>
 						  <div class="card card-openspace border border-openspace border-secondary">
-								<img class="card-img-top" src="assets/image/openspace/odeon.jpg" alt="Image de Odéon">
+								<a href="odeon.php">
+									<img class="card-img-top" src="assets/image/openspace/odeon.jpg" alt="Image de Odéon" height="200">
+								</a>
 						    <div class="card-body card-body-openspace">
 						      <h5 class="card-title text-center">Odéon</h5>
 						      <p class="card-text">Notre openspace à Odéon est situé dans un quartier agréable et facile d'accès.</p>
@@ -77,21 +84,27 @@ include 'assets/include/head.php';
 					<div class="col-md-12">
 						<div class="card-deck">
 						  <div class="card card-openspace border border-openspace border-secondary">
-								<img class="card-img-top" src="assets/image/openspace/placeDItalie.jpg" alt="Image de la Place d'Italie">
+								<a href="place-d-italie.php">
+									<img class="card-img-top" src="assets/image/openspace/place-d-italie.jpg" alt="Image de la Place d'Italie" height="200">
+								</a>
 						    <div class="card-body card-body-openspace">
 						      <h5 class="card-title text-center">Place d'Italie</h5>
 						      <p class="card-text">Notre openspace à la Place d'Italie est situé dans un quartier agréable et facile d'accès.</p>
 						    </div>
 						  </div>
 						  <div class="card card-openspace border border-openspace border-secondary">
-								<img class="card-img-top" src="assets/image/openspace/republique.jpg" alt="Image de la République">
+								<a href="republique.php">
+									<img class="card-img-top" src="assets/image/openspace/republique.jpg" alt="Image de la République" height="200">
+								</a>
 						    <div class="card-body card-body-openspace">
 						      <h5 class="card-title text-center">République</h5>
 						      <p class="card-text">Notre openspace à la République est situé dans un quartier agréable et facile d'accès.</p>
 						    </div>
 						  </div>
 						  <div class="card card-openspace border border-openspace border-secondary">
-								<img class="card-img-top" src="assets/image/openspace/ternes.jpg" alt="Image de la Ternes">
+								<a href="ternes.php">
+									<img class="card-img-top" src="assets/image/openspace/ternes.jpg" alt="Image de la Ternes" height="200">
+								</a>
 						    <div class="card-body card-body-openspace">
 						      <h5 class="card-title text-center">Ternes</h5>
 						      <p class="card-text">Notre openspace à la Ternes est situé dans un quartier agréable et facile d'accès.</p>
@@ -133,7 +146,7 @@ include 'assets/include/head.php';
 									Journée (5 heures et plus) : 20€</p>
 						    </div>
 								<div class="card-footer card-footer-offers text-center">
-									<a class="btn btn-primary btn-offers" href="#">Souscription</a>
+									<a class="btn btn-primary btn-offers" href="profil.php#your-subscription">Souscription</a>
 							  </div>
 							</div>
 						  <div class="card card-offers border border-offers border-info">
@@ -162,7 +175,7 @@ include 'assets/include/head.php';
 									20€ TTC/mois</p>
 						    </div>
 								<div class="card-footer card-footer-offers text-center">
-									<a class="btn btn-primary btn-offers" href="#">Souscription</a>
+									<a class="btn btn-primary btn-offers" href="profil.php#your-subscription">Souscription</a>
 							  </div>
 							</div>
 						  <div class="card card-offers border border-offers border-info">
@@ -184,7 +197,7 @@ include 'assets/include/head.php';
 									<p>Devenir membre résident avec engagement 8 mois : 252€ TTC/mois</p>
 						    </div>
 								<div class="card-footer card-footer-offers text-center">
-									<a class="btn btn-primary btn-offers" href="#">Souscription</a>
+									<a class="btn btn-primary btn-offers" href="profil.php#your-subscription">Souscription</a>
 							  </div>
 						  </div>
 						</div>

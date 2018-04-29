@@ -46,14 +46,19 @@
                                         <!-- AJAX -->
                                     </div>
                                     <div id="print_date" class="form-group" style="display:none">
-                                        <input type="date" name="date_select" onchange="book_print_day()">
+                                        <?php
+                                        $now = date('Y-m-d', time());
+                                        ?>
+                                        <input type="date" name="date_select" min="<?php echo $now ?>" onchange="book_print_day()">
+
                                     </div>
-                                    <div id="print_day" class="form-group">
+                                    <div id="print_day" class="form-group" style="display:none">
                                         <!-- AJAX -->
                                     </div>
-                                    <div id="print_day_next" class="form-group">
+                                    <div id="print_day_next" class="form-group" style="display:none">
                                         <!-- AJAX -->
                                     </div>
+                                    <a class="btn btn-danger" href="index.php">Annuler</a>
                                     <button class="btn btn-primary" onclick="send_booking()">Valider</button>
 
                                     <?php //echo '<a class="btn btn-danger" href="admin_rooms_edit.php?id_room='.$_GET["id_room"].'&id_location='.$_GET["id_location"].'&del=true">Supprimer</a>'; ?>

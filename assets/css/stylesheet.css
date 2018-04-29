@@ -1,9 +1,25 @@
+/* GLOBAL */
 html, body{
   height: 100%;
 }
 
 body{
   background-color: #eae9e8;
+}
+
+ul{
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+h1, h2, h3, h4, h5, h6{
+  font-family: 'Montserrat', sans-serif;
+  color: #333240;
+}
+
+p{
+  font-family: 'Open Sans', sans-serif;
 }
 
 footer a, header a{
@@ -29,6 +45,58 @@ footer a:hover{
   color: white;
 }
 
+a:hover{
+  text-decoration: none;
+}
+/* GLOBAL */
+
+
+/* APPARENCE BOUTON */
+.btn{
+  border-radius: 100px;
+}
+
+/* COULEUR BOUTON */
+.btn-orange{
+  background-color: #f7941e;
+  border-color: #f7941e;
+}
+.btn-purple{
+  background-color: #402675;
+  border-color: #402675;
+}
+.btn-cyan{
+  background-color: #2ec3bd;
+  border-color: #2ec3bd;
+}
+.btn-teal{
+  background-color: #20c997;
+  border-color: #20c997;
+}
+.btn-green{
+  background-color: #84b749;
+  border-color: #84b749;
+}
+
+/* PROFIL - TAB LINK */
+.profil-tab-link{
+  color: white;
+  background-color: #402675;
+  padding: 10px 15px;
+  margin-right: 2px;
+  border: 1px solid #402675 !important;
+}
+.profil-tab-link:hover{
+  color: white;
+  opacity: 0.8;
+  background-color: #2ec3bd;
+}
+.profil-tab-link.active{
+  color: white !important;
+  background-color: #f7941e !important;
+}
+
+/* FOOTER - RESEAUX SOCIAUX */
 .social-network{
   padding: 10px;
   font-size: 50px;
@@ -47,21 +115,6 @@ footer a:hover{
   color: white;
 }
 
-ul{
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-}
-
-h1, h2, h3, h4, h5, h6{
-  font-family: 'Montserrat', sans-serif;
-  color: #333240;
-}
-
-p{
-  font-family: 'Open Sans', sans-serif;
-}
-
 /* BARRE DE MENU */
 .navbar-brand{
   color: white !important;
@@ -69,7 +122,7 @@ p{
 .nav-link-head{
   font-family: 'Montserrat', sans-serif;
   color: white !important;
-  font-size: 1.4rem;
+  font-size: 1.2rem;
 	padding: 1.4rem;
 }
 .nav-link-head:hover{
@@ -81,7 +134,7 @@ p{
 
 /* ILLUSTRATION DE L'ACCUEIL */
 #introduction{
-  background-image: url("../image/illustration/introBackground.png");
+  background-image: url("../image/illustration/intro_background.png");
   background-color: #000019;
   background-repeat: no-repeat;
   background-position: center;
@@ -106,9 +159,6 @@ p{
 /* CORPS PRINCIPAL DE LA PAGE */
 .container-main-content{
   margin-top: 50px;
-  padding-top: 10px;
-  padding-bottom: 10px;
-  background-color: #EFEEED;
 }
 
 /* BLOC CONNEXION */
@@ -262,8 +312,7 @@ p{
   border-color: #133D49;
 }
 
-/* PAGE PROFIL */
-/* CARDS PROFIL */
+/* PAGE PROFIL - CARDS PROFIL */
 .card-header-profile{
   background-color: #337ab7;
   color: white;
@@ -279,13 +328,29 @@ p{
   background-color: #417093;
 }
 
+/* NEWSLETTER */
+.newsletter{
+  background-color: #333240;
+  color: white;
+  padding: 20px;
+  border-color: #1D2031 !important;
+  box-shadow: 1px 1px 20px 10px #1D2031;
+}
+.newsletter h5{
+  color: white;
+}
+
+/* RECRUTEMENT */
+.card-header-jobs{
+  background-color: #402675;
+}
+.card-body-jobs{
+  background-color: #ccf2ff;
+}
+
 .table-admin{
     width: 80%;
     margin: 0 auto;
     padding-left: 10%;
     padding-right: 10%;
-}
-
-label{
-    color: black;
 }

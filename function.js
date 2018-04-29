@@ -275,6 +275,9 @@ function book_print_room(){
 	xhr.onreadystatechange = function(){
 		if( xhr.readyState == 4 && (xhr.status == 200 || xhr.status == 0) ){
 			document.getElementById("print_room").innerHTML = xhr.responseText;
+			if(id_location != "place_default"){
+				book_check_display();
+			}
 		}
 	}
 
@@ -283,40 +286,60 @@ function book_print_room(){
 	xhr.send(param);
 }
 
+function book_check_display(){
+	var select = document.getElementsByName("room_select")[0].value;
+	console.log("test");
+	if(select == "room_default"){
+		document.getElementById("print_date").setAttribute("style", "display:none");
+		document.getElementsByName("date_select")[0].value = null;
+		document.getElementById("print_day").setAttribute("style", "display:none");
+		document.getElementById("print_day_next").setAttribute("style", "display:none");
+	}
+}
+
 function book_print_date(){
 	var location_select = document.getElementsByName("place_select")[0].value;
 	var room_select = document.getElementsByName("room_select")[0].value;
 
+	console.log(location_select, room_select);
+
 	if(location_select == 'place_default' || room_select == 'room_default'){
 		document.getElementById("print_date").setAttribute("style", "display:none");
 		document.getElementsByName("date_select")[0].value = null;
-		document.getElementById("print_day").innerHTML = "";
+		document.getElementById("print_day").setAttribute("style", "display:none");
+		document.getElementById("print_day_next").setAttribute("style", "display:none");
 	}
 	else{
-		document.getElementById("print_date").setAttribute("style", "display:display");
+		document.getElementById("print_date").setAttribute("style", "display:block");
 	}
 }
 
 function book_print_day(){
-	var location_select = document.getElementsByName("place_select")[0].value;
+	/*var location_select = document.getElementsByName("place_select")[0].value;
 	var room_select = document.getElementsByName("room_select")[0].value;
-	console.log(location_select, room_select);
-	if(location_select == 'place_default' || room_select == 'room_default'){
-		document.getElementById("print_day").innerHTML = "";
-		return;
-	}
+	var date_select = document.getElementsByName("date_select")[0].value;*/
 
+	/* IF LOCATION CHANGE */
+	/*if(location_select == 'place_default' || room_select == 'room_default'){
+		document.getElementById("print_day").innerHTML = "";
+		document.getElementById("print_day_next").innerHTML = "";
+		return;
+	}*/
 	/* IF NO ERROR */
 	var xhr = getXMLHttpRequest();
 
 	var id_location = document.getElementsByName("place_select")[0].value;
 	var id_room = document.getElementsByName("room_select")[0].value;
 	var date = document.getElementsByName("date_select")[0].value;
-	console.log(id_location, date);
 
 	var url = "book_print_day.php";
 	var param = "location=" + id_location + "&room=" + id_room + "&date=" + date;
 
+	/* PRINT DIV WITH ID print_day AND SET TO DEFAULT THE SELECT VALUE */
+	document.getElementById("print_day").setAttribute("style", "display:block");
+	document.getElementsByName("begin_select").value = "begin_default";
+	/* HIDE DIV WITH ID print_day_next */
+	document.getElementById("print_day_next").setAttribute("style", "display:none");
 
 	xhr.onreadystatechange = function(){
 		if( xhr.readyState == 4 && (xhr.status == 200 || xhr.status == 0) ){
@@ -331,10 +354,14 @@ function book_print_day(){
 
 function book_print_day_next(location, room, date){
     var begin = document.getElementsByName("begin_select")[0].value;
+	console.log(begin);
 
     var xhr = getXMLHttpRequest();
     var url = "book_print_day_next.php";
     var param = "begin=" + begin + "&location=" + location + "&room=" + room + "&date=" + date;
+
+	/* PRINT DIV WITH ID print_day_next */
+	document.getElementById("print_day_next").setAttribute("style", "display:block");
 
 	console.log(url, param);
     xhr.onreadystatechange = function(){
@@ -343,8 +370,6 @@ function book_print_day_next(location, room, date){
             document.getElementById("print_day_next").innerHTML = xhr.responseText;
         }
     }
-
-
 
     xhr.open("POST", url, true);
     xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
@@ -360,6 +385,8 @@ function send_booking(){
 	var end = document.getElementsByName("end_select")[0].value;
 	console.log(id_room, date, begin, end);
 
+	check_send_booking(id_room, date , begin, end);
+
 	var url="book.php"
 	var param = "room=" + id_room + "&date=" + date + "&begin=" + begin + "&end=" + end;
 
@@ -372,4 +399,8 @@ function send_booking(){
 	xhr.open("POST", url, true);
     xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhr.send(param);
+}
+
+function check_send_booking(id_room, date, begin, end){
+
 }
