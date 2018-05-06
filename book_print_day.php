@@ -1,4 +1,5 @@
 <?php
+session_start();
 include "assets/include/function.php";
 
 /* SEARCH OPEN HOURS */
@@ -14,44 +15,56 @@ if(isset($_POST)){
 <?php
 
 /* KNOW THE BEGIN AND END HOUR OF A SPECIFIED DAY*/
+$date_selected = strtotime($_POST["date"]);
+$now = time() + 2*60*60;        // Add +2 hours ! GMT+1 +summer hour
 
 $begin = strtotime($schedule["begin_schedule"]);
-$begin = date('H:i', $begin);
+$begin_h = date('H', $begin);
+$begin_m = date('i', $begin);
+$begin = $date_selected + $begin_h*60*60 + $begin_m*60;
 
 $end = strtotime($schedule["end_schedule"]);
-$end = date('H:i', $end);
+$end_h = date('H', $end);
+$end_m = date('i', $end);
+$end = $date_selected + $end_h*60*60 + $end_m*60;
 
-$now = time() + 2*60*60;        // Add +2 hours ! GMT+1 +summer hour
+/* CUSTOMER BOOKS */
+$customer_books = customer_booking_data($_SESSION["account"]["id_customer"], $_POST["date"]);
 
 ?>
 
 <!-- CREATE SELECT IN TERMS OF A DAY -->
-<label>Début</label>
+<label>Pouet</label>
 <select name="begin_select" class="form-control" onchange="book_print_day_next( <?php echo $_POST["location"].','.$_POST["room"].',\''.$_POST["date"].'\''; ?> )">
     <option value="begin_default">Sélectionner l'horaire</option>
     <?php
-    for( $i = $begin; $i < $end; $i = date( 'H:i', (strtotime($i)+30*60) ) ){    // 30*60 => +30 minutes
+    for( $i = $begin; $i < $end; $i += 30*60 ){    // 30*60 => +30 minutes
+        $count = 0;
+        /* CHECK IF THE LIST OF HOURS PROPOSED IS CORRECT  */
+        if( ($_POST["date"] < date('Y-m-d', $now)) || ($_POST["date"] == date('Y-m-d', $now) && $now > $i) ){
+            $count++;
+        }
+        /* CHECK IF THERE IS A BOOK IN THE DAY */
         if(count($booked) > 0){
-            $count = 0;
             foreach($booked as $book){
-                if(check_book_available($i, $book["begin_booking"], $book["end_booking"], "begin_check") == false){
+                if( !check_book_available($i, $book["begin_booking"], $book["end_booking"], "begin_check") ){
                     $count++;
                 }
             }
-            /* IF IT IS AVAILABLE => PRINT */
-            if($count == 0){
-                /* DIFFERENT DATE */
-                if($_POST["date"] != date('Y-m-d', $now)){
-                    echo '<option value="'.$i.'">'.$i.'</option>';
-                }
-                /* SAME DATE */
-                else if( $_POST["date"] == date('Y-m-d', $now) && $now < strtotime($i)){
-                    echo '<option value="'.$i.'">'.$i.'</option>';
+        }
+        /* CHECK IF THE CUSTOMER HAS ALREADY A BOOK AT A CERTAIN HOUR */
+        if(count($customer_books) > 0){
+            foreach($customer_books as $c_book){
+                if( !check_book_available($i, $c_book["begin_booking"], $c_book["end_booking"], "begin_check") ){
+                    $count++;
                 }
             }
         }
-        else{
-            echo '<option value="'.$i.'">'.$i.'</option>';
+
+        /* IF IT IS AVAILABLE => PRINT */
+        if($count == 0){
+            /* DIFFERENT DATE OR SAME DATE */
+            echo '<option value="'.date('H:i', $i).'">'.date('H:i', $i).'</option>';
         }
     }
     ?>

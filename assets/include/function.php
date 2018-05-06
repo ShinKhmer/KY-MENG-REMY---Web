@@ -201,8 +201,8 @@ function loginCustomer() {
 
 			// Mettre les identifiants en session
       $_SESSION["account"]["id_customer"] = $data['id_customer'];
-			$_SESSION["account"]["token"] = generateAccessToken($_POST["pseudo"]);
-			$_SESSION["account"]["pseudo"] = $_POST["pseudo"];
+      $_SESSION["account"]["token"] = generateAccessToken($_POST["pseudo"]);
+      $_SESSION["account"]["pseudo"] = $_POST["pseudo"];
       $_SESSION["account"]["name"] = $data['name_customer'];
       $_SESSION["account"]["last_name"] = $data['last_name_customer'];
       $_SESSION["account"]["email"] = $data['email_customer'];
@@ -623,6 +623,19 @@ function schedule_data($id_location, $date){
     return $result;
 }
 
+function customer_booking_data($id_customer, $date){
+    $db = connectDb();
+
+    $query = $db->prepare("SELECT * FROM BOOKING WHERE id_customer=:id_customer AND date_booking=:date_booking");
+    $query->bindParam('id_customer', $id_customer);
+    $query->bindParam('date_booking', $date);
+
+    $query->execute();
+    $result = $query->fetchAll(PDO::FETCH_ASSOC);
+
+    return $result;
+}
+
 function convert_day_to_fr($day){
     switch($day){
         case 'Monday':      $day = 'lundi';
@@ -663,7 +676,7 @@ function check_booked($id_room, $date){
 function check_book_available($hour, $begin, $end, $check){
     /* CHECK BEGIN SELECTION */
     if($check == "begin_check"){
-        if( strtotime($hour) < strtotime($begin) || strtotime($hour) >= strtotime($end) ){
+        if( $hour < strtotime($begin) || $hour >= strtotime($end) ){
             return true;
         }
         else{
@@ -672,7 +685,7 @@ function check_book_available($hour, $begin, $end, $check){
     }
     /* CHECK END SELECTION */
     else if($check == "end_check"){
-        if( strtotime($hour) <= strtotime($begin) || strtotime($hour) > strtotime($end) ){
+        if( $hour <= strtotime($begin) || $hour > strtotime($end) ){
             return true;
         }
         else{
@@ -682,24 +695,31 @@ function check_book_available($hour, $begin, $end, $check){
 }
 
 
-function check_book_choosed($hour, $begin, $end){
-    $begin = date('H,i', strtotime($begin));
-    $end = date('H,i', strtotime($end));
-    // To be continued
-}
+function send_booking($id_customer, $id_room, $date, $begin, $end){
 
-function send_booking($id_room, $date, $begin, $end){
+    $customer_books = customer_booking_data($id_customer, $date);
+    foreach($customer_books as $book){
+        if( strtotime($begin) >= strtotime($book["begin_booking"]) &&
+            strtotime($end) <= strtotime($book["end_booking"])
+        ){
+            echo '<script>alert("Attention ! Vous avez une réservation en cours à cette heure-ci !")</script>';
+            header('Location: book.php');
+        }
+    }
+
     $db = connectDb();
 
     $query = $db->prepare(" INSERT INTO BOOKING(id_room, id_customer, date_booking, begin_booking, end_booking)
                             VALUES(:id_room, :id_customer, :date_booking, :begin_booking, :end_booking)");
     $query->bindParam('id_room', $id_room);
-    $query->bindParam('id_customer', $_SESSION["account"]["id_customer"]);
+    $query->bindParam('id_customer',$id_customer);
     $query->bindParam('date_booking', $date);
     $query->bindParam('begin_booking', $begin);
     $query->bindParam('end_booking', $end);
 
     $query->execute();
+
+    header('Location: profil.php');
 }
 
 ?>

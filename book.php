@@ -8,8 +8,9 @@
     }
 
     if(isset($_POST["room"]) && isset($_POST["date"]) && isset($_POST["begin"]) && isset($_POST["end"]) ){
-        send_booking($_POST["room"], $_POST["date"], $_POST["begin"], $_POST["end"]);
+        send_booking($_SESSION["account"]["id_customer"], $_POST["room"], $_POST["date"], $_POST["begin"], $_POST["end"]);
     }
+
 
 ?>
 
@@ -47,7 +48,7 @@
                                     </div>
                                     <div id="print_date" class="form-group" style="display:none">
                                         <?php
-                                        $now = date('Y-m-d', time());
+                                        $now = date('Y-m-d', time()+2*60*60);   // GMT+1 + heure d'été
                                         ?>
                                         <input type="date" name="date_select" min="<?php echo $now ?>" onchange="book_print_day()">
 

@@ -301,9 +301,10 @@ function book_print_date(){
 	var location_select = document.getElementsByName("place_select")[0].value;
 	var room_select = document.getElementsByName("room_select")[0].value;
 
-	console.log(location_select, room_select);
+	console.log("location selected : " + location_select);
+	console.log("room selected : " + room_select);
 
-	if(location_select == 'place_default' || room_select == 'room_default'){
+	if(room_select == 'room_default'){
 		document.getElementById("print_date").setAttribute("style", "display:none");
 		document.getElementsByName("date_select")[0].value = null;
 		document.getElementById("print_day").setAttribute("style", "display:none");
@@ -319,12 +320,11 @@ function book_print_day(){
 	var room_select = document.getElementsByName("room_select")[0].value;
 	var date_select = document.getElementsByName("date_select")[0].value;*/
 
-	/* IF LOCATION CHANGE */
-	/*if(location_select == 'place_default' || room_select == 'room_default'){
-		document.getElementById("print_day").innerHTML = "";
-		document.getElementById("print_day_next").innerHTML = "";
-		return;
-	}*/
+	/* ON CHANGE */
+
+	document.getElementById("print_day").innerHTML = "";
+	document.getElementById("print_day_next").innerHTML = "";
+
 	/* IF NO ERROR */
 	var xhr = getXMLHttpRequest();
 
@@ -377,6 +377,29 @@ function book_print_day_next(location, room, date){
 }
 
 function send_booking(){
+
+    /* CHECK DATE SELECTED */
+    var date_selected = document.getElementsByName("date_select")[0].value;
+    console.log("date sélectionnée : " + date_selected);
+
+    var day_selected = new Date(date_selected);
+    var day_s = day_selected.getDate();
+    var month_s = day_selected.getMonth();
+    var year_s = day_selected.getFullYear();
+
+    var now = new Date(Date.now());
+    var day_n = now.getDate();
+    var month_n = now.getMonth();
+    var year_n = now.getFullYear();
+
+    console.log(day_selected, now);
+
+    if(day_s < day_n && month_s <= month_n && year_s <= year_n){
+        alert("Attention, veuillez sélectionner une date valide !");
+        return;
+    }
+
+
 	var xhr = getXMLHttpRequest();
 
 	var id_room = document.getElementsByName("room_select")[0].value;
@@ -385,7 +408,7 @@ function send_booking(){
 	var end = document.getElementsByName("end_select")[0].value;
 	console.log(id_room, date, begin, end);
 
-	check_send_booking(id_room, date , begin, end);
+	//check_send_booking(id_room, date , begin, end);
 
 	var url="book.php"
 	var param = "room=" + id_room + "&date=" + date + "&begin=" + begin + "&end=" + end;
