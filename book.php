@@ -9,6 +9,7 @@
 
     if(isset($_POST["room"]) && isset($_POST["date"]) && isset($_POST["begin"]) && isset($_POST["end"]) ){
         send_booking($_SESSION["account"]["id_customer"], $_POST["room"], $_POST["date"], $_POST["begin"], $_POST["end"]);
+        header('Location: book.php');
     }
 
 
@@ -30,7 +31,6 @@
                         <h5 class="card-header card-header-profile">Réserver</h5>
                         <div class="card-body card-body-profile">
                             <?php echo '<form method="POST" action="book.php">'; ?>
-                                <center>
                                     <div class="form-group">
                                         <label>Lieu</label>
                                         <select class="form-control" name="place_select" onchange="book_print_room()">
@@ -50,8 +50,12 @@
                                         <?php
                                         $now = date('Y-m-d', time()+2*60*60);   // GMT+1 + heure d'été
                                         ?>
-                                        <input type="date" name="date_select" min="<?php echo $now ?>" onchange="book_print_day()">
+                                        <input type="date" name="date_select" min="<?php echo $now; ?>" onchange="book_print_day()">
 
+                                    </div>
+                                    <!-- REMIND THAT THERE IS ACTUALLY A BOOK AT THIS DAY -->
+                                    <div id="print_reminder" class="form-group" style="display:none">
+                                        <!-- AJAX -->
                                     </div>
                                     <div id="print_day" class="form-group" style="display:none">
                                         <!-- AJAX -->
@@ -62,9 +66,6 @@
                                     <a class="btn btn-danger" href="index.php">Annuler</a>
                                     <button class="btn btn-primary" onclick="send_booking()">Valider</button>
 
-                                    <?php //echo '<a class="btn btn-danger" href="admin_rooms_edit.php?id_room='.$_GET["id_room"].'&id_location='.$_GET["id_location"].'&del=true">Supprimer</a>'; ?>
-
-                                </center>
                             </form>
                         </div>
                       </div>

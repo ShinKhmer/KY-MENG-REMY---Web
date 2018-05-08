@@ -19,9 +19,9 @@ if (isset($_GET["subscription"])) {
 }
 
 /* CHECK SUBSCRIPTION - NOTIFICATION */
-$delay_notification = 14;
+/*$delay_notification = 14;
 subscription_check($_SESSION["account"]["id_customer"], $delay_notification);
-
+*/
 $subscription = subscription_view($_SESSION["account"]["pseudo"]);
 $begin = strtotime($subscription["begin_subscription"]);
 $begin = date("d-m-Y", $begin);

@@ -596,7 +596,7 @@ function subscription_check($id_customer, $delay){
 function room_data($id_location){
     $db = connectDb();
 
-    $query = $db->prepare("SELECT * FROM ROOM WHERE id_location=:id_location");
+    $query = $db->prepare("SELECT * FROM ROOM WHERE id_location=:id_location ORDER BY type_room ASC");
     $query->bindParam('id_location', $id_location);
 
     $query->execute();
@@ -674,9 +674,10 @@ function check_booked($id_room, $date){
 }
 
 function check_book_available($hour, $begin, $end, $check){
+
     /* CHECK BEGIN SELECTION */
     if($check == "begin_check"){
-        if( $hour < strtotime($begin) || $hour >= strtotime($end) ){
+        if( $hour < $begin || $hour >= $end ){
             return true;
         }
         else{
@@ -685,7 +686,7 @@ function check_book_available($hour, $begin, $end, $check){
     }
     /* CHECK END SELECTION */
     else if($check == "end_check"){
-        if( $hour <= strtotime($begin) || $hour > strtotime($end) ){
+        if( $hour <= $begin || $hour > $end ){
             return true;
         }
         else{
@@ -694,6 +695,12 @@ function check_book_available($hour, $begin, $end, $check){
     }
 }
 
+function correct_string_to_time($date_selected, $time){
+    $time = strtotime($time);
+    $time_hour = date('H', $time);
+    $time_minute = date('i', $time);
+    return $date_selected + $time_hour*60*60 + $time_minute*60;
+}
 
 function send_booking($id_customer, $id_room, $date, $begin, $end){
 
@@ -722,4 +729,5 @@ function send_booking($id_customer, $id_room, $date, $begin, $end){
     header('Location: profil.php');
 }
 
-?>
+
+

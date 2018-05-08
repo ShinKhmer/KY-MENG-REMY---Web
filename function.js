@@ -263,7 +263,7 @@ function support_ticket_lock(ticket, change){
 
 
 /* BOOKING */
-function book_print_room(){
+function book_print_room(date_now){
 	var xhr = getXMLHttpRequest();
 
 	var id_location = document.getElementsByName("place_select")[0].value;
@@ -275,9 +275,7 @@ function book_print_room(){
 	xhr.onreadystatechange = function(){
 		if( xhr.readyState == 4 && (xhr.status == 200 || xhr.status == 0) ){
 			document.getElementById("print_room").innerHTML = xhr.responseText;
-			if(id_location != "place_default"){
-				book_check_display();
-			}
+			book_print_date(date_now);
 		}
 	}
 
@@ -286,51 +284,54 @@ function book_print_room(){
 	xhr.send(param);
 }
 
-function book_check_display(){
+/*function book_check_display(date_now){
 	var select = document.getElementsByName("room_select")[0].value;
-	console.log("test");
 	if(select == "room_default"){
 		document.getElementById("print_date").setAttribute("style", "display:none");
-		document.getElementsByName("date_select")[0].value = null;
+		document.getElementsByName("date_select")[0].value = date_now;
 		document.getElementById("print_day").setAttribute("style", "display:none");
 		document.getElementById("print_day_next").setAttribute("style", "display:none");
 	}
-}
+	else{
+        document.getElementById("print_date").setAttribute("style", "display:block");
+	}
+}*/
 
-function book_print_date(){
+function book_print_date(date_now){
 	var location_select = document.getElementsByName("place_select")[0].value;
 	var room_select = document.getElementsByName("room_select")[0].value;
 
 	console.log("location selected : " + location_select);
 	console.log("room selected : " + room_select);
 
+	/* SET DEFAULT DATE IF NULL*/
+	if(document.getElementsByName("date_select")[0].value.length == 0) {
+        document.getElementsByName("date_select")[0].value = date_now;
+    }
+
+
 	if(room_select == 'room_default'){
-		document.getElementById("print_date").setAttribute("style", "display:none");
-		document.getElementsByName("date_select")[0].value = null;
+		document.getElementById("print_date").setAttribute("style", "display:none");;
 		document.getElementById("print_day").setAttribute("style", "display:none");
 		document.getElementById("print_day_next").setAttribute("style", "display:none");
 	}
 	else{
 		document.getElementById("print_date").setAttribute("style", "display:block");
+		book_print_day();
 	}
 }
 
+/* PRINT THE SELECT DIV FOR THE BEGIN BOOK */
 function book_print_day(){
-	/*var location_select = document.getElementsByName("place_select")[0].value;
-	var room_select = document.getElementsByName("room_select")[0].value;
-	var date_select = document.getElementsByName("date_select")[0].value;*/
 
-	/* ON CHANGE */
-
-	document.getElementById("print_day").innerHTML = "";
-	document.getElementById("print_day_next").innerHTML = "";
-
-	/* IF NO ERROR */
 	var xhr = getXMLHttpRequest();
 
 	var id_location = document.getElementsByName("place_select")[0].value;
 	var id_room = document.getElementsByName("room_select")[0].value;
 	var date = document.getElementsByName("date_select")[0].value;
+
+    /* CHECK IF PRINT REMINDER THAT THERE IS ALREADY A BOOK IN THE CURRENT DAY*/
+    book_reminder(id_location, date);
 
 	var url = "book_print_day.php";
 	var param = "location=" + id_location + "&room=" + id_room + "&date=" + date;
@@ -352,8 +353,11 @@ function book_print_day(){
 	xhr.send(param);
 }
 
+/* PRINT THE SELECT DIV FOR THE END BOOK */
 function book_print_day_next(location, room, date){
+
     var begin = document.getElementsByName("begin_select")[0].value;
+
 	console.log(begin);
 
     var xhr = getXMLHttpRequest();
@@ -368,6 +372,24 @@ function book_print_day_next(location, room, date){
         if( xhr.readyState == 4 && (xhr.status == 200 || xhr.status == 0) ){
 
             document.getElementById("print_day_next").innerHTML = xhr.responseText;
+        }
+    }
+
+    xhr.open("POST", url, true);
+    xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhr.send(param);
+}
+
+function book_reminder(location, date_chosen){
+    var xhr = getXMLHttpRequest();
+
+    var url = "book_print_reminder.php";
+    var param = "location=" + location + "&date=" + date_chosen;
+
+    xhr.onreadystatechange = function(){
+        if( xhr.readyState == 4 && (xhr.status == 200 || xhr.status == 0) ){
+        	document.getElementById("print_reminder").setAttribute("style", "display:block");
+            document.getElementById("print_reminder").innerHTML = xhr.responseText;
         }
     }
 
@@ -393,6 +415,7 @@ function send_booking(){
     var year_n = now.getFullYear();
 
     console.log(day_selected, now);
+    console.log("day : " + day_s + " month : " + month_s + " year : " + year_s);
 
     if(day_s < day_n && month_s <= month_n && year_s <= year_n){
         alert("Attention, veuillez sélectionner une date valide !");
@@ -408,11 +431,9 @@ function send_booking(){
 	var end = document.getElementsByName("end_select")[0].value;
 	console.log(id_room, date, begin, end);
 
-	//check_send_booking(id_room, date , begin, end);
-
 	var url="book.php"
 	var param = "room=" + id_room + "&date=" + date + "&begin=" + begin + "&end=" + end;
-
+	console.log(id_room, date, begin, end);
 	xhr.onreadystatechange = function(){
         if( xhr.readyState == 4 && (xhr.status == 200 || xhr.status == 0) ){
 			alert("Réservation envoyée");
@@ -424,6 +445,3 @@ function send_booking(){
     xhr.send(param);
 }
 
-function check_send_booking(id_room, date, begin, end){
-
-}
