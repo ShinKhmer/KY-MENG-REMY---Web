@@ -47,6 +47,7 @@
                                         <!-- AJAX -->
                                     </div>
                                     <div id="print_date" class="form-group" style="display:none">
+                                        <label>Date</label><br>
                                         <?php
                                         $now = date('Y-m-d', time()+2*60*60);   // GMT+1 + heure d'été
                                         ?>

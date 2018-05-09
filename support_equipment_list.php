@@ -7,8 +7,9 @@
 
 ?>
 
-<label>Référence :</label>
-<select name="equipment_id">
+<label>Référence</label>
+<select name="select_reference" required="required">
+    <option value="">Sélectionner la référence</option>
     <?php
         foreach ($equipments as $equipment){
             echo '<option value="'.$equipment["id_equipment"].'">'.$equipment["reference"].'</option>';                                                                    # code...

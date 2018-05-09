@@ -152,6 +152,7 @@ function send_mail(mail){
 }
 
 /* SUPPORT */
+
 function support_messages_print(id_ticket){
 	var xhr = getXMLHttpRequest();
 	var url = "support_messages.php?ticket=" + id_ticket;
@@ -177,6 +178,7 @@ function support_message_add(id_customer, id_ticket){
 	xhr.onreadystatechange = function(){
 		if( xhr.readyState == 4 && (xhr.status == 200 || xhr.status == 0) ){
 			console.log("message send");
+			document.getElementById("add_ticket").setAttribute("style", "display:none");
 			support_messages_print(id_ticket);
 		}
 	}
@@ -189,19 +191,14 @@ function support_message_add(id_customer, id_ticket){
 function support_view_equipment_list(){
 	var xhr = getXMLHttpRequest();
 
-	var value = document.getElementsByName("category")[0].value;
-	console.log("value : " + value);
+	var value = document.getElementsByName("select_equipment")[0].value;
 
 	var url = "support_equipment_list.php?name=" + value;
-	console.log("url : " + url);
-
-	console.log("1");
-	console.log(document.getElementById("equipment_reference"));
 
 	xhr.onreadystatechange = function(){
 		if( xhr.readyState == 4 && (xhr.status == 200 || xhr.status == 0) ){
-			console.log("value2 : " + value);
-			if(value == "selection"){
+			console.log("Equipement : " + value);
+			if(value == "default_equipment"){
 				document.getElementById("equipment_reference").innerHTML = "";
 			}
 			else{
@@ -217,18 +214,22 @@ function support_view_equipment_list(){
 function support_ticket_add(){
 	var xhr = getXMLHttpRequest();
 
-	var equipment_id = document.getElementsByName("equipment_id")[0].value;
+	//if(document.getElementsByName("select_equipment")[0].value != "")
+		var select_reference = document.getElementsByName("select_reference")[0].value;
 	var title = document.getElementsByName("title")[0].value;
 	var description = document.getElementsByName("message")[0].value;
-	console.log(equipment_id, title, description);
+	console.log("select_reference:" + select_reference);
 
 	var url = "support.php";
-	var params = "id=" + equipment_id + "&title=" + title + "&description=" + description;
+	var params = "id=" + select_reference + "&title=" + title + "&description=" + description;
 	console.log(url + params);
 
 	xhr.onreadystatechange = function(){
 		if( xhr.readyState == 4 && (xhr.status == 200 || xhr.status == 0) ){
-			alert("Ticket envoyé");
+			if(select_reference != "" && title.length > 0 && description.length > 0) {
+                $("#add_ticket").modal('hide');
+                document.location.replace("support.php");
+            }
 		}
 	}
 
@@ -238,16 +239,12 @@ function support_ticket_add(){
 }
 
 
-function support_ticket_lock(ticket, change){
+function support_ticket_lock(ticket){
 	var xhr = getXMLHttpRequest();
 	console.log(change);
 
-	if(change == true){
-		var url = "support_messages.php?ticket=" + ticket + "&lock=true";
-	}
-	else{
-		var url = "support_messages.php?ticket=" + ticket + "&lock=false";
-	}
+
+	var url = "support_messages.php?ticket=" + ticket + "&lock=true";
 
 	console.log(url);
 

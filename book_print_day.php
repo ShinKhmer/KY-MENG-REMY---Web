@@ -20,20 +20,14 @@ $now = time() + 2*60*60;        // Add +2 hours ! GMT+1 +summer hour
 
 $begin = correct_string_to_time($date_selected, $schedule["begin_schedule"]);
 $end = correct_string_to_time($date_selected, $schedule["end_schedule"]);
-/*$end = strtotime($schedule["end_schedule"]);
-$end_h = date('H', $end);
-$end_m = date('i', $end);
-$end = $date_selected + $end_h*60*60 + $end_m*60;*/
 
 /* CUSTOMER BOOKS */
 $customer_books = customer_booking_data($_SESSION["account"]["id_customer"], $_POST["date"]);
 
-var_dump($begin, $end);
-
 ?>
 
 <!-- CREATE SELECT IN TERMS OF A DAY -->
-<label>Pouet</label>
+<label>Heure de début</label>
 <select name="begin_select" class="form-control" onchange="book_print_day_next( <?php echo $_POST["location"].','.$_POST["room"].',\''.$_POST["date"].'\','.count($customer_books); ?> )">
     <option value="begin_default">Sélectionner l'horaire</option>
     <?php
@@ -48,15 +42,8 @@ var_dump($begin, $end);
         /* CHECK IF THERE IS A BOOK IN THE DAY */
         if(count($booked) > 0){
             foreach($booked as $book){
-                $begin_booking = strtotime($book["begin_booking"]);
-                $begin_booking_h = date('H', $begin_booking);
-                $begin_booking_m = date('i', $begin_booking);
-                $begin_booking = $date_selected + $begin_booking_h*60*60 + $begin_booking_m*60;
-
-                $end_booking = strtotime($book["end_booking"]);
-                $end_booking_h = date('H', $end_booking);
-                $end_booking_m = date('i', $end_booking);
-                $end_booking = $date_selected + $end_booking_h*60*60 + $end_booking_m*60;
+                $begin_booking = correct_string_to_time($date_selected, $book["begin_booking"]);
+                $end_booking = correct_string_to_time($date_selected, $book["end_booking"]);
 
                 if( check_book_available($i, $begin_booking, $end_booking, "begin_check") == false ){
                     $count++;
@@ -66,15 +53,8 @@ var_dump($begin, $end);
         /* CHECK IF THE CUSTOMER HAS ALREADY A BOOK AT A CERTAIN HOUR */
         if(count($customer_books) > 0){
             foreach($customer_books as $c_book){
-                $begin_booking = strtotime($c_book["begin_booking"]);
-                $begin_booking_h = date('H', $begin_booking);
-                $begin_booking_m = date('i', $begin_booking);
-                $begin_booking = $date_selected + $begin_booking_h*60*60 + $begin_booking_m*60;
-
-                $end_booking = strtotime($c_book["end_booking"]);
-                $end_booking_h = date('H', $end_booking);
-                $end_booking_m = date('i', $end_booking);
-                $end_booking = $date_selected + $end_booking_h*60*60 + $end_booking_m*60;
+                $begin_booking = correct_string_to_time($date_selected, $c_book["begin_booking"]);
+                $end_booking = correct_string_to_time($date_selected, $c_book["end_booking"]);
 
                 if( check_book_available($i, $begin_booking, $end_booking, "begin_check") == false ){
                     $count++;

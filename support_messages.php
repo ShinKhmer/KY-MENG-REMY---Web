@@ -14,15 +14,14 @@ $customer = customers_data($ticket_base["id_customer"]);
 /* SEND NEW MESSAGE */
 if(isset($_POST["customer"]) && isset($_POST["ticket"]) && isset($_POST["message"])){
     support_message_send($_POST["customer"], $_POST["ticket"], $_POST["message"]);
+    header("Location: support.php");
 }
 
 /* LOCK TICKET REQUEST */
 if(isset($_GET["lock"])){
     if($_GET["lock"] == 'true'){
         support_ticket_locker($_GET["ticket"], 1);
-    }
-    else if($_GET["lock"] == 'false'){
-        support_ticket_locker($_GET["ticket"], 0);
+        echo '<script>support_messages_print('.$_GET["ticket"].')</script>';
     }
 }
 
@@ -62,17 +61,9 @@ if(isset($_GET["lock"])){
     <!-- LOCK TICKET -->
     <?php
 
-    if(isset($_GET["lock"]))
-        echo '$_GET["lock"] existant';
     if($ticket_base["state"] == 0){
-        echo '<button class="btn btn-danger" onclick="support_ticket_lock('.$_GET["ticket"].',true)">Verrouiller le ticket</button>';
-    }
-    else{
-        if($_SESSION["account"]["admin"] == 1){
-            echo '<button class="btn btn-danger" onclick="support_ticket_lock('.$_GET["ticket"].',false)">Résolu</button>';
-        }
-    }
-     ?>
+        echo '<button class="btn btn-danger" onclick="support_ticket_lock('.$_GET["ticket"].')">Verrouiller le ticket</button>';
+    ?>
     <button class="btn btn-primary" data-toggle="modal" data-target="#add_message" style="margin-left: 50px;">Ajouter un message</button></td>
 
     <!-- POP UP - ADD TICKET -->
@@ -88,7 +79,7 @@ if(isset($_GET["lock"])){
                 <div class="modal-body">
                     <form name="message_add" method="post" onsubmit="return false">
                         <div class="form-group">
-                                <textarea class="form-control" name="message" rows="10"></textarea>
+                            <textarea class="form-control" name="message" rows="10"></textarea>
                         </div>
                         <div class="form-group">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
@@ -99,6 +90,10 @@ if(isset($_GET["lock"])){
             </div>
         </div>
     </div>
+
+    <?php
+    }
+    ?>
 </div>
 
 <script src="function.js"></script>

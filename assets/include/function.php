@@ -470,6 +470,17 @@ function support_customer_view($id_customer){
     return $result;
 }
 
+function support_admin_view(){
+    $db = connectDb();
+
+    $query = $db->prepare("SELECT * FROM TICKET WHERE state=0");
+
+    $query->execute();
+    $result = $query->fetchAll();
+
+    return $result;
+}
+
 function support_ticket_view($id_ticket){
     $db = connectDb();
 
