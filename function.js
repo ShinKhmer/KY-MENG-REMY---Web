@@ -442,3 +442,18 @@ function send_booking(){
     xhr.send(param);
 }
 
+function stat(){
+	var interval = setInterval(function(){
+		var xhr = getXMLHttpRequest();
+		var url = "stat.php"
+		xhr.onreadystatechange = function(){
+			if( xhr.readyState == 4 && (xhr.status == 200 || xhr.status == 0) ){
+				document.getElementById('current_in').innerHTML=xhr.responseText;
+			}
+		}
+
+		xhr.open("GET", url, true);
+		xhr.send();
+
+	},5000);
+}

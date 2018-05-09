@@ -24,6 +24,7 @@
                                 <a class="btn btn-secondary btn-cyan" href="admin_rooms.php" role="button">Ajouter ou modifier une salle</a><br>
                                 <a class="btn btn-secondary btn-cyan" href="admin_subscriptions.php" role="button">Ajouter ou modifier un abonnement</a><br>
                                 <a class="btn btn-secondary btn-cyan" href="admin_subscriptions_notify.php" role="button">Envoyer un mail</a>
+                                <a class="btn btn-secondary btn-cyan" href="stat.php" role="button">statistiques du site</a>
                             </div>
                         </div>
                     </div>
