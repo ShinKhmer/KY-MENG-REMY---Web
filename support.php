@@ -8,20 +8,24 @@ if(!isset($_SESSION["account"]["token"])){
     header('Location: index.php');
 }
 
+
 /* ADD TICKET */
 if(isset($_POST["id"]) && isset($_POST["title"]) && isset($_POST["description"])){
     ticket_support_add($_SESSION["account"]["id_customer"], $_POST["id"], $_POST["title"], $_POST["description"]);
 }
 
-/* EQUIPMENTS DATAS */
+/* EQUIPMENTS DATAS AND SUBTITLE*/
 $categories = support_search_category();
 
 if($_SESSION["account"]["admin"] == 1){
     $tickets = support_admin_view();
+    $subtitle = "Liste des tickets";
 }
 else{
     $tickets = support_customer_view($_SESSION["account"]["id_customer"]);
+    $subtitle = "Aperçu de vos tickets";
 }
+
 ?>
 
 <body>
@@ -38,7 +42,7 @@ else{
             <div class="col-lg-12">
                 <div class="card-deck">
                     <div class="card card-profile text-center border border-info border-profile">
-                        <h5 class="card-header card-header-profile">Aperçu de vos requêtes</h5>
+                        <h5 class="card-header card-header-profile"><?php echo $subtitle; ?></h5>
                         <div id="support-js" class="card-body card-body-profile">
 
                             <table class="table table-borderless">
@@ -63,15 +67,15 @@ else{
                                             $state_print = "Résolu";
                                         }
                                         echo '  <tr>
-                                                                    <td>'.$ticket["id_ticket"].'</td>
-                                                                    <td>'.$ticket["subject"].'</td>
-                                                                    <td>'.date('d/m/Y - H:i', strtotime($ticket["date_creation"])).'</td>
-                                                                    <td>'.$state_print.'</td>
-                                                                    <td>
-                                                                        <a class="btn btn-primary btn-purple" href="support_ticket_view.php?ticket='.$ticket["id_ticket"].'">Visualiser</a>
-                                                                        </button>
-                                                                    </td>
-                                                                </tr>';
+                                                    <td>'.$ticket["id_ticket"].'</td>
+                                                    <td>'.$ticket["subject"].'</td>
+                                                    <td>'.date('d/m/Y - H:i', strtotime($ticket["date_creation"])).'</td>
+                                                    <td>'.$state_print.'</td>
+                                                    <td>
+                                                        <a class="btn btn-primary btn-purple" href="support_ticket_view.php?ticket='.$ticket["id_ticket"].'">Visualiser</a>
+                                                        </button>
+                                                    </td>
+                                                </tr>';
                                     }
                                 }
                                 ?>

@@ -14,14 +14,12 @@ $customer = customers_data($ticket_base["id_customer"]);
 /* SEND NEW MESSAGE */
 if(isset($_POST["customer"]) && isset($_POST["ticket"]) && isset($_POST["message"])){
     support_message_send($_POST["customer"], $_POST["ticket"], $_POST["message"]);
-    header("Location: support.php");
 }
 
 /* LOCK TICKET REQUEST */
 if(isset($_GET["lock"])){
     if($_GET["lock"] == 'true'){
         support_ticket_locker($_GET["ticket"], 1);
-        echo '<script>support_messages_print('.$_GET["ticket"].')</script>';
     }
 }
 
@@ -35,10 +33,11 @@ if(isset($_GET["lock"])){
 </h5>
 <div class="card-body card-body-profile">
 
-    <table class="table table-striped">
+    <table class="table table-striped" style="text-align: left;">
         <tbody>
             <tr>
                 <th><?php echo $customer["pseudo_customer"]; ?></th>
+                <th><?php echo $customer["message_time"]; ?></th>
             </tr>
             <tr>
                 <td><?php echo $ticket_base["description"]; ?></td>

@@ -178,7 +178,7 @@ function support_message_add(id_customer, id_ticket){
 	xhr.onreadystatechange = function(){
 		if( xhr.readyState == 4 && (xhr.status == 200 || xhr.status == 0) ){
 			console.log("message send");
-			document.getElementById("add_ticket").setAttribute("style", "display:none");
+			$("#add_message").modal("hide");
 			support_messages_print(id_ticket);
 		}
 	}
@@ -241,12 +241,10 @@ function support_ticket_add(){
 
 function support_ticket_lock(ticket){
 	var xhr = getXMLHttpRequest();
-	console.log(change);
-
 
 	var url = "support_messages.php?ticket=" + ticket + "&lock=true";
 
-	console.log(url);
+	console.log(url, ticket);
 
 	xhr.onreadystatechange = function(){
 		if( xhr.readyState == 4 && (xhr.status == 200 || xhr.status == 0) ){
