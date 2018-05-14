@@ -36,8 +36,7 @@ if(isset($_GET["lock"])){
     <table class="table table-striped" style="text-align: left;">
         <tbody>
             <tr>
-                <th><?php echo $customer["pseudo_customer"]; ?></th>
-                <th><?php echo $customer["message_time"]; ?></th>
+                <th><?php echo date('d/m/Y (H:i)', strtotime($ticket_base["date_creation"])).' - '.$customer["pseudo_customer"]; ?></th>
             </tr>
             <tr>
                 <td><?php echo $ticket_base["description"]; ?></td>
@@ -47,7 +46,7 @@ if(isset($_GET["lock"])){
                 /* SEARCH PSEUDO CUSTOMER */
                 $customer = customers_data($message["id_customer"]);
                 echo    '<tr>
-                            <th>'.$customer["pseudo_customer"].'</th>
+                            <th>'.date('d/m/Y (H:i)', strtotime($message["message_time"])).' - '.$customer["pseudo_customer"].'</th>
                         </tr>
                         <tr>
                             <td>'.$message["message"].'</td>

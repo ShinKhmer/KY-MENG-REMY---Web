@@ -83,7 +83,12 @@ else{
                             </table>
 
                             <!-- ADD TICKET POP UP -->
-                            <button class="btn btn-primary btn-orange" data-toggle="modal" data-target="#add_ticket">Soumettre un ticket</button></td>
+                            <?php
+                            if($_SESSION["account"]["admin"] != 1){
+                                echo '<button class="btn btn-primary btn-orange" data-toggle="modal" data-target="#add_ticket">Soumettre un ticket</button></td>';
+                            }
+                            ?>
+
 
 
                             <div class="modal fade" id="add_ticket" tabindex="-1" role="dialog" aria-labelledby="Ajouter un message" aria-hidden="true">
@@ -113,7 +118,7 @@ else{
                                                     <!-- AJAX -->
                                                 </div>
                                                 <div class="form-group">
-                                                    <label style="color:black;">Title :</label>
+                                                    <label style="color:black;">Intitulé :</label>
                                                     <textarea class="form-control" name="title" required="required"></textarea>
                                                 </div>
                                                 <div class="form-group">

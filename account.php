@@ -8,7 +8,7 @@ if (isset($_POST['sign-up'])) {
 if (isset($_POST['sign-in'])) {
   loginCustomer();
 }
-if(isset($_SESSION["account"]["token"])){
+if (isset($_SESSION["account"]["token"])) {
   header('Location: profil.php');
   exit();
 }
@@ -26,6 +26,16 @@ if(isset($_SESSION["account"]["token"])){
         <div class="row" style="margin-top:50px;">
           <div class="col-md-6">
             <h2 class="text-center">Se connecter</h2>
+            <?php
+            if (isset($_SESSION["accountCreated"])) {
+              echo '<div class="alert alert-success alert-dismissible fade show" role="alert">
+              Votre compte est créé, vous pouvez vous connecter.
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+              </button>
+              </div>';
+            }
+            ?>
             <form class="border border-sign border-info rounded" id="sign-in" method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
               <div class="form-group">
                 <label for="sign-in-pseudo">Pseudo</label>
@@ -34,10 +44,6 @@ if(isset($_SESSION["account"]["token"])){
               <div class="form-group">
                 <label for="sign-in-password">Mot de passe</label>
                 <input class="form-control" id="sign-in-password" type="password" name="password" maxlength="20" placeholder="Mot de passe" required="required">
-              </div>
-              <div class="form-check text-center">
-                <input class="form-check-input" id="sign-in-remember" type="checkbox" name="remember">
-                <label class="form-check-label" for="sign-in-remember">Se souvenir</label>
               </div>
   						<div class="text-center">
   							<button class="btn btn-success" id="btn-sign-in" type="submit" name="sign-in"><i class="fas fa-check-circle"></i> Connexion</button>
@@ -81,7 +87,7 @@ if(isset($_SESSION["account"]["token"])){
   					    </div>
   					    <div class="form-group col-md-6">
   								<label for="sign-up-password">Mot de passe<span class="text-warning"> *</span></label>
-  		            <input class="form-control" id="sign-up-password" type="password" name="password" value="<?php echo (isset($_POST["password"]))?$_POST["password"]:"";?>" aria-describedby="passwordHelpBlock" maxlength="20" placeholder="Mot de passe" required="required">
+  		            <input class="form-control" id="sign-up-password" type="password" name="password" value="<?php echo (isset($_POST["password"]))?$_POST["password"]:"";?>" aria-describedby="passwordHelpBlock" minlength="8" maxlength="20" placeholder="Mot de passe" required="required">
                   <span class="text-danger"><?php echo (isset($_SESSION["errors"]["password_customer_error"]))?$_SESSION["errors"]["password_customer_error"]:"";?></span>
   					    </div>
               </div>
@@ -126,18 +132,18 @@ if(isset($_SESSION["account"]["token"])){
           <div class="col-md-12" id="why-join-us">
             <div class="card-deck">
               <div class="card card-sign border border-join-us border-secondary">
-                <h5 class="card-header card-header-sign text-center">7 jours garantie ou argent remis</h5>
-                <div class="card-body card-body-sign">
-                  <p class="card-text">
-                    Politique de satisfaction et de remboursement transparente. 7 jours satisfait ou remboursé.
-                  </p>
-                </div>
-              </div>
-              <div class="card card-sign border border-join-us border-secondary">
                 <h5 class="card-header card-header-sign text-center">Protection Anti-Malware</h5>
                 <div class="card-body card-body-sign">
                   <p class="card-text">
                     Détectez du code malicieux dans vos fichiers ou dans vos emails en quelques minutes seulement.
+                  </p>
+                </div>
+              </div>
+              <div class="card card-sign border border-join-us border-secondary">
+                <h5 class="card-header card-header-sign text-center">Protection Anti-DDoS</h5>
+                <div class="card-body card-body-sign">
+                  <p class="card-text">
+                    Toutes nos infrastructures sont protégées contre les attaques DDoS. Finies les interruptions dues aux attaques par Déni de Service Distribué.
                   </p>
                 </div>
               </div>
@@ -149,6 +155,9 @@ if(isset($_SESSION["account"]["token"])){
   	<?php
     if (isset($_SESSION["errors"])) {
       unset($_SESSION["errors"]);
+    }
+    if (isset($_SESSION["accountCreated"])) {
+      unset($_SESSION["accountCreated"]);
     }
     include 'assets/include/footer.php';
     ?>
